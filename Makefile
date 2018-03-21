@@ -41,6 +41,16 @@ asm:
 vm:
 	@make -C $(VM_PATH)
 
+clean:
+	@make clean -C $(LIB_PATH)
+	@make clean -C $(ASM_PATH)
+	@make clean -C $(VM_PATH)
+
+fclean:
+	@make fclean -C $(LIB_PATH)
+	@make fclean -C $(ASM_PATH)
+	@make fclean -C $(VM_PATH)
+
 peace:
 	@clear;
 	@echo "$(GREEN)"
