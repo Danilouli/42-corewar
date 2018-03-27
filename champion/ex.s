@@ -1,6 +1,7 @@
 .name "zork"
 .comment "I'M ALIIIIVE"
 
+		zjmp	%0
 		ld		%102, r7				; r7 = 102
 		ld		%128, r8				; r8 = 128
 		sti		r1, %:live, %1			; Assigne le livecode et live
