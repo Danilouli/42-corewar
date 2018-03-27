@@ -3,7 +3,7 @@
 
 l1:		ldi %:l1, %0, r2
 		sti r2, %:l1, %32
-#		or %0, %16, r4
+		or %0, 16, r4
 
 #l2:		sti r2, %:live, %1
 #		and r1, %0, r1
