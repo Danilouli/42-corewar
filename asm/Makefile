@@ -6,7 +6,7 @@
 #    By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 17:18:12 by fsabatie          #+#    #+#              #
-#    Updated: 2018/02/16 12:22:27 by fsabatie         ###   ########.fr        #
+#    Updated: 2018/04/01 20:25:49 by dsaadia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,10 @@ RESET = \033[0m
 NAME = asm
 LIB_NAME = libft.a
 LIB_PATH = ../libft
-ASM_SRCS = srcs
+ASM_SRCS = ..
 BUILD_PATH = build
 
-ASM_SRC_F =	asm.c
+ASM_SRC_F =	main.c
 
 OBJ_NAME = $(ASM_SRC_F:.c=.o)
 OBJS = $(addprefix $(BUILD_PATH)/,$(OBJ_NAME))
