@@ -6,7 +6,7 @@
 #    By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 17:18:12 by fsabatie          #+#    #+#              #
-#    Updated: 2018/03/08 19:58:36 by fsabatie         ###   ########.fr        #
+#    Updated: 2018/04/05 22:11:59 by acouturi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ OBJ_PATH = ./build
 IO_SRC =	buffer.c ft_printf.c ft_putendl.c ft_putnbr_fd.c ft_putwchar.c get_next_line.c \
 			spec_handlers.c ft_atoi.c ft_putchar.c ft_putendl_fd.c ft_putstr.c ft_putwstr.c \
 			handlers.c str_printers.c ft_itoa.c ft_putchar_fd.c ft_putnbr.c ft_putstr_fd.c \
-			ft_retsplit.c nb_printers.c ft_pos_atoi.c ft_abs.c
+			ft_retsplit.c nb_printers.c ft_pos_atoi.c ft_abs.c get_x_char.c
 
 LIST_SRC =	ft_lstadd.c ft_lstdel.c ft_lstdelone.c ft_lstiter.c ft_lstmap.c ft_lstnew.c \
 			ft_lstpushback.c ft_lstpop.c
