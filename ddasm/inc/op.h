@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaz <zaz@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2018/04/04 20:25:16 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/04/07 14:59:48 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct		s_op
 {
 	char			*name; 			//  Nom de l'instruction
 	char			nb_p; 			//  Nombre de parametres
-	char			param[3]; 		//  Parametres
+	char			param[4]; 		//  Parametres
 	char			code; 			//  Opcode
 	unsigned short	cycles; 		//o  Nombre de cycles pour realiser l'instruction
 	char			*des; 			//o  Description
