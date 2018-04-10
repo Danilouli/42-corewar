@@ -83,8 +83,6 @@ _live3:   live    %1
 _end3:    ld        %0, r2
         ld        %0, r6
         zjmp    %-305
-        zjmp    %0
-        zjmp    %0
 
  jump:  sti     r1, %:live, %1
         sti     r1, %:live2, %1
@@ -98,6 +96,7 @@ true:   sti     r1, %:l, %1
         sti     r1, %:c, %1
         sti     r1, %:d, %1
         sti     r1, %:e, %1
+        sti     r1, %:h, %1
         ld        %222 , r7
         ld        %-272 , r8
         ld        %4, r3
@@ -105,6 +104,8 @@ true:   sti     r1, %:l, %1
 	    ld        %0, r6
 
 l:		live	%1
+		fork	%:l
+h:		live	%1
 		fork	%:e
         zjmp    %:d
 e:		live	%1
