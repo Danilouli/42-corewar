@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+         #
+#    By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 17:18:12 by fsabatie          #+#    #+#              #
-#    Updated: 2018/04/05 22:19:14 by acouturi         ###   ########.fr        #
+#    Updated: 2018/04/14 14:15:45 by vlay             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,8 @@ fclean:
 	@make fclean -C $(ASM_PATH)
 	@make fclean -C $(VM_PATH)
 	@rm dasm
+
+re: fclean all
 
 peace:
 	@clear;

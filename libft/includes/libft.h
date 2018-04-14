@@ -6,7 +6,7 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 16:49:41 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/04/05 22:16:03 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/04/14 20:11:06 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ void				*ft_memmove(void *dst, void *src, size_t n);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 void				*ft_nrealloc(void *old, size_t size, size_t elems);
 void				*ft_memccpy(void *dst, void *src, int c, size_t n);
+void				*ft_memdup(void *src, size_t len);
 void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 void				ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
@@ -216,11 +217,14 @@ char				*ft_strncpy(char *dst, char *src, size_t n);
 char				*ft_strjoinfree(char const *s1, char const *s2);
 char				*ft_strnstr(char *haystack, char *needle, size_t len);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
+void 				ft_strpush(char *str, char c);
 t_list				*ft_lstpop(t_list **alst, size_t n);
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list				*ft_lstnew(void const *content, size_t content_size);
 wchar_t				*ft_wstrnsub(wchar_t *s, int n);
 int					get_x_char(const int fd, int len, char **line);
+t_list				*ft_lstlink(void *content, size_t content_size);
+
 /*
 ** VECTORS
 */
