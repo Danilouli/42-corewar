@@ -6,7 +6,7 @@
 #    By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 17:18:12 by fsabatie          #+#    #+#              #
-#    Updated: 2018/02/16 12:22:27 by fsabatie         ###   ########.fr        #
+#    Updated: 2018/04/14 21:10:36 by vlay             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,17 +25,30 @@ RESET = \033[0m
 # Defining variables
 
 NAME = corewar
+
+INCLUDE_PATH = includes/
+INCLUDE = op.h
+
+
 LIB_NAME = libft.a
 LIB_PATH = ../libft
-CW_SRCS = ../srcs
-BUILD_PATH = build
 
-CW_SRC_F =	vm.c
+SRC_FILE = op.c \
+			vm.c \
+			opt.c \
+			champ.c \
+			map.c
 
-OBJ_NAME = $(CW_SRC_F:.c=.o)
-OBJS = $(addprefix $(BUILD_PATH)/,$(OBJ_NAME))
-SRCS = $(addprefix $(CW_SRCS)/,$(CW_SRC_F))
+SRC_PATH = srcs/
+OBJ_PATH = build/
+
 LIB = $(addprefix $(LIB_PATH)/,$(LIB_NAME))
+
+SRC = $(SRC_FILE:%.c=$(SRC_PATH)%.c)
+
+INCL = $(INCLUDE:%.h=$(INCLUDE_PATH)%.h)
+
+OBJ = $(SRC:$(SRC_PATH)%.c=$(OBJ_PATH)%.o)
 
 # Compilation flags
 
@@ -46,18 +59,20 @@ CPPFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
+$(NAME): lib $(OBJ) $(INCL)
+	$(CC) $(CFLAGS) -o $@ $(OBJ) -I$(INCLUDE_PATH) -L$(LIB_PATH) -lft
+
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c $(LIBFT_PATH)$(LIBFT_NAME)
+	@mkdir -p $(OBJ_PATH)
+	$(CC) -o $@ -c $< -I$(INCLUDE_PATH) $(CFLAGS)
+
 lib:
 	@make -C $(LIB_PATH)
 	@echo "$(GREEN)Successfully compiled libft.$(RESET)"
 
-$(NAME): lib
-	@mkdir -p $(BUILD_PATH) && cd $(BUILD_PATH) && $(CC) $(CPPFLAGS) -c $(SRCS)
-	@$(CC) $(CPPFLAGS) -o $(NAME) $(OBJS) $(LIB)
-	@echo "$(GREEN)Successfully the virtual machine.$(RESET)"
-
 clean:
 	@make clean -C $(LIB_PATH)
-	@rm -rf $(BUILD_PATH)
+	@rm -rf $(OBJ_PATH)
 
 fclean: clean
 	@make fclean -C $(LIB_PATH)
