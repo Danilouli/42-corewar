@@ -33,7 +33,7 @@ void	process_operations(t_map *map, t_champ *champs, t_list **allprocess)
 			((t_process *)tmp->content)->life--;
 			tmp = tmp->next;
 		}
-		if (!(cycles % CYCLE_TO_DIE))
+		if (!cycles && !(cycles % CYCLE_TO_DIE))
 			*allprocess = ft_lstfilter(*allprocess, NULL, &proc_isalive, &delprocess);
 		cycles++;
 	}
