@@ -6,11 +6,29 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 18:18:41 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/04/14 21:21:29 by vlay             ###   ########.fr       */
+/*   Updated: 2018/04/15 21:53:24 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+
+void	prt_map_hex(t_map map)
+{
+	size_t	i;
+	unsigned char *hex;
+
+	hex = map.map;
+	i = 0;
+	while(i < MEM_SIZE)
+	{
+		ft_printf("%02x", hex[i]);
+		i++;
+		if (i % 64 == 0)
+			ft_putchar('\n');
+		else
+			ft_putchar(' ');
+	}
+}
 
 int	usage(void)
 {
@@ -24,20 +42,32 @@ int	usage(void)
 int	main(int ac, char **av)
 {
 	char	opt[NBOPT];
-	t_champ	champs[MAX_PLAYERS];
+	t_champ	champs[MAX_PLAYERS + 1];
 	t_map	map;
+	t_list	*allprocess;
 
 	(void)av;
 	if (ac < 2)
 		return (usage());
-	if (!(map.map = (char *)malloc(sizeof(char) * MEM_SIZE))
-		|| !(map.owner = (t_champ **)malloc(sizeof(t_champ *) * CHAMP_MAX_SIZE)))
+	if (!(map.map = (unsigned char *)malloc(sizeof(char) * (MEM_SIZE + 1)))
+		|| !(map.owner = (t_champ **)malloc(sizeof(t_champ *) * (MEM_SIZE + 1))))
 		return (1);
 	ft_bzero(opt, ft_strlen(OPTION));
 	ft_bzero(map.map, MEM_SIZE);
 	ft_bzero(map.owner, MEM_SIZE * sizeof(t_champ *));
-	if (!(option(ac, av, opt, champs)))
+	if (!(allprocess = option(ac, av, opt, champs)))
 		return (1);
 	ft_printf("OPT : %s\n", opt);
-	setmap(&map, champs);
+	setmap(&map, champs, allprocess);
+	prt_map_hex(map);
+
+	char	test[] = {
+		0xff,
+		0xff,
+		0xff,
+		0xfe
+	};
+	unsigned	*cast = (unsigned *)test;
+	ft_endian_swap(cast);
+	ft_printf("test : %x\n", *cast);
 }

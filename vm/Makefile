@@ -6,7 +6,7 @@
 #    By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 17:18:12 by fsabatie          #+#    #+#              #
-#    Updated: 2018/04/14 21:10:36 by vlay             ###   ########.fr        #
+#    Updated: 2018/04/15 18:21:29 by vlay             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,11 +33,11 @@ INCLUDE = op.h
 LIB_NAME = libft.a
 LIB_PATH = ../libft
 
-SRC_FILE = op.c \
-			vm.c \
+SRC_FILE = vm.c \
 			opt.c \
 			champ.c \
-			map.c
+			map.c \
+			operations.c
 
 SRC_PATH = srcs/
 OBJ_PATH = build/
