@@ -15,7 +15,7 @@ typedef struct			s_champ
 	char				*comment;
 	size_t				len_prog;
 	char				*prog;
-	uintmax_t			lastlife;
+	intmax_t			lastlife;
 }						t_champ;
 
 typedef struct			s_map
@@ -38,10 +38,22 @@ typedef struct			s_process
 }						t_process;
 
 
-int						ischamp(char *path, t_champ *champ, unsigned char n_champ);
-t_process				*createproc(t_champ *champ, char carry, char *reg);
 t_list					*option(int ac, char **av, char *opt, t_champ *champs);
-size_t					champslen(t_champ *champs);
 void					setmap(t_map *map, t_champ *champs, t_list *allprocess);
+
+/*
+Process functions
+*/
+t_process				*createproc(t_champ *champ, char carry, char *reg);
+void					delprocess(void *content, size_t content_size);
+void					process_operations(t_map *map, t_champ *champs, t_list **allprocess);
+int						proc_isalive(t_list *list, void *ref);
+
+/*
+Champions functions
+*/
+size_t					champslen(t_champ *champs);
+int						ischamp(char *path, t_champ *champ, unsigned char n_champ);
+int						champ_isalive(intmax_t cycles, t_list *list, t_champ *champs);
 
 #endif

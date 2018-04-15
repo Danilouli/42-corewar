@@ -6,7 +6,7 @@
 #    By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 17:18:12 by fsabatie          #+#    #+#              #
-#    Updated: 2018/04/15 18:21:29 by vlay             ###   ########.fr        #
+#    Updated: 2018/04/15 22:26:43 by vlay             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ SRC_FILE = vm.c \
 			opt.c \
 			champ.c \
 			map.c \
-			operations.c
+			operations.c \
+			process.c
 
 SRC_PATH = srcs/
 OBJ_PATH = build/

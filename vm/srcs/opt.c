@@ -32,5 +32,6 @@ t_list	*option(int ac, char **av, char *opt, t_champ *champs)
 		i++;
 	}
 	champs[n_champ].name = NULL;
+	champs[n_champ].num = -1;
 	return (allprocess);
 }

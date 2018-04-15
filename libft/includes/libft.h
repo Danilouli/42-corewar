@@ -6,7 +6,7 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 16:49:41 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/04/14 20:11:06 by vlay             ###   ########.fr       */
+/*   Updated: 2018/04/15 22:48:17 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ void				*ft_memchr(void *s, int c, size_t n);
 void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_striter(char *s, void (*f)(char *));
 void				*ft_memset(void *str, int c, size_t len);
-void				ft_lstpushback(t_list *alst, t_list *new);
+void				ft_lstappend(t_list **alst, t_list *new);
 void				*ft_memcpy(void *dst, void *src, size_t n);
 void				*ft_memmove(void *dst, void *src, size_t n);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
@@ -193,6 +193,7 @@ void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 void				ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char				*ft_itoa(int n);
+char				*ft_utoa(uintmax_t nbr, char const *base_chr);
 char				*ft_strrev(char *str);
 char				*ft_strdup(char *src);
 char				*ft_chartostr(char c);
@@ -220,10 +221,14 @@ char				*ft_strsub(char const *s, unsigned int start, size_t len);
 void 				ft_strpush(char *str, char c);
 t_list				*ft_lstpop(t_list **alst, size_t n);
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
+t_list				*ft_lstfilter(t_list *list, void *ref,
+					int (*f)(t_list *elem, void *ref),
+					void (*del)(void *, size_t));
 t_list				*ft_lstnew(void const *content, size_t content_size);
 wchar_t				*ft_wstrnsub(wchar_t *s, int n);
 int					get_x_char(const int fd, int len, char **line);
 t_list				*ft_lstlink(void *content, size_t content_size);
+void 				ft_endian_swap(unsigned int *ptr);
 
 /*
 ** VECTORS

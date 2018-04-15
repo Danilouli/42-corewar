@@ -6,7 +6,7 @@
 #    By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 17:18:12 by fsabatie          #+#    #+#              #
-#    Updated: 2018/04/14 20:12:09 by vlay             ###   ########.fr        #
+#    Updated: 2018/04/15 22:50:22 by vlay             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,13 +31,13 @@ OBJ_PATH = ./build
 IO_SRC =	buffer.c ft_printf.c ft_putendl.c ft_putnbr_fd.c ft_putwchar.c get_next_line.c \
 			spec_handlers.c ft_atoi.c ft_putchar.c ft_putendl_fd.c ft_putstr.c ft_putwstr.c \
 			handlers.c str_printers.c ft_itoa.c ft_putchar_fd.c ft_putnbr.c ft_putstr_fd.c \
-			ft_retsplit.c nb_printers.c ft_pos_atoi.c ft_abs.c get_x_char.c
+			ft_retsplit.c nb_printers.c ft_pos_atoi.c ft_abs.c get_x_char.c ft_utoa.c
 
 LIST_SRC =	ft_lstadd.c ft_lstdel.c ft_lstdelone.c ft_lstiter.c ft_lstmap.c ft_lstnew.c \
-			ft_lstpushback.c ft_lstpop.c ft_lstlink.c
+			ft_lstappend.c ft_lstpop.c ft_lstlink.c ft_lstfilter.c
 
 MEM_SRC =	ft_bzero.c ft_memalloc.c ft_memccpy.c ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memdel.c \
-			ft_memmove.c ft_memset.c ft_nrealloc.c ft_memdup.c
+			ft_memmove.c ft_memset.c ft_nrealloc.c ft_memdup.c ft_endian_swap.c
 
 STR_SRC =	ft_chartostr.c ft_isprint.c ft_strcpy.c ft_strjoin.c ft_strncat.c ft_strrchr.c \
 			ft_tolower.c ft_chrcstr.c ft_strcat.c ft_strcsub.c ft_strjoin_char.c ft_strncmp.c \

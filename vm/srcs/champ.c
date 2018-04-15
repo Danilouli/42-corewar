@@ -1,22 +1,5 @@
 #include "corewar.h"
 
-t_process	*createproc(t_champ *champ, char carry, char *reg)
-{
-	t_process	*proc;
-
-	if (!(proc = (t_process *)malloc(sizeof(t_process))))
-		return (NULL);
-	proc->ptr = NULL;
-	proc->life = CYCLE_TO_DIE;
-	proc->champ = champ;
-	proc->op = NULL;
-	proc->cycles = 0;
-	proc->carry = carry;
-	proc->reg = (reg) ? ft_memdup(reg, REG_NUMBER * REG_SIZE)
-		: ft_strnew(REG_NUMBER * REG_SIZE);
-	return (proc);
-}
-
 int			champregister(int fd, t_champ *champ, unsigned char n_champ)
 {
 	int		ret;
@@ -81,7 +64,32 @@ size_t	champslen(t_champ *champs)
 	size_t	i;
 
 	i = 0;
-	while(champs[i].name)
+	while(champs[i].num >= 0)
 		i++;
 	return (i);
+}
+
+int	champ_isalive(intmax_t cycles, t_list *list, t_champ *champs)
+{
+	t_process	*process;
+	int			ret;
+	unsigned	score[champslen(champs)];
+
+	ret = 0;
+	ft_bzero(score, sizeof(unsigned) * champslen(champs));
+	if (cycles && !(cycles % CYCLE_TO_DIE))
+	{
+		while (list)
+		{
+			process = (t_process *)list->content;
+			if (process->champ->name)
+			{
+				score[(int)process->champ->num]++;
+				ret++;
+			}
+			list = list->next;
+		}
+		return (ret);
+	}
+	return (1);
 }

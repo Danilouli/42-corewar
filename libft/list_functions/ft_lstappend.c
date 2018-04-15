@@ -6,7 +6,7 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 12:51:35 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/02/16 14:02:31 by fsabatie         ###   ########.fr       */
+/*   Updated: 2018/04/15 22:48:45 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,17 @@
 ** Ajoute l’élément new en fin de liste.
 */
 
-void	ft_lstpushback(t_list *start, t_list *new)
+void	ft_lstappend(t_list **alst, t_list *new)
 {
-	while (start->next)
-		start = start->next;
-	start->next = new;
+	t_list	*tmp;
+
+	tmp = *alst;
+	if (tmp)
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
+	else
+		*alst = new;
 }
