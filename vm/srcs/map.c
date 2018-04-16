@@ -11,8 +11,8 @@ void	setmap(t_map *map, t_champ *champs, t_list *allprocess)
 	while (i < champslen(champs))
 	{
 		ft_memmove(&map->map[i * interval], champs[i].prog, champs[i].len_prog);
-		((t_process *)allprocess->content)->ptr = &map->map[i * interval];
-		ft_printf("%x\n", *((t_process *)allprocess->content)->ptr);
+		((t_process *)allprocess->content)->ptr = i * interval;
+		ft_printf("%x\n", map->map[((t_process *)allprocess->content)->ptr]);
 		j = i * interval;
 		while (j < champs[i].len_prog)
 			map->owner[j++] = &champs[i];

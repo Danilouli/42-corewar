@@ -73,10 +73,11 @@ int	champ_isalive(intmax_t cycles, t_list *list, t_champ *champs)
 {
 	t_process	*process;
 	int			ret;
-	unsigned	score[champslen(champs)];
+	size_t		len;
+	unsigned	score[len = champslen(champs)];
 
 	ret = 0;
-	ft_bzero(score, sizeof(unsigned) * champslen(champs));
+	ft_bzero(score, sizeof(unsigned) * len);
 	if (cycles && !(cycles % CYCLE_TO_DIE))
 	{
 		while (list)
@@ -89,6 +90,7 @@ int	champ_isalive(intmax_t cycles, t_list *list, t_champ *champs)
 			}
 			list = list->next;
 		}
+		ft_printf("OUT : %lli | ret : %i\n", cycles, ret);
 		return (ret);
 	}
 	return (1);

@@ -27,9 +27,10 @@ typedef struct			s_map
 
 typedef struct			s_process
 {
-	unsigned char		*ptr;
+	unsigned			ptr;
+	t_bool				active;
 	int					life;
-	t_op				*op;
+	char				op;
 	unsigned char		*params;
 	unsigned			cycles;
 	t_champ				*champ;
@@ -37,6 +38,11 @@ typedef struct			s_process
 	char				*reg;
 }						t_process;
 
+typedef struct			s_arg
+{
+	unsigned char		type;
+	unsigned char		arg[4];
+}						t_arg;
 
 t_list					*option(int ac, char **av, char *opt, t_champ *champs);
 void					setmap(t_map *map, t_champ *champs, t_list *allprocess);

@@ -6,13 +6,14 @@ t_process	*createproc(t_champ *champ, char carry, char *reg)
 
 	if (!(proc = (t_process *)malloc(sizeof(t_process))))
 		return (NULL);
-	proc->ptr = NULL;
+	proc->ptr = 0;
 	proc->life = CYCLE_TO_DIE;
 	proc->champ = champ;
-	proc->op = NULL;
+	proc->op = -1;
 	proc->cycles = 0;
 	proc->carry = carry;
 	proc->params = NULL;
+	proc->active = 0;
 	proc->reg = (reg) ? ft_memdup(reg, REG_NUMBER * REG_SIZE)
 		: ft_strnew(REG_NUMBER * REG_SIZE);
 	return (proc);

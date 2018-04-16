@@ -6,7 +6,7 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 18:18:41 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/04/15 22:49:22 by vlay             ###   ########.fr       */
+/*   Updated: 2018/04/16 22:22:35 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,4 @@ int	main(int ac, char **av)
 	setmap(&map, champs, allprocess);
 	prt_map_hex(map);
 	process_operations(&map, champs, &allprocess);
-
-	char	test[] = {
-		0xff,
-		0xff,
-		0xff,
-		0xfe
-	};
-	unsigned	*cast = (unsigned *)test;
-	ft_endian_swap(cast);
-	ft_printf("test : %x\n", *cast);
 }
