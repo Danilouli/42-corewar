@@ -6,7 +6,7 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 18:18:41 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/04/16 22:22:35 by vlay             ###   ########.fr       */
+/*   Updated: 2018/04/17 22:55:45 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ int	main(int ac, char **av)
 		return (1);
 	ft_printf("OPT : %s\n", opt);
 	setmap(&map, champs, allprocess);
-	prt_map_hex(map);
+	// prt_map_hex(map);
 	process_operations(&map, champs, &allprocess);
 }

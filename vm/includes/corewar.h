@@ -40,6 +40,7 @@ typedef struct			s_process
 
 typedef struct			s_arg
 {
+	size_t				len;
 	unsigned char		type;
 	unsigned char		arg[4];
 }						t_arg;

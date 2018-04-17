@@ -3,6 +3,7 @@
 t_process	*createproc(t_champ *champ, char carry, char *reg)
 {
 	t_process	*proc;
+	unsigned	*cast;
 
 	if (!(proc = (t_process *)malloc(sizeof(t_process))))
 		return (NULL);
@@ -14,8 +15,14 @@ t_process	*createproc(t_champ *champ, char carry, char *reg)
 	proc->carry = carry;
 	proc->params = NULL;
 	proc->active = 0;
-	proc->reg = (reg) ? ft_memdup(reg, REG_NUMBER * REG_SIZE)
-		: ft_strnew(REG_NUMBER * REG_SIZE);
+	if (reg)
+		proc->reg = ft_memdup(reg, REG_NUMBER * REG_SIZE);
+	else
+	{
+		proc->reg = ft_strnew(REG_NUMBER * REG_SIZE);
+		cast = (unsigned *)proc->reg;
+		*cast = LIFECODE - champ->num;
+	}
 	return (proc);
 }
 

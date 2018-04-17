@@ -6,7 +6,7 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 16:49:41 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/04/15 22:48:17 by vlay             ###   ########.fr       */
+/*   Updated: 2018/04/17 22:24:42 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,8 @@ t_list				*ft_lstnew(void const *content, size_t content_size);
 wchar_t				*ft_wstrnsub(wchar_t *s, int n);
 int					get_x_char(const int fd, int len, char **line);
 t_list				*ft_lstlink(void *content, size_t content_size);
-void 				ft_endian_swap(unsigned int *ptr);
+unsigned			ft_endian_swap(unsigned int *ptr);
+unsigned short		ft_short_endian_swap(unsigned short *ptr);
 
 /*
 ** VECTORS
