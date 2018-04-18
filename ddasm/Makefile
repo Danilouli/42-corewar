@@ -6,7 +6,7 @@
 #    By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/05 13:06:28 by acouturi          #+#    #+#              #
-#    Updated: 2018/04/05 21:34:38 by acouturi         ###   ########.fr        #
+#    Updated: 2018/04/18 14:13:06 by acouturi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -237,7 +237,7 @@ science:
 	@sleep 0.2
 	@echo $(_SCIENCETXT)"            my satisfaction."
 	@sleep 0.2
-	@echo $(_SCIENCETXT)"            Aperture Science"
+	@echo $(_SCIENCETXT)"              Enter a name"
 	@sleep 0.2
 	@echo $(_SCIENCETXT)"           We do what we must"
 	@sleep 0.2
