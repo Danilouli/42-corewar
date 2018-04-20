@@ -63,4 +63,9 @@ size_t					champslen(t_champ *champs);
 int						ischamp(char *path, t_champ *champ, unsigned char n_champ);
 int						champ_isalive(intmax_t cycles, t_list *list, t_champ *champs);
 
+/*
+Debug functions
+*/
+void					prt_map_hex(t_map map);
+
 #endif

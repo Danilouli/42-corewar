@@ -48,7 +48,7 @@ colors :
 	@echo $(_BLACK) _BLACK $(_RED) _RED $(_GREEN) _GREEN $(_YELLOW) _YELLOW $(_BLUE) _BLUE $(_PURPLE) _PURPLE $(_CYAN) _CYAN $(_GREY) _GREY $(_NONE) _NONE
 
 $(NAME_DASM) : $(OBJ_DASM)
-	@echo $(_YELLOW) "copy de libft.a" $(_NONE)
+	@echo $(_YELLOW) "copy of libft.a" $(_NONE)
 	@cp ../libft/libft.a .
 	@echo $(_CYAN) "Created :	" $(_NONE) $(NAME_DASM)
 	@gcc $(CFLAGS) -o $(NAME_DASM) $(SRC_DASM) $(LIBFT)
@@ -58,7 +58,7 @@ $(OBJ_DIR)%.o : $(SRC_DASM_DIR)%.c
 	@echo $(_CYAN) "Compiling :	" $(_NONE) $^
 	@gcc $(CFLAGS) -o $@ -c $<
 
-clean: 
+clean:
 	@echo $(_RED) "Remove :" $(OBJ_DIR)
 	@/bin/rm -rf $(OBJ_DIR)
 	@echo $(_RED) "Remove :" $(LIBFT_NAME)

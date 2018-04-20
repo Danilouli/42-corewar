@@ -52,7 +52,7 @@ int			ischamp(char *path, t_champ *champ, unsigned char n_champ)
 		magic |= keep;
 	}
 	ft_printf("magic : %x | %x\n", magic, COREWAR_EXEC_MAGIC);
- 	if (!(magic == COREWAR_EXEC_MAGIC))
+ 	if (magic != COREWAR_EXEC_MAGIC)
 		return (0);
 	if (!champregister(fd, champ, n_champ) || close(fd) == -1)
 		return (0);

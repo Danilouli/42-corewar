@@ -2,18 +2,15 @@
 
 unsigned char	*translate_OCP(unsigned char OCP)
 {
-	unsigned char			i;
+	int						i;
 	unsigned char			mask;
 	static unsigned char	res[4];
 
-	i = 0;
+	i = -1;
 	mask = 3;
 	ft_bzero(res, 4);
-	while (i < 3)
-	{
+	while (++i < 3)
 		res[i] = OCP >> (6 - (i * 2)) & mask;
-		i++;
-	}
 	return (res);
 }
 
@@ -28,8 +25,8 @@ t_arg	*get_arg(t_map *map, t_process *process, t_op op)
 
 	i = 1;
 	ft_bzero(arg, sizeof(t_arg) * 4);
-	translation = (op.mod_c) ?
-	translate_OCP(OCP = map->map[i + process->ptr < MEM_SIZE ? i + process->ptr : 0]) : NULL;
+	OCP = map->map[i + process->ptr < MEM_SIZE ? i + process->ptr : 0];
+	translation = (op.mod_c) ? translate_OCP(OCP) : NULL;
 	i++;
 	a = 0;
 	while (*translation)
@@ -60,11 +57,11 @@ void	live(t_map *map, t_champ *champ, t_process *process)
 	ft_memmove(tmp, &map->map[process->ptr + 1], 4);
 	cast = (unsigned *)tmp;
 	ft_endian_swap(cast);
-	ft_printf("PROUT\n");
 	if (LIFECODE - *cast >= champslen(champ))
 		return ;
 	champ[LIFECODE - *cast].lastlife = map->cycles;
 	process->life = CYCLE_TO_DIE;
+	ft_printf("I'm aliiiive <3\n");
 }
 
 void	sti(t_map *map, t_champ *champ, t_process *process)
@@ -93,8 +90,9 @@ void	sti(t_map *map, t_champ *champ, t_process *process)
 		a++;
 	}
 	unsigned	*cast = (unsigned *)&process->reg[REG_SIZE * c1[0]];
-	ft_printf("c1: %x | c2: %x | cast = %x | %i\n", c1[1], c1[2], *cast ,process->ptr + c1[1] + c1[2]);
+	// ft_printf("c1: %x | c2: %x | cast = %x | %i\n", c1[1], c1[2], *cast ,process->ptr + c1[1] + c1[2]);
 	ft_memcpy(&map->map[process->ptr + c1[1] + c1[2]], &process->reg[REG_SIZE * c1[0]], REG_SIZE);
+	prt_map_hex(*map);
 	// ft_printf("%u | %u\n", *c1, *c2);
 	// process->reg[REG_SIZE * *arg[0].arg] = map->map[*c1 + *c2];
 }
@@ -108,8 +106,6 @@ void	process_operations(t_map *map, t_champ *champs, t_list **allprocess)
 		NULL, NULL, NULL, NULL, NULL
 	};
 
-	(void)champs;
-	(void)f;
 	map->cycles = 0;
 	while (champ_isalive(map->cycles, *allprocess, champs))
 	{
@@ -131,7 +127,7 @@ void	process_operations(t_map *map, t_champ *champs, t_list **allprocess)
 				&& (process->cycles -= (process->cycles) ? 1 : 0))
 				f[(size_t)process->op - 1](map, champs, process);
 			process->life--;
-			if (process->ptr > MEM_SIZE)
+			if (process->ptr > MEM_SIZE) // Avec un modulo ? : process->ptr %= MEM_SIZE
 				process->ptr -= MEM_SIZE;
 			tmp = tmp->next;
 		}

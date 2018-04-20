@@ -12,24 +12,6 @@
 
 #include "corewar.h"
 
-void	prt_map_hex(t_map map)
-{
-	size_t	i;
-	unsigned char *hex;
-
-	hex = map.map;
-	i = 0;
-	while(i < MEM_SIZE)
-	{
-		ft_printf("%02x", hex[i]);
-		i++;
-		if (i % 64 == 0)
-			ft_putchar('\n');
-		else
-			ft_putchar(' ');
-	}
-}
-
 int	usage(void)
 {
 	ft_putendl("Usage: ./corewar [-d -s | -b --stealth | -n --stealth] [-a] \
@@ -59,6 +41,6 @@ int	main(int ac, char **av)
 		return (1);
 	ft_printf("OPT : %s\n", opt);
 	setmap(&map, champs, allprocess);
-	// prt_map_hex(map);
+	prt_map_hex(map);
 	process_operations(&map, champs, &allprocess);
 }

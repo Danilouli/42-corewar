@@ -38,7 +38,8 @@ SRC_FILE = vm.c \
 			champ.c \
 			map.c \
 			operations.c \
-			process.c
+			process.c \
+			debug.c
 
 SRC_PATH = srcs/
 OBJ_PATH = build/
