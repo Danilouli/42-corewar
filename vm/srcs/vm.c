@@ -16,8 +16,14 @@ int	usage(void)
 {
 	ft_putendl("Usage: ./corewar [-d -s | -b --stealth | -n --stealth] [-a] \
 	<champion1.cor> <champion2.cor>");
+	ft_putendl("#### Text output mode #######################################################");
 	ft_putendl("	-a	: Prints the output from the \"aff\" instruction");
-	ft_putendl("########################################## TEXT OUTPUT MODE");
+	ft_putendl("#### Binary output mode #####################################################");
+	ft_putendl("	-b  : Binary output mode for corewar");
+	ft_putendl("	--stealth : Hides the real contents of the memory");
+	ft_putendl("#### OpenGL output mode #####################################################");
+	ft_putendl("	-n        : Ncurses output mode");
+	ft_putendl("	--stealth : Hides the real contents of the memory");
 	return (1);
 }
 

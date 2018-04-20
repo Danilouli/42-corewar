@@ -47,7 +47,7 @@ typedef struct			s_arg
 
 t_list					*option(int ac, char **av, char *opt, t_champ *champs);
 void					setmap(t_map *map, t_champ *champs, t_list *allprocess);
-
+int						usage(void);
 /*
 Process functions
 */
