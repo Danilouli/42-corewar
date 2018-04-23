@@ -12,72 +12,54 @@
 
 .PHONY : all clean fclean re peace
 
-# Defining colors
-
-RED = \033[1;31m
 GREEN = \033[0;32m
-ORANGE = \033[0;33m
-BLUE = \033[1;36m
-YELLOW = \033[1;33m
-PURPLE = \033[1;35m
 RESET = \033[0m
 
-# Defining variables
-
 NAME = corewar
-
+CC = gcc
 INCLUDE_PATH = includes/
 INCLUDE = op.h
 
+SRC_PATH = ./src/
+OBJ_PATH = ./build/
+LIB_PATH = ../
+INC_PATH = ./includes/ $(LIB_PATH)libft/includes/ $(LIB_PATH)glfw/include/
 
-LIB_NAME = libft.a
-LIB_PATH = ../libft
+GCC_FLGS = -Werror -Wextra -Wall
+GCC_LIBS = -lglfw3 -framework AppKit -framework OpenGL -framework IOKit \
+			-framework OpenCL -framework CoreVideo
 
-SRC_FILE = vm.c \
-			opt.c \
-			champ.c \
-			map.c \
-			operations.c \
-			process.c \
-			debug.c
+SRC_NAME = 	champ.c debug.c vm.c operations.c process.c opt.c map.c env.c \
+			render.c shaders.c
 
-SRC_PATH = srcs/
-OBJ_PATH = build/
+OBJ_NAME = $(SRC_NAME:.c=.o)
+LIB_NAME = libft glfw/src
 
-LIB = $(addprefix $(LIB_PATH)/,$(LIB_NAME))
-
-SRC = $(SRC_FILE:%.c=$(SRC_PATH)%.c)
-
-INCL = $(INCLUDE:%.h=$(INCLUDE_PATH)%.h)
-
-OBJ = $(SRC:$(SRC_PATH)%.c=$(OBJ_PATH)%.o)
-
-# Compilation flags
-
-CC = gcc
-CPPFLAGS = -Wall -Wextra -Werror
-
-# Defining rules
+SRC = $(addprefix $(SRC_PATH), $(SRC_PATH))
+OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
+INC = $(addprefix -I,$(INC_PATH))
+LIB = $(addprefix -L$(LIB_PATH),$(LIB_NAME))
 
 all: $(NAME)
 
-$(NAME): lib $(OBJ) $(INCL)
-	$(CC) $(CFLAGS) -o $@ $(OBJ) -I$(INCLUDE_PATH) -L$(LIB_PATH) -lft
+$(NAME): lib $(OBJ)
+	@$(CC) $(GCC_FLGS) $(LIB) -lft $(INC) $(OBJ) $(GCC_LIBS) -o $(NAME)
+	@echo "$(GREEN)Compiled the binary.$(RESET)"
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c $(LIBFT_PATH)$(LIBFT_NAME)
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
-	$(CC) -o $@ -c $< -I$(INCLUDE_PATH) $(CFLAGS)
+	@$(CC) $(GCC_FLGS) $(INC) -o $@ -c $<
 
 lib:
-	@make -C $(LIB_PATH)
-	@echo "$(GREEN)Successfully compiled libft.$(RESET)"
+	@make -C $(LIB_PATH)libft
+	@echo "$(GREEN)Compiled libft.$(RESET)"
 
 clean:
-	@make clean -C $(LIB_PATH)
+	@make clean -C ../libft
 	@rm -rf $(OBJ_PATH)
 
 fclean: clean
-	@make fclean -C $(LIB_PATH)
+	@make fclean -C ../libft
 	@rm -rf $(NAME)
 
 re: fclean all

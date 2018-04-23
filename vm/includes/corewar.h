@@ -1,12 +1,14 @@
 #ifndef COREWAR_H
 # define COREWAR_H
 
-#include "op.h"
-
+# include "op.h"
+# include <GLFW/glfw3.h>
+# include <OpenCL/opencl.h>
 # define OPTION "adsvbn"
 # define NBOPT 6
 # define STEALTH "--stealth"
 # define LIFECODE 0xFFFFFFFF
+# define LOG_BUFFSIZE 100000
 
 typedef struct			s_champ
 {
@@ -21,16 +23,17 @@ typedef struct			s_champ
 typedef struct			s_map
 {
 	unsigned char		*map;
-	t_champ				**owner;
+	unsigned char		*c_map;
+	unsigned char		*p_map;
 	uintmax_t			cycles;
 }						t_map;
 
 typedef struct			s_process
 {
-	unsigned			ptr;
+	int					ptr;
 	t_bool				active;
 	int					life;
-	char				op;
+	unsigned char		op;
 	unsigned char		*params;
 	unsigned			cycles;
 	t_champ				*champ;
@@ -45,6 +48,28 @@ typedef struct			s_arg
 	unsigned char		arg[4];
 }						t_arg;
 
+typedef struct		s_shader
+{
+	GLuint			id;
+	GLchar			*src;
+	GLuint			prog;
+	GLenum			type;
+	struct			s_info
+	{
+		GLint		success;
+		GLint		msg_len; // Taille du message retourné par OpenGL après la compilation.
+		GLchar		*log; // Message retourné.
+		GLenum		type;
+	}				info;
+}					t_shader;
+
+typedef struct			s_render
+{
+	GLFWwindow	*win;
+	t_shader	*v_shader;
+	t_shader	*f_shader;
+}						t_render;
+
 t_list					*option(int ac, char **av, char *opt, t_champ *champs);
 void					setmap(t_map *map, t_champ *champs, t_list *allprocess);
 int						usage(void);
@@ -53,8 +78,9 @@ Process functions
 */
 t_process				*createproc(t_champ *champ, char carry, char *reg);
 void					delprocess(void *content, size_t content_size);
-void					process_operations(t_map *map, t_champ *champs, t_list **allprocess);
+void					process_operations(t_render *r, t_map *map, t_champ *champs, t_list **allprocess);
 int						proc_isalive(t_list *list, void *ref);
+t_process				*proccpy(t_process **process);
 
 /*
 Champions functions
@@ -67,5 +93,15 @@ int						champ_isalive(intmax_t cycles, t_list *list, t_champ *champs);
 Debug functions
 */
 void					prt_map_hex(t_map map);
+
+/*
+Visualizer functions.
+*/
+int						init_context(t_render *r);
+int						render(t_render *r, t_map *map);
+t_shader				*build_shader(char *filename, GLenum type, GLuint prog_id, \
+						t_bool prog);
+void					event(GLFWwindow* window, int key, int scancode, int action, \
+						int mods);
 
 #endif
