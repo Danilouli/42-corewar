@@ -34,10 +34,10 @@ IO_SRC =	buffer.c ft_printf.c ft_putendl.c ft_putnbr_fd.c ft_putwchar.c get_next
 			ft_retsplit.c nb_printers.c ft_pos_atoi.c ft_abs.c get_x_char.c ft_utoa.c
 
 LIST_SRC =	ft_lstadd.c ft_lstdel.c ft_lstdelone.c ft_lstiter.c ft_lstmap.c ft_lstnew.c \
-			ft_lstappend.c ft_lstpop.c ft_lstlink.c ft_lstfilter.c
+			ft_lstappend.c ft_lstpop.c ft_lstlink.c ft_lstfilter.c ft_lstpushback.c
 
 MEM_SRC =	ft_bzero.c ft_memalloc.c ft_memccpy.c ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memdel.c \
-			ft_memmove.c ft_memset.c ft_nrealloc.c ft_memdup.c ft_endian_swap.c
+			ft_memmove.c ft_memset.c ft_nrealloc.c ft_memdup.c ft_endian_swap.c ft_memdelbool.c
 
 STR_SRC =	ft_chartostr.c ft_isprint.c ft_strcpy.c ft_strjoin.c ft_strncat.c ft_strrchr.c \
 			ft_tolower.c ft_chrcstr.c ft_strcat.c ft_strcsub.c ft_strjoin_char.c ft_strncmp.c \
@@ -46,7 +46,7 @@ STR_SRC =	ft_chartostr.c ft_isprint.c ft_strcpy.c ft_strjoin.c ft_strncat.c ft_s
 			ft_strlcat.c ft_strnequ.c ft_strsplit.c ft_wstrnsub.c ft_isalpha.c ft_strcmp.c \
 			ft_strequ.c ft_strlen.c ft_strnew.c ft_strstr.c ft_isascii.c ft_strcount.c ft_striter.c \
 			ft_strmap.c ft_strnstr.c ft_strsub.c ft_isdigit.c ft_strcpos.c ft_striteri.c \
-			ft_strmapi.c ft_strnsub.c ft_strtrim.c ft_strpush.c
+			ft_strmapi.c ft_strnsub.c ft_strtrim.c ft_strpush.c ft_strsplit_mult.c
 
 VEC_SRC =	ft_vecnew.c ft_vecpush.c
 

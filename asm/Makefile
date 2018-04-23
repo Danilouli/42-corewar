@@ -6,7 +6,7 @@
 #    By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 17:18:12 by fsabatie          #+#    #+#              #
-#    Updated: 2018/04/01 20:25:49 by dsaadia          ###   ########.fr        #
+#    Updated: 2018/04/19 15:41:29 by dsaadia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,14 @@ RESET = \033[0m
 NAME = asm
 LIB_NAME = libft.a
 LIB_PATH = ../libft
-ASM_SRCS = ..
+ASM_SRCS = ../src
 BUILD_PATH = build
 
-ASM_SRC_F =	main.c
+ASM_SRC_F =	main.c reader_code.c initializators.c fetchers.c \
+						verificators.c verificators2.c verificators3.c have_header.c \
+						errorers.c calculators.c initializators2.c writer.c write_liner.c \
+						verificators4.c freers.c
+
 
 OBJ_NAME = $(ASM_SRC_F:.c=.o)
 OBJS = $(addprefix $(BUILD_PATH)/,$(OBJ_NAME))
@@ -40,7 +44,7 @@ LIB = $(addprefix $(LIB_PATH)/,$(LIB_NAME))
 # Compilation flags
 
 CC = gcc
-CPPFLAGS = -Wall -Wextra -Werror
+CPPFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 # Defining rules
 
@@ -51,7 +55,7 @@ lib:
 	@echo "$(GREEN)Successfully compiled libft.$(RESET)"
 
 $(NAME): lib
-	@mkdir -p $(BUILD_PATH) && cd $(BUILD_PATH) && $(CC) $(CPPFLAGS) -c $(SRCS)
+	@mkdir -p $(BUILD_PATH) && cd $(BUILD_PATH) && $(CC) $(CPPFLAGS) -I../ -c $(SRCS)
 	@$(CC) $(CPPFLAGS) -o $(NAME) $(OBJS) $(LIB)
 	@echo "$(GREEN)Successfully the asm binary.$(RESET)"
 

@@ -52,6 +52,7 @@ $(NAME_DASM) : $(OBJ_DASM)
 	@cp ../libft/libft.a .
 	@echo $(_CYAN) "Created :	" $(_NONE) $(NAME_DASM)
 	@gcc $(CFLAGS) -o $(NAME_DASM) $(SRC_DASM) $(LIBFT)
+	@rm -rf $(LIBFT_NAME)
 
 $(OBJ_DIR)%.o : $(SRC_DASM_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
