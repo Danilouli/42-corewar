@@ -103,6 +103,7 @@ int	render(t_render *r, t_map *map)
 	glfwSetWindowUserPointer(r->win, map);
 	glUseProgram(r->v_shader->prog);
 	glfwSetKeyCallback(r->win, event);
+	glfwSetCursorPosCallback(r->win, cursor_position_callback);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glBindVertexArray(vao);
 	glDrawArrays(GL_POINTS, 0, 4096);

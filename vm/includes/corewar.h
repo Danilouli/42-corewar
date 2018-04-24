@@ -103,5 +103,6 @@ t_shader				*build_shader(char *filename, GLenum type, GLuint prog_id, \
 						t_bool prog);
 void					event(GLFWwindow* window, int key, int scancode, int action, \
 						int mods);
+void					cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 
 #endif

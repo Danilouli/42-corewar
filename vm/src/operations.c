@@ -193,20 +193,28 @@ int	add(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 {
 	t_arg				*arg;
 	int					inc;
-	int					*param;
-	int					nb[2];
-	unsigned			tmp;
+	unsigned int			*param;
+	unsigned int			nb[2];
+	unsigned int			tmp;
+	unsigned int			*cast;
+
 
 	(void)champ;
 	(void)allprocess;
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
 		return (0);
-	param = (int*)tabarg(arg, &inc, map, process);
-	nb[0] = (int)ft_endian_swap((unsigned *)&process->reg[REG_SIZE * param[0]]);
-	nb[1] = (int)ft_endian_swap((unsigned *)&process->reg[REG_SIZE * param[1]]);
+	param = (unsigned int*)tabarg(arg, &inc, map, process);
+	nb[0] = (unsigned int)process->reg[REG_SIZE * param[0]];
+	nb[1] = (unsigned int)process->reg[REG_SIZE * param[1]];
+	// ft_endian_swap((unsigned *)&nb[0]);
+	// ft_endian_swap((unsigned*)&nb[1]);
 	tmp = nb[0] + nb[1];
-	ft_memcpy(&process->reg[REG_SIZE * param[2]],  &tmp, REG_SIZE);
-	process->carry = (param[0] + param[1]) ? 1 : 0;
+	cast = (unsigned int*)&process->reg[REG_SIZE * param[2]];
+	// printf("Params: %u + %u = %u\n", process->reg[REG_SIZE * param[0]], process->reg[REG_SIZE * param[1]], tmp);
+	// printf("Before : %i and %i\n", (int)process->reg[REG_SIZE * param[2]], tmp);
+	ft_memcpy(cast,  &tmp, REG_SIZE);
+	// printf("After : %i and %i\n", (int)process->reg[REG_SIZE * param[2]], tmp);
+	process->carry = tmp ? 1 : 0;
 	return (inc);
 }
 
@@ -330,9 +338,10 @@ int	sti(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // 
 		return (0);
 	param = (int*)tabarg(arg, &inc, map, process);
 	if (arg[1].type == T_REG)
-		param[1] = process->reg[REG_SIZE * param[1]];
+		param[1] = (int)process->reg[REG_SIZE * param[1]];
 	if (arg[2].type == T_REG)
-		param[2] = process->reg[REG_SIZE * param[2]];
+		param[2] = (int)process->reg[REG_SIZE * param[2]];
+	// printf("Params: %i %i\n", param[1], param[2]);
 	ft_memcpy(&map->map[process->ptr + param[1] + param[2]], &process->reg[REG_SIZE * param[0]], REG_SIZE);
 	ft_memset(&map->c_map[process->ptr + param[1] + param[2]], (int)process->champ->num + 1, REG_SIZE);
 	return (inc);

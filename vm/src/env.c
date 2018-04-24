@@ -17,12 +17,22 @@
 void	event(GLFWwindow* window, int key, int scancode, int action, \
 		int mods)
 {
-	t_map *map = glfwGetWindowUserPointer(window);
+	t_map *map;
+
+	map = glfwGetWindowUserPointer(window);
 	(void)scancode;
 	(void)mods;
 	if (key == GLFW_KEY_P && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 		prt_map_hex(*map);
 	}
+}
+
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	t_map *map = glfwGetWindowUserPointer(window);
+	(void)xpos;
+	(void)ypos;
+	(void)map;
 }
 
 int	init_context(t_render *r)
