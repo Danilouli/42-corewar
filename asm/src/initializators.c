@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializators.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 17:56:08 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/19 14:26:08 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/24 18:17:18 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_error	*init_g_d_errors(void)
 		return (0);
 	init->lastmsgerror = 0;
 	init->nberror = 0;
-	init->read_lines = 0;
+	init->nb_lines = 0;
+	init->nb_char = 0;	
 	return (init);
 }

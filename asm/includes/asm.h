@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:23:12 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/19 15:41:22 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/24 18:13:01 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef	struct		s_error
 {
 	int				nberror;
 	char			*lastmsgerror;
-	int				read_lines;
+	int				nb_lines;
+	int				nb_char;
 }									t_error;
 
 typedef struct		s_line
@@ -66,7 +67,7 @@ int								is_label(char *str);
 int								is_op_name(char *str);
 t_op							*init_g_op_tab(void);
 int								fetch_opcode(char *op_name);
-t_list						*alloc_line(char **spl, char *label, int nbp);
+t_list							*alloc_line(char **spl, char *label, int nbp);
 int								is_direct(char *str);
 int 							is_reg(char *str);
 int								is_indirect(char *str);
@@ -76,14 +77,14 @@ int								add_error(t_error *str_err, char *msg);
 char							*destroy(char **del);
 int								have_header(int fd, t_error *error);
 void							calc_len(t_line *line);
-t_error						*init_g_d_errors(void);
+t_error							*init_g_d_errors(void);
 char 							*reinit_direct(char **dir, int addrnb, int addrline);
 char 							*reinit_indirect(char **ind, int addrnb, int addrline);
 int								is_real_code(void);
 int 							is_real_label(char *str);
 char 							*is_label_ind(char *ind);
 char 							*is_label_dir(char *dir);
-t_corewar 				init_g_corewar(void);
+t_corewar 						init_g_corewar(void);
 int 							init_len_code(void);
 int 							create_open_cor(char *spath, int fds);
 void 							write_magic(int fdc, int *magic);
@@ -95,5 +96,6 @@ void 							endian_swap(unsigned int *ptr);
 int 							create_ocp(t_line *line);
 void 							short_endian_swap(unsigned short *ptr);
 void 							free_g_line(void);
+int								super_herror(char *msg, int char_ind);
 
 #endif
