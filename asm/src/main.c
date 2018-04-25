@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:18:47 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/25 15:34:14 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/25 18:06:43 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int ac, char **av)
 	errors = init_g_d_errors();
 	g_d_errors = init_g_d_errors();
 	g_corewar = init_g_corewar();
+	g_labels = NULL;
 	i = 1;
 	if (ac <= 1)
 	{

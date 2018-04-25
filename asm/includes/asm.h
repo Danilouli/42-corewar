@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:23:12 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/25 17:24:29 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/25 17:56:28 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct		s_label
 {
 	char			*value;
 	char			*real_label;
+	int				addr;
 }									t_label;
 
 typedef struct		s_corewar
@@ -105,5 +106,6 @@ int 							create_ocp(t_line *line);
 void 							short_endian_swap(unsigned short *ptr);
 void 							free_g_line(void);
 int								super_herror(char *msg, int char_ind);
+t_list						*alloc_label(char *label);
 
 #endif
