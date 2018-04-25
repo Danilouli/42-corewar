@@ -5,7 +5,7 @@
 .comment	   	"choo-choo, motherf*****s !"
 
 entry:
-	stiq		r1, %:beegees_gen, %1
+	sti		r1, %:beegees_gen, %1
 	sti		r1, %:beegees, %1
 	sti		r1, %:cc_spawn, %1
 	sti		r1, %:wall, %1
@@ -109,7 +109,7 @@ cc4ld:
 	ld		%251883523, r3
 	ld		%0, r16
 cc4l:
-	live	%4930423	
+	live	%4930423
 	ld		%0, r16
 	zjmp	%:choochoo
 

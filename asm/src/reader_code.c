@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader_code.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:49:01 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/24 18:18:20 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/04/25 17:24:26 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int read_code_helper(char **spl, int nbp, t_list **new)
 {
 	if (is_label(spl[0]))
 	{
-		if ((nbp > 1 && !is_op_name(spl[1])) || (super_herror("OPCODE NUL\n",58)))
+		if ((nbp > 1 && !is_op_name(spl[1]))) //|| (super_herror("OPCODE NUL\n",58)))
 			return (0);
 		if (nbp > 1)
 		{

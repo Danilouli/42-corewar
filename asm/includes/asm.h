@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:23:12 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/24 18:13:01 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/04/25 17:24:29 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ typedef struct		s_line
 	char			**param;
 }									t_line;
 
+typedef struct		s_label
+{
+	char			*value;
+	char			*real_label;
+}									t_label;
+
 typedef struct		s_corewar
 {
 	int				nb_lines;
@@ -56,6 +62,8 @@ char		g_seps[3];
 t_corewar g_corewar;
 
 t_list	*g_lines;
+
+t_list	*g_labels;
 
 t_op		*g_op_tab;
 

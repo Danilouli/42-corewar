@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:18:47 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/24 18:20:17 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/04/25 15:34:14 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,12 @@ int	main(int ac, char **av)
 		if (!read_code(l))
 			break ;
 	}
-	if (g_d_errors->nberror >= 1)
-	{
-		ft_printf("G D ERRORS->%s | %d | %d\n", g_d_errors->lastmsgerror, g_d_errors->nb_lines, g_d_errors->nb_char);
-		return (0);
-	}
+	ft_printf("RELIGN %s\n",l);
+	// if (g_d_errors->nberror >= 1)
+	// {
+	// 	ft_printf("G D ERRORS->%s | %d | %d\n", g_d_errors->lastmsgerror, g_d_errors->nb_lines, g_d_errors->nb_char);
+	// 	return (0);
+	// }
 	if (!is_real_code() && ft_printf("U\n"))
 		return (1);
 	if (!init_len_code() && ft_printf("P\n"))
