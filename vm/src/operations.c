@@ -24,8 +24,10 @@ char	OCPCheck(unsigned char OCP, int nbarg)
 	mask = 192;
 	i = -1;
 	while(++i < nbarg)
-		if (!(OCP & (mask >> i * 2)))
+		if (!(OCP & (mask >> i * 2))) {
+			printf("Returning zero\n");
 			return (0);
+		}
 	return (!(OCP & (mask >> i * 2)));
 }
 
@@ -175,8 +177,11 @@ int	st(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 	(void)champ;
 	(void)allprocess;
-	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (1);
+	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p))) {
+		printf("returning 2\n");
+		return (2);
+
+	}
 	param = (int*)tabarg(arg, &inc, map, process);
 	if (arg[1].type == T_REG)
 		ft_memcpy(&process->reg[param[1] * REG_SIZE], &process->reg[param[0] * REG_SIZE], REG_SIZE);
@@ -201,7 +206,10 @@ int	add(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	(void)champ;
 	(void)allprocess;
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (0);
+	{
+		printf("returning 3\n");
+		return (3);
+	}
 	param = (unsigned int*)tabarg(arg, &inc, map, process);
 	nb[0] = (int)(*((int*)&process->reg[REG_SIZE * param[0]]));
 	nb[1] = (int)(*((int*)&process->reg[REG_SIZE * param[1]]));
@@ -332,6 +340,7 @@ int	sti(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // 
 
 	(void)champ;
 	(void)allprocess;
+	inc = 2;
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
 		return (0);
 	param = (int*)tabarg(arg, &inc, map, process);

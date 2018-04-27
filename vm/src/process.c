@@ -30,7 +30,7 @@ t_process	*createproc(t_champ *champ, char carry, char *reg)
 		proc->reg = ft_memdup(reg, REG_NUMBER * REG_SIZE);
 	else
 	{
-		proc->reg = ft_strnew(REG_NUMBER * REG_SIZE);
+		proc->reg = (unsigned char*)ft_strnew(REG_NUMBER * REG_SIZE);
 		cast = (unsigned *)proc->reg;
 		*cast = LIFECODE - champ->num;
 		ft_endian_swap(cast);
