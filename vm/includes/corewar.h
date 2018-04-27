@@ -38,7 +38,7 @@ typedef struct			s_process
 	unsigned			cycles;
 	t_champ				*champ;
 	char				carry;
-	char				*reg;
+	unsigned char		*reg;
 }						t_process;
 
 typedef struct			s_arg
