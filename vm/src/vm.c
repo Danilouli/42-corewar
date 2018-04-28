@@ -49,7 +49,7 @@ int	main(int ac, char **av)
 	if (!(allprocess = option(ac, av, opt, champs)))
 		return (1);
 	if (ft_strchr(opt, 'n'))
-		init_context(&r); // Make sure this doesn't segfault
+		init_context(&r, &map); // Make sure this doesn't segfault
 	setmap(&map, champs, allprocess);
 	prt_map_hex(map);
 	process_operations(&r, &map, champs, &allprocess);

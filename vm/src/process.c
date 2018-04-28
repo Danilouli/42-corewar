@@ -7,6 +7,7 @@ t_process	*proccpy(t_process **process)
 	if (!(res = (t_process *)malloc(sizeof(t_process))))
 		return (NULL);
 	ft_memcpy(res, *process, sizeof(t_process));
+	res->active = 0;
 	res->reg = ft_memdup((*process)->reg, REG_NUMBER * REG_SIZE);
 	return (res);
 }

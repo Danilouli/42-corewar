@@ -69,7 +69,7 @@ size_t	champslen(t_champ *champs)
 	return (i);
 }
 
-int	champ_isalive(intmax_t cycles, t_list *list, t_champ *champs)
+int	champ_isalive(t_map *map, t_list *list, t_champ *champs)
 {
 	t_process	*process;
 	int			ret;
@@ -78,7 +78,7 @@ int	champ_isalive(intmax_t cycles, t_list *list, t_champ *champs)
 
 	ret = 0;
 	ft_bzero(score, sizeof(unsigned) * len);
-	if (cycles && !(cycles % CYCLE_TO_DIE))
+	if (map->cycles && !(map->cycles % (CYCLE_TO_DIE - CYCLE_DELTA * map->round)))
 	{
 		while (list)
 		{

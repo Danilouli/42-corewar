@@ -33,7 +33,7 @@ t_list	*option(int ac, char **av, char *opt, t_champ *champs)
 		else if (av[i][0] == '-' && ft_strlen(av[i]) == 2 && ft_strchr(OPTION, av[i][1]))
 			ft_strpush(opt, av[i][1]);
 		else if (ischamp(av[i], &champs[n_champ], n_champ))
-			ft_lstadd(&allprocess, ft_lstlink(createproc(&champs[n_champ++], 1, NULL), sizeof(t_process)));
+			ft_lstadd(&allprocess, ft_lstlink(createproc(&champs[n_champ++], 0, NULL), sizeof(t_process)));
 		else if (usage())
 			return (NULL);
 	}

@@ -100,7 +100,6 @@ int	render(t_render *r, t_map *map)
 
 	getPts(pts, map);
 	vao = createBuffer(pts);
-	glfwSetWindowUserPointer(r->win, map);
 	glUseProgram(r->v_shader->prog);
 	glfwSetKeyCallback(r->win, event);
 	glfwSetCursorPosCallback(r->win, cursor_position_callback);

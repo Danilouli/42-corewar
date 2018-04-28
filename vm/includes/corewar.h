@@ -26,6 +26,7 @@ typedef struct			s_map
 	unsigned char		*c_map;
 	unsigned char		*p_map;
 	uintmax_t			cycles;
+	unsigned			round;
 }						t_map;
 
 typedef struct			s_process
@@ -68,6 +69,8 @@ typedef struct			s_render
 	GLFWwindow	*win;
 	t_shader	*v_shader;
 	t_shader	*f_shader;
+	t_bool		pause;
+	t_map		*map;
 }						t_render;
 
 t_list					*option(int ac, char **av, char *opt, t_champ *champs);
@@ -87,7 +90,7 @@ Champions functions
 */
 size_t					champslen(t_champ *champs);
 int						ischamp(char *path, t_champ *champ, unsigned char n_champ);
-int						champ_isalive(intmax_t cycles, t_list *list, t_champ *champs);
+int						champ_isalive(t_map *map, t_list *list, t_champ *champs);
 
 /*
 Debug functions
@@ -97,7 +100,7 @@ void					prt_map_hex(t_map map);
 /*
 Visualizer functions.
 */
-int						init_context(t_render *r);
+int						init_context(t_render *r, t_map *map);
 int						render(t_render *r, t_map *map);
 t_shader				*build_shader(char *filename, GLenum type, GLuint prog_id, \
 						t_bool prog);
