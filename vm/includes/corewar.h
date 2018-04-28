@@ -25,8 +25,10 @@ typedef struct			s_map
 	unsigned char		*map;
 	unsigned char		*c_map;
 	unsigned char		*p_map;
+	uintmax_t			t_cycles;
 	int					cycles;
 	int					lives;
+	int					checks;
 	unsigned			round;
 }						t_map;
 
