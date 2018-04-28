@@ -52,5 +52,6 @@ int	main(int ac, char **av)
 		init_context(&r, &map); // Make sure this doesn't segfault
 	setmap(&map, champs, allprocess);
 	prt_map_hex(map);
+	map.cycles = CYCLE_TO_DIE;
 	process_operations(&r, &map, champs, &allprocess);
 }

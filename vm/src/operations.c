@@ -148,6 +148,7 @@ int	live(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 		return (4);
 	champ[LIFECODE - *cast].lastlife = map->cycles;
 	process->life = CYCLE_TO_DIE - CYCLE_DELTA * map->round;
+	map->lives++;
 	return (4); // Return 4: constant size of live parameter.
 }
 
@@ -450,7 +451,7 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 	t_process	*process;
 	int			f_ptr;
 
-	map->cycles = 0;
+	map->cycles = CYCLE_TO_DIE;
 	map->round = 0;
 	if (r->win) {
 		glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -478,12 +479,14 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 			if (r->win)
 				render(r, map);
 		}
-		printf("cycles : %ju / Die : %u\n", map->cycles, 1536 - CYCLE_DELTA * map->round);
-		if ((++(map->cycles) == (CYCLE_TO_DIE - CYCLE_DELTA * map->round)))
+		printf("cycles : %i / Die : %u\n", map->cycles, 1536 - CYCLE_DELTA * map->round);
+		if (!(--(map->cycles)))
 		{
 			*allprocess = ft_lstfilter(*allprocess, NULL, &proc_isalive, &delprocess);
-			map->round++;
-			map->cycles = 0;
+			map->cycles = (map->lives >= NBR_LIVE) ?
+			CYCLE_TO_DIE - CYCLE_DELTA * map->round :
+			CYCLE_TO_DIE - CYCLE_DELTA * ++map->round;
+			map->lives = 0;
 		}
 	}
 }
