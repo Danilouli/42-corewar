@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:18:47 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 19:16:34 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/04/29 19:19:38 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,6 @@ the code to the standard output");
 	}
 	g_lines = keep;
 	// free_g_line();
+	ft_printf("champion créé\n");
 	return (0);
 }
