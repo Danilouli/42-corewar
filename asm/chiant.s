@@ -26,7 +26,8 @@ trois:
 		zjmp		%:un
 		zjmp		%:deux
 		zjmp    %:sept
+		zjmp		%:ukuku
 		zjmp		%:akaka
-		
+		zjmp		%:akaka
 ukuku:
 akaka:

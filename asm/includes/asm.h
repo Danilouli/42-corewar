@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:23:12 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 13:11:59 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/29 16:00:50 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct		s_line
 	int				addr;
 	int				nb_params;
 	char			**param;
+	char			*line;
 }									t_line;
 
 typedef struct		s_label
@@ -77,15 +78,14 @@ int								is_label(char *str);
 int								is_op_name(char *str);
 t_op							*init_g_op_tab(void);
 int								fetch_opcode(char *op_name);
-t_list							*alloc_line(char **spl, char *label, int nbp);
+t_list							*alloc_line(char **spl, char *label, int nbp, char *l);
 int								is_direct(char *str);
 int 							is_reg(char *str);
 int								is_indirect(char *str);
 int								what_is(char *str);
 int								check_params(t_line *line);
-int								add_error(t_error *str_err, char *msg);
 char							*destroy(char **del);
-int								have_header(int fd, t_error *error);
+int								have_header(int fd);
 void							calc_len(t_line *line);
 t_error							*init_g_d_errors(void);
 char 							*reinit_direct(char **dir, int addrnb, int addrline);
@@ -106,7 +106,7 @@ void 							endian_swap(unsigned int *ptr);
 int 							create_ocp(t_line *line);
 void 							short_endian_swap(unsigned short *ptr);
 void 							free_g_line(void);
-int								super_herror(char *msg, int char_ind);
+void							*super_herror(char *msg, int char_ind);
 t_list						*alloc_label(char *label);
 void 							redefine_labels(char *final_label);
 int								is_relabel(char *str);

@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 17:56:08 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 12:16:43 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/29 16:00:21 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ t_list	*alloc_label(char *labelstr)
 	t_list *nw;
 
 	if (!(la = (t_label*)malloc(sizeof(t_label))) && ft_memdelbool((void**)&la))
-		return (0);
+		return (super_herror("malloc error\n", 0));
 	if (!(nw = (t_list*)malloc(sizeof(t_list))) && ft_memdelbool((void**)&nw))
-		return (0);
+		return (super_herror("malloc error\n", 0));
 	la->value = labelstr;
 	la->real_label = 0;
 	la->addr = 0;
