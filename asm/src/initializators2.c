@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 20:42:21 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/19 14:38:06 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/29 12:47:39 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,11 @@ t_list	*alloc_line(char **spl, char *label, int nbp)
 	{
 		ln->nb_params = (label) ? nbp - 2 : nbp - 1;
 		ln->param = (label) ? &(spl[2]) : &(spl[1]);
+		ft_printf("last label %s\n", LAST_LABEL);
+		if (LAST_LABEL)
+		{
+			redefine_labels(LAST_LABEL);
+		}
 	}
 	nw->next = NULL;
 	nw->content = ln;

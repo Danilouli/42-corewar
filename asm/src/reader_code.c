@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:49:01 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/25 18:24:17 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/29 13:16:58 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,15 @@ static int change_line_if_needed(char **l)
 int read_code_helper(char **spl, int nbp, t_list **new)
 {
 	t_list	*newla = NULL;
-	t_label *labeq = NULL;
 
-	newla =  (t_list*)malloc(sizeof(t_list));
-	labeq = (t_label*)malloc(sizeof(t_label));
 	if (is_label(spl[0]))
 	{
-		labeq->value = spl[0];
-		labeq->real_label = spl[0];
-		labeq->addr = 0;
-		newla->next = NULL;
-		newla->content = labeq;
-		newla->content_size = 5;
-		// if (!(newla = alloc_label(spl[0])))
-		// 	return (0);
-		ft_lstpushback(g_labels, newla);
+		if (!(newla = alloc_label(spl[0])))
+			return (0);
+		if (!g_labels)
+			g_labels = newla;
+		else
+			ft_lstpushback(g_labels, newla);
 		if ((nbp > 1 && !is_op_name(spl[1]))) //|| (super_herror("OPCODE NUL\n",58)))
 			return (0);
 		if (nbp > 1)
@@ -104,7 +98,7 @@ int	read_code(char *l)
 	init_g_seps();
 	change_line_if_needed(&l);
 	spl = ft_strsplit_mult(l, g_seps, &nbp);
-	if (!nbp)
+	if (!nbp)// || (spl[0] && is_relabel(spl[0])))
 		return (1);
 	if (!read_code_helper(spl, nbp, &new))
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 17:56:08 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/25 18:09:47 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/29 12:16:43 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,18 @@ t_error	*init_g_d_errors(void)
 	return (init);
 }
 
-t_list	*alloc_label(char *label)
+t_list	*alloc_label(char *labelstr)
 {
 	t_label *la;
 	t_list *nw;
 
-	if (!(la = (t_label*)malloc(sizeof(t_label)))
-	|| (!(nw = (t_list*)malloc(sizeof(t_list))) && ft_memdelbool((void**)&la)))
+	if (!(la = (t_label*)malloc(sizeof(t_label))) && ft_memdelbool((void**)&la))
 		return (0);
-	if (label)
-		LASTC(label) = 0;
-	la->value = label;
-	la->real_label = label;
+	if (!(nw = (t_list*)malloc(sizeof(t_list))) && ft_memdelbool((void**)&nw))
+		return (0);
+	la->value = labelstr;
+	la->real_label = 0;
 	la->addr = 0;
-	ft_printf("HOLOLOQ %s\n", label);
 	nw->next = NULL;
 	nw->content = la;
 	nw->content_size = sizeof(t_label);

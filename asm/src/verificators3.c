@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 19:56:36 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/19 15:11:20 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/29 13:35:01 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,19 @@ int is_real_label(char *str)
 {
 	t_list *surf;
 	int j;
+	char *final_label;
 
 	j = 0;
 	surf = g_lines;
+	final_label = fetch_final_label(str);
+	// if (!final_label)
+	// 	return ()
 	while (surf)
 	{
 		if (surf->content_size == 2)
 		{
 			j++;
-			if (LINECONT(surf)->label && ft_strequ(LINECONT(surf)->label, str))
+			if (LINECONT(surf)->label && ft_strequ(LINECONT(surf)->label, final_label))
 				return (LINECONT(surf)->addr);
 		}
 		surf = surf->next;

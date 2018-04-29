@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:18:47 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/25 18:06:43 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/29 12:49:19 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int ac, char **av)
 		return (1);
 	while (get_next_line(fd, &l) == 1 && ((NB_LINES++) >= 0))
 	{
-		ft_printf("DHQIHDOIQHFIOQH->%s--%d\n", l, NB_LINES);
+		// ft_printf("DHQIHDOIQHFIOQH->%s--%d\n", l, NB_LINES);
 		if ((comment =  ft_strchr(l, COMMENT_CHAR)))
 			comment[0] = 0;
 		else if ((comment =  ft_strchr(l, ';')))
@@ -52,7 +52,7 @@ int	main(int ac, char **av)
 		if (!read_code(l))
 			break ;
 	}
-	ft_printf("RELIGN %s\n",l);
+	// ft_printf("RELIGN %s\n",l);
 	// if (g_d_errors->nberror >= 1)
 	// {
 	// 	ft_printf("G D ERRORS->%s | %d | %d\n", g_d_errors->lastmsgerror, g_d_errors->nb_lines, g_d_errors->nb_char);
@@ -66,6 +66,11 @@ int	main(int ac, char **av)
 		return (1);
 	i = 0;
 	t_list *keep = g_lines;
+	while (g_labels)
+	{
+		ft_printf("LABEL :::: %s, son REAL %s\n",((t_label*)(g_labels->content))->value, ((t_label*)(g_labels->content))->real_label);
+		g_labels = g_labels->next;
+	}
 	while (g_lines)
 	{
 		if (g_lines->content_size == 4)

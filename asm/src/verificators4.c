@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:11:11 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/19 15:17:53 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/29 13:31:18 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,20 @@ int	is_real_code(void)
 		surf = surf->next;
 	}
 	return (1);
+}
+
+int is_relabel(char *str)
+{
+	t_list *surf;
+
+	surf = g_labels;
+	if (!is_label(str))
+		return (0);
+	while (surf)
+	{
+		if (ft_strnequ(LABCONT(surf)->value, str, ft_strlen(str) - 1))
+			return (1);
+		surf = surf->next;
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:23:12 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/25 17:56:28 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/29 13:11:59 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define LINEOP 	 g_op_tab[line->opcode - 1]
 # define OPL(line)			g_op_tab[line->opcode - 1]
 # define LINECONT(lst)  ((t_line*)lst->content)
+# define LABCONT(lst)  ((t_label*)lst->content)
 # define T_ALL T_REG | T_IND | T_DIR
 # define NB_LINES				g_corewar.nb_lines
 # define CODE_LEN				g_corewar.code_len
@@ -107,5 +108,8 @@ void 							short_endian_swap(unsigned short *ptr);
 void 							free_g_line(void);
 int								super_herror(char *msg, int char_ind);
 t_list						*alloc_label(char *label);
+void 							redefine_labels(char *final_label);
+int								is_relabel(char *str);
+char 							*fetch_final_label(char *label);
 
 #endif
