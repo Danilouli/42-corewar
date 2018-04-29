@@ -79,6 +79,7 @@ int	champ_isalive(t_map *map, t_list *list, t_champ *champs)
 	ret = 0;
 	ft_bzero(score, sizeof(unsigned) * len);
 	--map->cycles;
+	++map->t_cycles;
 	if (!map->cycles)
 	{
 		while (list)
@@ -91,7 +92,7 @@ int	champ_isalive(t_map *map, t_list *list, t_champ *champs)
 			}
 			list = list->next;
 		}
-		ft_printf("OUT : %lli | ret : %i\n", map->cycles, ret);
+		ft_printf("cycles : %lli | ret : %i | lives : %i | todie : %i\n", map->t_cycles, ret, map->lives, CYCLE_TO_DIE - (CYCLE_DELTA * map->round));
 		return (ret);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 #    By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 17:18:12 by fsabatie          #+#    #+#              #
-#    Updated: 2018/04/15 22:26:43 by vlay             ###   ########.fr        #
+#    Updated: 2018/04/29 15:49:14 by fsabatie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ OBJ_PATH = ./build/
 LIB_PATH = ../
 INC_PATH = ./includes/ $(LIB_PATH)libft/includes/ $(LIB_PATH)glfw/include/
 
-GCC_FLGS = -Werror -Wextra -Wall
+GCC_FLGS = -g -Werror -Wextra -Wall #-fsanitize=address
 GCC_LIBS = -lglfw3 -framework AppKit -framework OpenGL -framework IOKit \
 			-framework OpenCL -framework CoreVideo
 

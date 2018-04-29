@@ -22,13 +22,15 @@ void	event(GLFWwindow* window, int key, int scancode, int action, \
 	r = glfwGetWindowUserPointer(window);
 	(void)scancode;
 	(void)mods;
-	if (key == GLFW_KEY_P && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+	if (key == GLFW_KEY_P && (action == GLFW_PRESS || action == GLFW_REPEAT))
 		prt_map_hex(*(r->map));
-	}
-	if (key == GLFW_KEY_A && action == GLFW_PRESS) {
+	if (key == GLFW_KEY_A && action == GLFW_PRESS)
 		r->pause = r->pause ? 0 : 1;
-		printf("Passed pause to %i\n", r->pause);
-	}
+	if (key == GLFW_KEY_R  && action == GLFW_PRESS)
+		r->skip += r->skip < 1000 ? 10 : 0;
+	if (key == GLFW_KEY_T  && action == GLFW_PRESS)
+		r->skip -= r->skip <= 1 ? 0 : 10;
+
 }
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
@@ -58,5 +60,6 @@ int	init_context(t_render *r, t_map *map)
 	if (!(r->f_shader = build_shader(FRAG_SHADER, GL_FRAGMENT_SHADER, r->v_shader->prog, TRUE)))
 		return (0);
 	r->map = map;
+	r->skip = 1;
 	return (1);
 }

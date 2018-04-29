@@ -8,7 +8,8 @@ t_process	*proccpy(t_process **process)
 		return (NULL);
 	ft_memcpy(res, *process, sizeof(t_process));
 	res->active = 0;
-	res->reg = ft_memdup((*process)->reg, REG_NUMBER * REG_SIZE);
+	if (!(res->reg = ft_memdup((*process)->reg, REG_NUMBER * REG_SIZE)))
+		return (NULL);
 	return (res);
 }
 
@@ -25,7 +26,6 @@ t_process	*createproc(t_champ *champ, char carry, char *reg)
 	proc->op = 0;
 	proc->cycles = 0;
 	proc->carry = carry;
-	proc->params = NULL;
 	proc->active = 0;
 	if (reg)
 		proc->reg = ft_memdup(reg, REG_NUMBER * REG_SIZE);

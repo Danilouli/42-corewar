@@ -1,5 +1,41 @@
 #include "corewar.h"
 
+
+void	bidir_memcpy(void *dst, void *src, int n, short where)
+{
+	unsigned char	*s;
+	unsigned char	*d;
+	unsigned int	len;
+
+	s = src;
+	d = dst;
+	len = (n < 0) ? -n : n;
+	while (len)
+	{
+		// printf("Where = %hi\n", where);
+		if (n < 0)
+			*(d++) = s[where++ % MEM_SIZE];
+		else
+			d[where++ % MEM_SIZE] = *(s++);
+		len--;
+	}
+}
+
+void	bidir_memset(void *dst, char champ_num, int n, short where)
+{
+	unsigned char	c;
+	unsigned char	*d;
+
+	c = (unsigned char)champ_num;
+	d = dst;
+	while (n)
+	{
+		d[where++ % MEM_SIZE] = c;
+		n--;
+	}
+}
+
+
 unsigned char	*translate_OCP(unsigned char OCP)
 {
 	int						i;
@@ -36,7 +72,7 @@ t_arg	*get_arg(t_map *map, t_process *process, int nbarg)
 	unsigned char	OCP;
 	unsigned char	*translation;
 	static t_arg	arg[4];
-	size_t			inc;
+	int				inc;
 
 	i = 1;
 	(void)nbarg;
@@ -52,16 +88,22 @@ t_arg	*get_arg(t_map *map, t_process *process, int nbarg)
 		ft_bzero(arg[a].arg, 4);
 		inc = 0;
 		arg[a].type = *translation;
-		if (arg[a].type == REG_CODE && map->map[i + process->ptr] < REG_NUMBER + 1)
-			ft_memcpy(arg[a].arg, &map->map[i + process->ptr], inc = 1);
-		else if (arg[a].type == DIR_CODE || process->op == 3)
-			ft_memcpy(arg[a].arg, &map->map[i + process->ptr], inc = (op_tab[process->op - 1].need_c) ? 2 : 4);
+		if (arg[a].type == REG_CODE && map->map[i + process->ptr] > 0 && map->map[i + process->ptr] < REG_NUMBER + 1)
+		{
+			// printf("map->map REG : %i\n", map->map[i + process->ptr]);
+			bidir_memcpy(arg[a].arg, map->map, inc = -T_REG, i + process->ptr);
+		}
+			// ft_memcpy(arg[a].arg, &map->map[i + process->ptr], inc = 1);
+		else if (arg[a].type == DIR_CODE || (process->op == 3 && arg[a].type == IND_CODE))
+			bidir_memcpy(arg[a].arg, map->map, inc = -((op_tab[process->op - 1].need_c) ? 2 : 4), i + process->ptr);
+			// ft_memcpy(arg[a].arg, &map->map[i + process->ptr], inc = (op_tab[process->op - 1].need_c) ? 2 : 4);
 		else if (arg[a].type == IND_CODE)
-			ft_memcpy(arg[a].arg, &map->map[i + process->ptr], inc = 2);
+			bidir_memcpy(arg[a].arg, map->map, inc = -T_DIR, i + process->ptr);
+			// ft_memcpy(arg[a].arg, &map->map[i + process->ptr], inc = 2);
 		else
 			break ;
-		arg[a++].len = inc;
-		i += inc;
+		arg[a++].len = (size_t)-inc;
+		i += (int)-inc;
 		translation++;
 	}
 	arg[a].type = 0;
@@ -85,8 +127,8 @@ unsigned	*tabarg(t_arg *arg, int *inc, t_map *map, t_process *process)
 			param[a] = (*arg[a].arg) - 1;
 		else if (arg[a].type == DIR_CODE || process->op == 3)
 		{
-			param[a] = (op_tab[process->op - 1].need_c) ? (unsigned)ft_short_endian_swap((unsigned short*)arg[a].arg) :
-			ft_endian_swap((unsigned *)arg[a].arg);
+			param[a] = (op_tab[process->op - 1].need_c) ? (short)ft_short_endian_swap((unsigned short*)arg[a].arg) :
+			(int)ft_endian_swap((unsigned *)arg[a].arg);
 			// printf("Got direct arg: %hi for op = %s\n", (short)(*(short*)(arg[a].arg)), op_tab[process->op - 1].name);
 		}
 		else if (arg[a].type == IND_CODE) {
@@ -96,7 +138,8 @@ unsigned	*tabarg(t_arg *arg, int *inc, t_map *map, t_process *process)
 				cast %= IDX_MOD;
 			cast = cast < 0 ? MEM_SIZE + cast : cast;
 			cast = cast >= MEM_SIZE ? cast - MEM_SIZE : cast;
-			ft_memcpy(&param[a], &map->map[(process->ptr + cast) % MEM_SIZE], REG_SIZE);
+			bidir_memcpy(&param[a], map->map, -REG_SIZE, process->ptr + cast);
+			// ft_memcpy(&param[a], &map->map[(process->ptr + cast) % MEM_SIZE], REG_SIZE);
 		}
 		*inc += arg[a].len;
 		a++;
@@ -109,25 +152,6 @@ unsigned	*tabarg(t_arg *arg, int *inc, t_map *map, t_process *process)
 * sinon, on copie dans la map.
 */
 
-void	*bidir_memcpy(void *dst, void *src, int n, size_t where)
-{
-	unsigned char	*s;
-	unsigned char	*d;
-	unsigned int	len;
-
-	s = src;
-	d = dst;
-	len = (n < 0) ? -n : n;
-	while (len)
-	{
-		if (n < 0)
-			*(d++) = s[where % MEM_SIZE];
-		else
-			d[where % MEM_SIZE] = *(s++);
-		len--;
-	}
-	return (dst);
-}
 
 int	live(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 {
@@ -135,7 +159,8 @@ int	live(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	unsigned		*cast;
 
 	(void)allprocess;
-	ft_memmove(tmp, &map->map[process->ptr + 1], 4);
+	// ft_memmove(tmp, &map->map[process->ptr + 1], 4);
+	bidir_memcpy(&tmp, map->map, -REG_SIZE, process->ptr + 1);
 	cast = (unsigned *)tmp;
 	ft_endian_swap(cast);
 	if (LIFECODE - *cast >= champslen(champ))
@@ -157,15 +182,8 @@ int	ld(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // R
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
 		return (op_tab[process->op - 1].nb_p - 1);
 	param = (int*)tabarg(arg, &inc, map, process);
-	if (process->op < 13)
-	{
-		if (arg[0].type == DIR_CODE)
-		{
-			// param[0] %= IDX_MOD;
-			ft_endian_swap((unsigned *)&param[0]);
-		}
-	}
-	// printf("Loaded %x in ld.\n", param[0]);
+	if (process->op < 13 && arg[0].type == DIR_CODE)
+		ft_endian_swap((unsigned *)&param[0]);
 	ft_memcpy(&process->reg[REG_SIZE * param[1]], &param[0], REG_SIZE);
 	process->carry = param[0] ? 0 : 1;
 	return (inc);
@@ -176,6 +194,7 @@ int	st(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	t_arg				*arg;
 	int					inc;
 	int					*param;
+	short				cast;
 
 	(void)champ;
 	(void)allprocess;
@@ -188,15 +207,16 @@ int	st(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	{
 		// printf("Param is a direct with:\n	ORIGINAL: %x\n", param[1]);
 		// printf("short: %hi\n", (short)param[1]);
-		short	cast = (short)param[1];
-		cast %= (short)IDX_MOD;
-		// printf("modulo short: %hi\n", (short)cast);
-		cast += process->ptr;
+		cast = (short)param[1] % (short)IDX_MOD + process->ptr;
 		cast = cast < 0 ? MEM_SIZE + cast : cast;
 		cast = cast >= MEM_SIZE ? cast - MEM_SIZE : cast;
-		// printf("	EDITED: %i\n", cast);
-		ft_memcpy(&map->map[cast], &process->reg[param[0] * REG_SIZE], REG_SIZE);
-		ft_memset(&map->c_map[cast], (int)process->champ->num + 1, REG_SIZE);
+		// printf("cast at : %i\n", cast);
+		// ft_memcpy(&map->map[cast], &process->reg[param[0] * REG_SIZE], REG_SIZE);
+		// ft_memset(&map->c_map[cast], (int)process->champ->num + 1, REG_SIZE);
+		// printf("num_reg = %i | reg = %p | cast = %hi\n", param[0], &process->reg[param[0] * REG_SIZE], cast);
+		bidir_memcpy(map->map, &process->reg[param[0] * REG_SIZE], REG_SIZE, cast);
+		// ft_memset(&map->c_map[cast], (int)process->champ->num + 1, REG_SIZE);
+		bidir_memset(map->c_map, process->champ->num + 1, REG_SIZE, cast);
 	}
 	process->carry = (short)param[0] ? 1 : 0;
 	return (inc);
@@ -337,10 +357,11 @@ int	ldi(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // 
 		param[0] = process->reg[REG_SIZE * param[0]] % ((process->op < 13) ? IDX_MOD : MEM_SIZE);
 	if (arg[1].type == T_REG)
 		param[1] = process->reg[REG_SIZE * param[1]] % ((process->op < 13) ? IDX_MOD : MEM_SIZE);
-	tmp = param[0] + param[1];
+	tmp = (param[0] + param[1]) % IDX_MOD + process->ptr;
 	tmp = tmp < 0 ? MEM_SIZE + tmp : tmp;
 	tmp = tmp >= MEM_SIZE ? tmp - MEM_SIZE : tmp;
-	ft_memcpy(&process->reg[REG_SIZE * param[2]], &map->map[tmp], REG_SIZE);
+	// ft_memcpy(&process->reg[REG_SIZE * param[2]], &map->map[tmp], REG_SIZE);
+	bidir_memcpy(&process->reg[REG_SIZE * param[2]], map->map, -REG_SIZE, tmp);
 	return (inc);
 }
 
@@ -361,13 +382,14 @@ int	sti(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // 
 		param[1] = *cast;
 	if (arg[2].type == T_REG && (cast = (int *)&process->reg[REG_SIZE * param[2]]))
 		param[2] = *cast;
-	tmp = (short)param[1] % IDX_MOD + (short)param[2] % IDX_MOD;
-	tmp += process->ptr;
+	tmp = (param[1] + param[2]) % IDX_MOD + process->ptr;
 	// printf("pos : %i - TMP = %hi avec %hi + %hi\n", process->ptr, (short)tmp, (short)param[1], (short)param[2]);
 	tmp = tmp < 0 ? MEM_SIZE + tmp : tmp;
 	tmp = tmp >= MEM_SIZE ? tmp - MEM_SIZE : tmp;
-	ft_memcpy(&map->map[tmp], &process->reg[REG_SIZE * param[0]], REG_SIZE);
-	ft_memset(&map->c_map[tmp], (int)process->champ->num + 1, REG_SIZE);
+	// ft_memcpy(&map->map[tmp], &process->reg[param[0] * REG_SIZE], REG_SIZE);
+	// ft_memset(&map->c_map[tmp], process->champ->num + 1, REG_SIZE);
+	bidir_memcpy(map->map, &process->reg[param[0] * REG_SIZE], REG_SIZE, tmp);
+	bidir_memset(map->c_map, process->champ->num + 1, REG_SIZE, tmp);
 	return (inc);
 }
 
@@ -385,6 +407,8 @@ int	cfork(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	cast = &k;
 	ft_short_endian_swap((unsigned short*)cast);
 	tmp->ptr += (*cast % IDX_MOD);
+	tmp->ptr %= MEM_SIZE;
+	tmp->ptr = tmp->ptr >= MEM_SIZE ? tmp->ptr - MEM_SIZE : tmp->ptr;
 	tmp->life--;
 	ft_lstadd(allprocess, ft_lstlink(tmp, sizeof(t_process)));
 	return (2);
@@ -404,6 +428,8 @@ int	lcfork(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	cast = &k;
 	ft_short_endian_swap((unsigned short*)cast);
 	tmp->ptr += *cast;
+	tmp->ptr %= MEM_SIZE;
+	tmp->ptr = tmp->ptr >= MEM_SIZE ? tmp->ptr - MEM_SIZE : tmp->ptr;
 	tmp->life--;
 	ft_lstadd(allprocess, ft_lstlink(tmp, sizeof(t_process)));
 	return (2);
@@ -472,13 +498,13 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		glfwSetWindowUserPointer(r->win, r);
 	}
-	while (champ_isalive(map, *allprocess, champs)
+	while ((champ_isalive(map, *allprocess, champs))
 	|| (r->win && !glfwWindowShouldClose(r->win))) // // Doit rester dans cet ordre
 	{
 		while (r->pause)
 			render(r, map);
 		tmp = *allprocess;
-		while (tmp) {
+		while (tmp && (int)(CYCLE_TO_DIE - CYCLE_DELTA * map->round) > 0) {
 			process = (t_process *)tmp->content;
 			f_ptr = process->ptr;
 			init_action(process, map);
@@ -491,9 +517,6 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 			map->p_map[f_ptr] = 0;
 			map->p_map[process->ptr] = 1;
 			tmp = tmp->next;
-			if (r->win)
-				render(r, map);
-			map->t_cycles++;
 		}
 		if (!map->cycles)
 		{
@@ -507,5 +530,7 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 				map->cycles = 0;
 			map->lives = 0;
 		}
+		if (r->win && !(map->t_cycles % r->skip))
+			render(r, map);
 	}
 }

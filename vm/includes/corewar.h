@@ -38,7 +38,6 @@ typedef struct			s_process
 	t_bool				active;
 	int					life;
 	unsigned char		op;
-	unsigned char		*params;
 	unsigned			cycles;
 	t_champ				*champ;
 	char				carry;
@@ -74,6 +73,7 @@ typedef struct			s_render
 	t_shader	*f_shader;
 	t_bool		pause;
 	t_map		*map;
+	short		skip;
 }						t_render;
 
 t_list					*option(int ac, char **av, char *opt, t_champ *champs);
