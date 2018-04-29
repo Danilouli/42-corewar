@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verificators3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 19:56:36 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 15:11:32 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/29 18:42:29 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	what_is(char *str)
 	if (is_direct(str))
 		return (2);
 	if (is_indirect(str))
-		return (3);
+		return (4);
 	return (0);
 }
 

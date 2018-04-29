@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errorers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 15:04:33 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 16:00:37 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/29 18:08:20 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 void	*super_herror(char *msg, int char_ind)
 {
 	g_d_errors->lastmsgerror = msg;
+	ft_printf("error : %s\n",msg);
 	g_d_errors->nb_lines = NB_LINES;
+	ft_printf("line : %d\n",NB_LINES);
 	g_d_errors->nb_char = char_ind;
+	ft_printf("char : %d\n",char_ind);
 	g_d_errors->nberror++;
 	return (0);
 }

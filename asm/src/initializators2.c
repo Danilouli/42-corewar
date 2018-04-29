@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializators2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 20:42:21 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 16:01:51 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/29 19:15:24 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,15 @@ char *reinit_direct(char **dir, int addrnb, int addrline)
 	int i;
 
 	i = -1;
-	ft_printf("dir %s, addrnb %d, addrline %d\n", *dir, addrnb, addrline);
 	if (addrnb == -2)
-	{
 		addrnb = CODE_LEN - addrline;
-		ft_printf("CODE_LEN %d, ADDRNB %d\n", CODE_LEN, addrnb);
-	}
 	else if (addrnb < addrline)
 		addrnb = 65536 - (addrline - addrnb);
 	else
 		addrnb = addrnb - addrline;
 	addrstr = ft_itoa(addrnb);
 	if (!(*dir = (char*)malloc(ft_strlen(addrstr) + 2)))
-		return (super_herror("malloc error\n", 0));
+		return (super_herror("malloc error", 0));
 	(*dir)[0] = '%';
 	while (++i < (int)ft_strlen(addrstr))
 		(*dir)[i + 1] = addrstr[i];
@@ -45,17 +41,14 @@ char *reinit_indirect(char **ind, int addrnb, int addrline)
 
 	i = -1;
 	if (addrnb == -2)
-	{
 		addrnb = CODE_LEN - addrline;
-		ft_printf("CODE_LEN %d, ADDRNB %d\n", CODE_LEN, addrnb);
-	}
 	else if (addrnb < addrline)
 		addrnb = 65536 - (addrline - addrnb);
 	else
 		addrnb = addrnb - addrline;
 	addrstr = ft_itoa(addrnb);
 	if (!(*ind = (char*)malloc(ft_strlen(addrstr) + 1)))
-		return (super_herror("malloc error\n", 0));
+		return (super_herror("malloc error", 0));
 	while (++i < (int)ft_strlen(addrstr))
 		(*ind)[i] = addrstr[i];
 	(*ind)[i] = 0;
@@ -71,12 +64,15 @@ int init_len_code(void)
 	surf = g_lines;
 	while (surf->next)
 		surf = surf->next;
-	CODE_LEN = LINECONT(surf)->len_tot;
+	if (surf->content_size == 2)
+		CODE_LEN = LINECONT(surf)->len_tot;
+	else
+		CODE_LEN = 0;
 	cl = CODE_LEN;
 	surf = g_lines;
 	surf = g_lines->next;
 	if (!(new = (t_list*)malloc(sizeof(t_list))))
-		return ((int)super_herror("malloc error\n", 0));
+		return ((int)super_herror("malloc error", 0));
 	new->content = &cl;
 	new->content_size = 4;
 	new->next = surf->next;
@@ -100,7 +96,7 @@ t_list	*alloc_line(char **spl, char *label, int nbp, char *l)
 
 	if (!(ln = (t_line*)malloc(sizeof(t_line)))
 	|| (!(nw = (t_list*)malloc(sizeof(t_list))) && ft_memdelbool((void**)&ln)))
-		return (super_herror("malloc error\n", 0));
+		return (super_herror("malloc error", 0));
 	if (label)
 		LASTC(label) = 0;
 	ln->label = label;
@@ -118,7 +114,7 @@ t_list	*alloc_line(char **spl, char *label, int nbp, char *l)
 	nw->content = ln;
 	nw->content_size = 2;
 	if (ln->nb_params && !check_params(ln))
-		return (super_herror("parametre non valide\n", 42));
+		return (super_herror("parametre non valide", 42));
 	calc_len(ln);
 	return (nw);
 }
