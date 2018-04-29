@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:34:45 by acouturi          #+#    #+#             */
-/*   Updated: 2018/04/24 17:57:35 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/04/29 16:01:30 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char		*is_onlyspace(char *str)
 	return (tmp + 1);
 }
 
-char		*have_truc(int fd, t_error *error, char *truc)
+char		*have_truc(int fd, char *truc)
 {
 	char	*ret;
 	char	*tmp;
@@ -49,19 +49,19 @@ char		*have_truc(int fd, t_error *error, char *truc)
 	tmp = NULL;
 	while (tmp == NULL && ++NB_LINES)
 	{
-		if (get_next_line(fd, &tmp) != 1 && add_error(error, "fichier vide") == 1)
-			return(NULL);
+		if (get_next_line(fd, &tmp) != 1)
+			return(super_herror("fichier vide\n", 0));
 		tmp = testempty(tmp);
 	}
 	NB_LINES--;
-	if ((ft_strncmp(truc, tmp, ft_strlen(truc))) && add_error(error, "fichier non valide") == 0)
-		return (NULL);
+	if ((ft_strncmp(truc, tmp, ft_strlen(truc))))
+		return (super_herror("fichier non valide\n", 0));
 	ret = is_onlyspace(ft_strdup(&tmp[ft_strlen(truc)]));
 	i = (((int)destroy(&tmp) & NB_LINES++)) & 0;
 	while (ft_strcount(ret, '"') != 1)
 	{
-		if ((ft_strcount(ret, '"') > 1 && add_error(error, "fichier non valide") == 0)
-		|| (get_next_line(fd, &tmp) != 1 && add_error(error, "probleme lecture") == 0))
+		if ((ft_strcount(ret, '"') > 1 && super_herror("fichier non valide\n", 0) == 0)
+		|| (get_next_line(fd, &tmp) != 1 && super_herror("probleme lecture\n", 0) == 0))
 			return (NULL);
 		ret = ft_strjoinfree(ret, "\n");
 		ret = ft_strjoinfree(ret, tmp);
@@ -71,44 +71,44 @@ char		*have_truc(int fd, t_error *error, char *truc)
 	tmp[0] = 0;
 	i = 0;
 	while ((++i) >= 0 && tmp[i] && tmp[i] != '#')
-		if (tmp[i] != ' ' && tmp[i] != '\n' && add_error(error, "fichier non valide") == 0)
-			return (NULL);
+		if (tmp[i] != ' ' && tmp[i] != '\n')
+			return (super_herror("fichier non valide\n", 0));
 	return (ret);
 }
 
-int				have_header(int fd, t_error *error)
+int				have_header(int fd)
 {
 	t_list	*lst;
 	t_list	*new;
 	int		*magic;
 
 	if (!(magic = (int*)malloc(sizeof(int))))
-		return (add_error(error, "mallocerror"));
+		return ((int)super_herror("malloc error\n", 0));
 	*magic = COREWAR_EXEC_MAGIC;
 	if (!(g_lines = (t_list *)malloc(sizeof(t_list))))
-		return (add_error(error, "mallocerror"));
+		return ((int)super_herror("malloc error\n", 0));
 	lst = g_lines;
 	lst->content_size = 3;
 	lst->next = 0;
 	lst->content = magic;
 	NB_LINES = 1;
 	if (!(new = (t_list *)malloc(sizeof(t_list))))
-		return (add_error(error, "mallocerror"));
+		return ((int)super_herror("malloc error\n", 0));
 	lst->next = new;
 	lst = new;
 	lst->content_size = 1;
 	lst->next = 0;
-	lst->content = have_truc(fd, error, NAME_CMD_STRING);
-	if (error->nberror > 0)
+	lst->content = have_truc(fd, NAME_CMD_STRING);
+	if (g_d_errors->nberror > 0)
 		return (0);
 	if (!(new = (t_list *)malloc(sizeof(t_list))))
-		return (add_error(error, "mallocerror"));
+		return ((int)super_herror("malloc error\n", 0));
 	lst->next = new;
 	lst = new;
 	lst->content_size = 1;
 	lst->next = 0;
-	lst->content = have_truc(fd, error, COMMENT_CMD_STRING);
-	if (error->nberror > 0)
+	lst->content = have_truc(fd, COMMENT_CMD_STRING);
+	if (g_d_errors->nberror > 0)
 		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:49:01 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 13:16:58 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/29 16:02:28 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int change_line_if_needed(char **l)
 	if (!(*l)[i])
 		return (1);
 	if (!(new = (char*)malloc(ft_strlen(*l) + 2)))
-		return (0);
+		return ((int)super_herror("malloc error\n", 0));
 	while (++j < i)
 		new[j] = (*l)[j];
 	new[j] = ' ';
@@ -54,7 +54,7 @@ static int change_line_if_needed(char **l)
 	return (1);
 }
 
-int read_code_helper(char **spl, int nbp, t_list **new)
+int read_code_helper(char **spl, int nbp, t_list **new, char *l)
 {
 	t_list	*newla = NULL;
 
@@ -66,11 +66,11 @@ int read_code_helper(char **spl, int nbp, t_list **new)
 			g_labels = newla;
 		else
 			ft_lstpushback(g_labels, newla);
-		if ((nbp > 1 && !is_op_name(spl[1]))) //|| (super_herror("OPCODE NUL\n",58)))
-			return (0);
+		if ((nbp > 1 && !is_op_name(spl[1])))
+			return ((int)super_herror("OPCODE invalide\n", 42));
 		if (nbp > 1)
 		{
-			if (!(*new = alloc_line(spl, spl[0], nbp)))
+			if (!(*new = alloc_line(spl, spl[0], nbp, l)))
 				return (0);
 			ft_lstpushback(g_lines, *new);
 		}
@@ -79,12 +79,12 @@ int read_code_helper(char **spl, int nbp, t_list **new)
 	}
 	else if (!is_label(spl[0]) && is_op_name(spl[0]))
 	{
-		if (!is_op_name(spl[0]) || !(*new = alloc_line(spl, 0, nbp)))
-			return (0);
+		if (!is_op_name(spl[0]) || !(*new = alloc_line(spl, 0, nbp, l)))
+			return ((int)super_herror("OPCODE invalide\n", 0));
 		ft_lstpushback(g_lines, *new);
 	}
 	else
-		return (0);
+		return ((int)super_herror("OPCODE invalide\n", 0));
 	return (1);
 }
 
@@ -98,9 +98,7 @@ int	read_code(char *l)
 	init_g_seps();
 	change_line_if_needed(&l);
 	spl = ft_strsplit_mult(l, g_seps, &nbp);
-	if (!nbp)// || (spl[0] && is_relabel(spl[0])))
+	if (!nbp)
 		return (1);
-	if (!read_code_helper(spl, nbp, &new))
-		return (0);
-	return (1);
+	return (read_code_helper(spl, nbp, &new, l));
 }

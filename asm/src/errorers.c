@@ -3,23 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   errorers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 15:04:33 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/24 18:12:06 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/04/29 16:00:37 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/asm.h"
 
-int		add_error(t_error *str_err, char *msg)
-{
-	str_err->lastmsgerror = msg;
-	str_err->nberror++;
-	return (0);
-}
-
-int		super_herror(char *msg, int char_ind)
+void	*super_herror(char *msg, int char_ind)
 {
 	g_d_errors->lastmsgerror = msg;
 	g_d_errors->nb_lines = NB_LINES;
