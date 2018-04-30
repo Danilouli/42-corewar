@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:18:47 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/30 20:21:28 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/30 20:41:24 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ the code to the standard output");
 			comment[0] = 0;
 		if (!read_code(l))
 			break ;
+		// ft_strdel(&l);
 	}
+	// ft_memdel((void**)&l);
 	if (g_nberror >= 1)
 		return (1);
 	if (!init_len_code())
@@ -106,7 +108,7 @@ int	main(int ac, char **av)
 {
 	main2(ac, av);
 	ft_printf("end\n");
-	while (42 == 0)
+	while (42)
 		;
 	return (0);
 }

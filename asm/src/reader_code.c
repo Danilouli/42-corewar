@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:49:01 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/30 20:21:38 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/30 20:48:47 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ static int add_space_at(char **l, int i)
 	j = i;
 	if (!(new = ft_strnew(ft_strlen(*l) + 1)))
 		return ((int)super_herror("malloc error", 0));
-	new = ft_strncpy(new, *l, i);
+	ft_strncpy(new, *l, i);
 	new[i] = ' ';
 	while (j < ft_strlen(*l))
 	{
 		new[j + 1] = (*l)[j];
 		j++;
 	}
+	ft_strdel(l);
 	*l = new;
 	return (1);
 }

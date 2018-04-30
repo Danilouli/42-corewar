@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+         #
+#    By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 17:18:12 by fsabatie          #+#    #+#              #
-#    Updated: 2018/04/29 16:32:57 by acouturi         ###   ########.fr        #
+#    Updated: 2018/04/30 20:50:55 by dsaadia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ LIB = $(addprefix $(LIB_PATH)/,$(LIB_NAME))
 # Compilation flags
 
 CC = gcc
-CPPFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CPPFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 
 # Defining rules
 
