@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   writer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 22:30:32 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/19 15:26:41 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/30 17:16:31 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int			create_open_cor(char *spath, int fds)
 
 	sname = 0;
 	(void)fds;
-  sname = (ft_strchr(spath, '/')) ? ft_strchr(sname, '/') : spath;
+  sname = spath;
   corname = ft_strnew(ft_strlen(sname) + 2);
 	corname = ft_strcpy(corname, sname);
   len = ft_strlen(corname) + 2;

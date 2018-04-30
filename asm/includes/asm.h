@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:23:12 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 16:00:50 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/30 16:55:33 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ t_list	*g_lines;
 
 t_list	*g_labels;
 
-t_op		*g_op_tab;
+t_op	*g_op_tab;
 
-t_error	*g_d_errors;
+int		g_nberror;
 
 int								read_code(char *l);
 void 							init_g_seps(void);
@@ -87,7 +87,7 @@ int								check_params(t_line *line);
 char							*destroy(char **del);
 int								have_header(int fd);
 void							calc_len(t_line *line);
-t_error							*init_g_d_errors(void);
+//t_error							*init_g_d_errors(void);
 char 							*reinit_direct(char **dir, int addrnb, int addrline);
 char 							*reinit_indirect(char **ind, int addrnb, int addrline);
 int								is_real_code(void);
