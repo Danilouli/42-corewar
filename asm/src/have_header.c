@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:34:45 by acouturi          #+#    #+#             */
-/*   Updated: 2018/04/29 19:09:40 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/04/30 20:22:19 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,23 @@ char		*testempty(char *tmp)
 char		*is_onlyspace(char *str)
 {
 	char	*tmp;
+	int		i;
 
+	i = 0;
 	if ((tmp = ft_strchr(str, '"')) == 0)
 		return (0);
-	while (str != tmp)
+	while (str[i] != *tmp)
 	{
-		if (*str != ' ' && *str != '\t')
+		if (str[i] != ' ' && *str != '\t')
+		{
+			ft_strdel(&str);
 			return (0);
-		str++;
+		}
+		i++;
 	}
-	return (tmp + 1);
+	tmp = ft_strdup(tmp + 1);
+	ft_strdel(&str);
+	return (tmp);
 }
 
 char		*have_truc(int fd, char *truc)
@@ -50,24 +57,30 @@ char		*have_truc(int fd, char *truc)
 	while (tmp == NULL && ++NB_LINES)
 	{
 		if (get_next_line(fd, &tmp) != 1)
-		{
 			return(super_herror("fichier vide", 0));
-		}
 		tmp = testempty(tmp);
 	}
 	NB_LINES--;
 	if ((ft_strncmp(truc, tmp, ft_strlen(truc))))
+	{
+		ft_strdel(&tmp);
 		return (super_herror("fichier non valide", 0));
+	}
 	if ((ret = is_onlyspace(ft_strdup(&tmp[ft_strlen(truc)]))) == 0)
+	{
+		ft_strdel(&tmp);
 		return (super_herror("pas de caractere : \"", ft_strlen(truc)));
+	}
+	// ft_printf("%p\n", tmp);
 	i = (((int)destroy(&tmp) & NB_LINES++)) & 0;
+	// ft_printf("%p\n", ret);
 	while (ft_strcount(ret, '"') != 1)
 	{
 		if ((ft_strcount(ret, '"') > 1 && super_herror("fichier non valide", 0) == 0)
 		|| (get_next_line(fd, &tmp) != 1 && super_herror("probleme lecture", 0) == 0))
 			return (NULL);
-		ret = ft_strjoin(ret, "\n");			//mettre joinfree
-		ret = ft_strjoin(ret, tmp);				//idem
+		ret = ft_strjoinfree(ret, "\n");			//mettre joinfree
+		ret = ft_strjoinfree(ret, tmp);				//idem
 		i = ((int)destroy(&tmp) & NB_LINES++) & 0;
 	}
 	tmp = ft_strchr(ret, '"');

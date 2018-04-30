@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:18:47 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/30 20:08:32 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/30 20:21:28 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ the code to the standard output");
 		return (1);
 	i = 0;
 	t_list *keep = g_lines;
-	while (g_labels)
-	{
-		ft_printf("VAL %s\n", LABCONT(g_labels)->value);
-		ft_printf("REAL %s\n", LABCONT(g_labels)->real_label);
-		g_labels = g_labels->next;
-	}
+	// while (g_labels)
+	// {
+		// ft_printf("VAL %s\n", LABCONT(g_labels)->value);
+		// ft_printf("REAL %s\n", LABCONT(g_labels)->real_label);
+		// g_labels = g_labels->next;
+	// }
 	while (g_lines)
 	{
 		if (g_lines->content_size == 4)
@@ -97,7 +97,7 @@ the code to the standard output");
 		g_lines = g_lines->next;
 	}
 	g_lines = keep;
-	// free_g_line();
+	free_g_line();
 	ft_printf("champion créé\n");
 	return (0);
 }
@@ -106,7 +106,7 @@ int	main(int ac, char **av)
 {
 	main2(ac, av);
 	ft_printf("end\n");
-	while (0)
+	while (42 == 0)
 		;
 	return (0);
 }

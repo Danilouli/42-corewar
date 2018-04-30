@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:11:11 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 13:31:18 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/30 20:20:54 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int is_real_code_helper(t_list *s)
 		{
 			if ((addr = is_real_label(label)) == -1)
 				return (0);
+			ft_memdel((void**)&LINECONT(s)->param[i]);
 			LINECONT(s)->param[i] = reinit_direct(&pstr, addr, LINECONT(s)->addr);
 		}
 		else if (is_indirect(pstr) && (label = is_label_ind(pstr)))

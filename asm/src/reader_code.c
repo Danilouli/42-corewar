@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:49:01 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/30 20:13:52 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/30 20:21:38 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,9 @@ int	read_code(char *l)
 
 	new = NULL;
 	init_g_seps();
-	ft_printf("AVANT %s\n",l);
+	// ft_printf("AVANT %s\n",l);
 	change_line_if_needed(&l);
-	ft_printf("APRES %s\n",l);
+	// ft_printf("APRES %s\n",l);
 	spl = ft_strsplit_mult(l, g_seps, &nbp);
 	if (!nbp)
 		return (1);
