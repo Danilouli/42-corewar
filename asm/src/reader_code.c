@@ -6,24 +6,29 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:49:01 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/30 17:51:14 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/04/30 20:13:52 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/asm.h"
 
-static int change_line_if_needed_help(char **l, int *i)
+static int add_space_at(char **l, int i)
 {
-	while ((*l)[*i])
+	char *new;
+	size_t j;
+
+	j = i;
+	if (!(new = ft_strnew(ft_strlen(*l) + 1)))
+		return ((int)super_herror("malloc error", 0));
+	new = ft_strncpy(new, *l, i);
+	new[i] = ' ';
+	while (j < ft_strlen(*l))
 	{
-		if ((*l)[*i] == ' ' || (*l)[*i] == '\t')
-			return (1);
-		if (((*l)[*i] == DIRECT_CHAR || (*l)[*i] == LABEL_CHAR )
-		&& (*l)[*i + 1] && (*l)[*i + 1] != ' ' && (*l)[*i + 1] != '\t')
-			return (0);
-		(*i)++;
+		new[j + 1] = (*l)[j];
+		j++;
 	}
-	return (0);
+	*l = new;
+	return (1);
 }
 
 static int change_line_if_needed(char **l)
@@ -31,26 +36,27 @@ static int change_line_if_needed(char **l)
 	int 	i;
 	char	*new;
 	int		j;
+	int		labpassed;
 
 	i = 0;
 	new = 0;
 	j = -1;
-	while ((*l)[i] == ' ' || (*l)[i] == '\t')
+	labpassed = 0;
+	while ((*l)[i])
+	{
+		if ((*l)[i] && (((*l)[i] == DIRECT_CHAR && i > 0
+		&& (*l)[i - 1] != SEPARATOR_CHAR && !ISSPTB((*l)[i - 1]))
+		|| ((*l)[i] == LABEL_CHAR && (*l)[i + 1] && !ISSPTB((*l)[i + 1])
+		&& i > 0 && (*l)[i - 1] != DIRECT_CHAR
+		&& (*l)[i - 1] != SEPARATOR_CHAR && !ISSPTB((*l)[i - 1]) && !labpassed)))
+		{
+			if (!add_space_at(l, i + ((*l)[i] == LABEL_CHAR)))
+				return ((int)super_herror("malloc error\n", 0));
+		}
+		if ((*l)[i] == LABEL_CHAR)
+			labpassed = 1;
 		i++;
-	if (change_line_if_needed_help(l, &i))
-		return (1);
-	if (!(*l)[i])
-		return (1);
-	if (!(new = (char*)malloc(ft_strlen(*l) + 2)))
-		return ((int)super_herror("malloc error\n", 0));
-	while (++j < i)
-		new[j] = (*l)[j];
-	new[j] = ' ';
-	new[j + 1] = 0;
-	ft_strcpy(&(new[j + 1]), &((*l)[i]));
-	ft_strdel(l);
-	*l = ft_strdup(new);
-	ft_strdel(&new);
+	}
 	return (1);
 }
 
@@ -96,7 +102,9 @@ int	read_code(char *l)
 
 	new = NULL;
 	init_g_seps();
+	ft_printf("AVANT %s\n",l);
 	change_line_if_needed(&l);
+	ft_printf("APRES %s\n",l);
 	spl = ft_strsplit_mult(l, g_seps, &nbp);
 	if (!nbp)
 		return (1);

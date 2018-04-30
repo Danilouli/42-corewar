@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:23:12 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/30 16:55:33 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/04/30 18:46:06 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../../libft/includes/libft.h"
 # include "./op.h"
 
+# define ISSPTB(c) (c == ' ' || c == '\t')
 # define LASTC(str) str[ft_strlen(str) - 1]
 # define LINEOP 	 g_op_tab[line->opcode - 1]
 # define OPL(line)			g_op_tab[line->opcode - 1]
