@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializators2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 20:42:21 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 19:15:24 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/04/30 17:51:23 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,18 +97,20 @@ t_list	*alloc_line(char **spl, char *label, int nbp, char *l)
 	if (!(ln = (t_line*)malloc(sizeof(t_line)))
 	|| (!(nw = (t_list*)malloc(sizeof(t_list))) && ft_memdelbool((void**)&ln)))
 		return (super_herror("malloc error", 0));
-	if (label)
-		LASTC(label) = 0;
 	ln->label = label;
 	ln->line = l;
 	ln->opcode = (nbp > 1) ? fetch_opcode((label) ? spl[1] : spl[0]) : 0;
 	alloc_line_zeros(&ln);
 	if (nbp > 1)
 	{
+		ft_printf("preredef %s\n",LAST_LABEL);
 		ln->nb_params = (label) ? nbp - 2 : nbp - 1;
 		ln->param = (label) ? &(spl[2]) : &(spl[1]);
 		if (LAST_LABEL)
+		{
+			ft_printf("redef %s\n",LAST_LABEL);
 			redefine_labels(LAST_LABEL);
+		}
 	}
 	nw->next = NULL;
 	nw->content = ln;

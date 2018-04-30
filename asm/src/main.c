@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:18:47 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/30 16:56:06 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/04/30 17:34:19 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ the code to the standard output");
 	t_list *keep = g_lines;
 	while (g_labels)
 	{
+		ft_printf("VAL %s\n", LABCONT(g_labels)->value);
+		ft_printf("REAL %s\n", LABCONT(g_labels)->real_label);
 		g_labels = g_labels->next;
 	}
 	while (g_lines)
@@ -104,7 +106,7 @@ int	main(int ac, char **av)
 {
 	main2(ac, av);
 	ft_printf("end\n");
-	while (42)
+	while (0)
 		;
 	return (0);
 }

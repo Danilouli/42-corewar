@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verificators3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 19:56:36 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 18:42:29 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/04/30 17:32:24 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ int is_real_label(char *str)
 
 	j = 0;
 	surf = g_lines;
+	ft_printf("str : %s\n",str);
 	final_label = fetch_final_label(str);
+	ft_printf("final_label : %s\n",final_label);
 	if (!final_label)
 		return (-2);
 	while (surf)

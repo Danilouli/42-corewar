@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader_code.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:49:01 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 16:25:33 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/04/30 17:51:14 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int read_code_helper(char **spl, int nbp, t_list **new, char *l)
 
 	if (is_label(spl[0]))
 	{
+		LASTC(spl[0]) = 0;
+		LAST_LABEL = spl[0];
 		if (!(newla = alloc_label(spl[0])))
 			return (0);
 		if (!g_labels)
@@ -74,8 +76,6 @@ int read_code_helper(char **spl, int nbp, t_list **new, char *l)
 				return (0);
 			ft_lstpushback(g_lines, *new);
 		}
-		else if(!(LASTC(spl[0]) = 0))
-			LAST_LABEL = spl[0];
 	}
 	else if (!is_label(spl[0]) && is_op_name(spl[0]))
 	{
