@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:18:47 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 18:28:20 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 18:54:03 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,12 @@ int	main2(int ac, char **av)
 	char	*l;
 	char	*comment;
 	int title;
-	int j;
 
 	title = 1;
 	g_nberror = 0;
 	g_corewar = init_g_corewar();
 	g_labels = NULL;
 	i = 1;
-	j = 6;
 	if (ac <= 1)
 	{
 		ft_printf("Usage: ./asm [-a] <sourcefile.s>\n	-a : Instead of creating a \
@@ -43,19 +41,13 @@ the code to the standard output");
 		return (1);
 	while (get_next_line(fd, &l) == 1 && ((NB_LINES++) >= 0))
 	{
-		ft_printf("LASTLINE -> %p <-> %s <-\n", l, l);
 		if ((comment =  ft_strchr(l, COMMENT_CHAR)))
 			comment[0] = 0;
 		else if ((comment =  ft_strchr(l, ';')))
 			comment[0] = 0;
 		if (!read_code(l))
 			break ;
-		// while (j == 0);
-		j--;
-		// ft_strdel(&l);
-		ft_printf("LABLAST -> %p <-\n", LAST_LABEL);
 	}
-	// ft_memdel((void**)&l);
 	if (g_nberror >= 1)
 		return (1);
 	if (!init_len_code())
@@ -66,12 +58,6 @@ the code to the standard output");
 		return (1);
 	i = 0;
 	t_list *keep = g_lines;
-	// while (g_labels)
-	// {
-		// ft_printf("VAL %s\n", LABCONT(g_labels)->value);
-		// ft_printf("REAL %s\n", LABCONT(g_labels)->real_label);
-		// g_labels = g_labels->next;
-	// }
 	while (g_lines)
 	{
 		if (g_lines->content_size == 4)

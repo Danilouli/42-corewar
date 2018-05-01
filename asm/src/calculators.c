@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 15:53:02 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 17:59:14 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 18:51:14 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	calc_len(t_line *line)
 	if (!(line->opcode))
 	{
 		LAST_LABEL = line->label;
-		ft_printf("lastlab %s\n", LAST_LABEL);
 		return ;
 	}
 	if (LAST_LABEL)

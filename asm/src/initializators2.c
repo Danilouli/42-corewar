@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 20:42:21 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 17:02:28 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 18:53:20 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char *reinit_direct(char **dir, int addrnb, int addrline)
 	addrstr = ft_itoa(addrnb);
 	if (!(*dir = (char*)malloc(ft_strlen(addrstr) + 2)))
 		return (super_herror("malloc error", 0));
-	ft_printf("reinit_direct %p\n",*dir);
 	(*dir)[0] = '%';
 	while (++i < (int)ft_strlen(addrstr))
 		(*dir)[i + 1] = addrstr[i];
@@ -51,7 +50,6 @@ char *reinit_indirect(char **ind, int addrnb, int addrline)
 	addrstr = ft_itoa(addrnb);
 	if (!(*ind = (char*)malloc(ft_strlen(addrstr) + 1)))
 		return (super_herror("malloc error", 0));
-	ft_printf("reinit_indirect %p\n",*ind);
 	while (++i < (int)ft_strlen(addrstr))
 		(*ind)[i] = addrstr[i];
 	ft_memdel((void**)&addrstr);
@@ -77,7 +75,6 @@ int init_len_code(void)
 	surf = g_lines->next;
 	if (!(new = (t_list*)malloc(sizeof(t_list))))
 		return ((int)super_herror("malloc error", 0));
-	ft_printf("init_len_code %p\n",new);
 	new->content = &cl;
 	new->content_size = 4;
 	new->next = surf->next;
@@ -102,8 +99,6 @@ t_list	*alloc_line(char **spl, char *label, int nbp, char *l)
 	if (!(ln = (t_line*)malloc(sizeof(t_line)))
 	|| (!(nw = (t_list*)malloc(sizeof(t_list))) && ft_memdelbool((void**)&ln)))
 		return (super_herror("malloc error", 0));
-	ft_printf("alloc_line %p\n",ln);
-	ft_printf("alloc_line %p\n",nw);
 	ln->label = label;
 	ln->line = l;
 	ln->opcode = (nbp > 1) ? fetch_opcode((label) ? spl[1] : spl[0]) : 0;
