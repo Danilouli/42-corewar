@@ -6,7 +6,7 @@
 #    By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 17:18:12 by fsabatie          #+#    #+#              #
-#    Updated: 2018/04/18 14:10:43 by acouturi         ###   ########.fr        #
+#    Updated: 2018/05/01 19:04:20 by acouturi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,9 +40,8 @@ all: lib dasm asm vm
 lib:
 	@make -C $(LIB_PATH)
 
-dasm: lib
+dasm:
 	@make -C $(DASM_PATH)
-	@mv ./ddasm/dasm .
 
 asm:
 	@make -C $(ASM_PATH)
@@ -61,7 +60,6 @@ fclean:
 	@make fclean -C $(LIB_PATH)
 	@make fclean -C $(ASM_PATH)
 	@make fclean -C $(VM_PATH)
-	@rm dasm
 
 re: fclean all
 

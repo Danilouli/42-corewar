@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   initializators2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 20:42:21 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/30 18:40:50 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 22:57:00 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/asm.h"
 
-char *reinit_direct(char **dir, int addrnb, int addrline)
+char		*reinit_direct(char **dir, int addrnb, int addrline)
 {
-	char *addrstr;
-	int i;
+	char	*addrstr;
+	int		i;
 
 	i = -1;
 	if (addrnb == -2)
@@ -30,14 +30,15 @@ char *reinit_direct(char **dir, int addrnb, int addrline)
 	(*dir)[0] = '%';
 	while (++i < (int)ft_strlen(addrstr))
 		(*dir)[i + 1] = addrstr[i];
+	ft_memdel((void**)&addrstr);
 	(*dir)[i + 1] = 0;
 	return (*dir);
 }
 
-char *reinit_indirect(char **ind, int addrnb, int addrline)
+char		*reinit_indirect(char **ind, int addrnb, int addrline)
 {
-	char *addrstr;
-	int i;
+	char	*addrstr;
+	int		i;
 
 	i = -1;
 	if (addrnb == -2)
@@ -51,15 +52,16 @@ char *reinit_indirect(char **ind, int addrnb, int addrline)
 		return (super_herror("malloc error", 0));
 	while (++i < (int)ft_strlen(addrstr))
 		(*ind)[i] = addrstr[i];
+	ft_memdel((void**)&addrstr);
 	(*ind)[i] = 0;
 	return (*ind);
 }
 
-int init_len_code(void)
+int			init_len_code(void)
 {
 	t_list	*surf;
 	t_list	*new;
-	int			cl;
+	int		cl;
 
 	surf = g_lines;
 	while (surf->next)
@@ -80,7 +82,7 @@ int init_len_code(void)
 	return (1);
 }
 
-static void alloc_line_zeros(t_line **ln)
+static void	alloc_line_zeros(t_line **ln)
 {
 	(*ln)->len = 0;
 	(*ln)->len_tot = 0;
@@ -89,7 +91,7 @@ static void alloc_line_zeros(t_line **ln)
 	(*ln)->param = NULL;
 }
 
-t_list	*alloc_line(char **spl, char *label, int nbp, char *l)
+t_list		*alloc_line(char **spl, char *label, int nbp, char *l)
 {
 	t_line *ln;
 	t_list *nw;
@@ -99,7 +101,8 @@ t_list	*alloc_line(char **spl, char *label, int nbp, char *l)
 		return (super_herror("malloc error", 0));
 	ln->label = label;
 	ln->line = l;
-	ln->opcode = (nbp > 1) ? fetch_opcode((label) ? spl[1] : spl[0]) : 0;
+	if (!(ln->opcode = 0) && nbp > 1)
+		ln->opcode = fetch_opcode((label) ? spl[1] : spl[0]);
 	alloc_line_zeros(&ln);
 	if (nbp > 1)
 	{

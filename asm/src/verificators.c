@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 16:03:39 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 19:10:34 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 22:35:28 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	is_op_name(char *str)
 	return (0);
 }
 
-int check_param(t_line *line, int i)
+int	check_param(t_line *line, int i)
 {
 	int		par;
 	int		comp;

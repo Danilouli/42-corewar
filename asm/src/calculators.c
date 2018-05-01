@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   calculators.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 15:53:02 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/17 21:33:42 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 22:56:04 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/asm.h"
 
-static void helper_len(t_line *line, int *len_tot)
+static void	helper_len(t_line *line, int *len_tot)
 {
 	int i;
 
@@ -34,7 +34,7 @@ static void helper_len(t_line *line, int *len_tot)
 	line->addr = line->len_tot - line->len;
 }
 
-void	calc_len(t_line *line)
+void		calc_len(t_line *line)
 {
 	static int len_tot = 0;
 
@@ -51,30 +51,30 @@ void	calc_len(t_line *line)
 	helper_len(line, &len_tot);
 }
 
-void endian_swap(unsigned int *ptr)
+void		endian_swap(unsigned int *ptr)
 {
-	unsigned int 		tmp;
+	unsigned int	tmp;
 
 	tmp = *ptr;
-	*ptr = ((tmp>>24) & 0xff) | ((tmp<<8) & 0xff0000) | ((tmp>>8) & 0xff00)
-	| ((tmp<<24) & 0xff000000);
+	*ptr = ((tmp >> 24) & 0xff) | ((tmp << 8) & 0xff0000) |
+	((tmp >> 8) & 0xff00) | ((tmp << 24) & 0xff000000);
 }
 
-void short_endian_swap(unsigned short *ptr)
+void		short_endian_swap(unsigned short *ptr)
 {
 	unsigned short		tmp;
 
 	tmp = *ptr;
-	*ptr = (tmp>>8) | (tmp<<8);
+	*ptr = (tmp >> 8) | (tmp << 8);
 }
 
-int create_ocp(t_line *line)
+int			create_ocp(t_line *line)
 {
-	int i;
+	int			i;
 	static int	regcode = REG_CODE;
 	static int	dircode = DIR_CODE;
 	static int	indcode = IND_CODE;
-	int	ret;
+	int			ret;
 
 	i = 0;
 	ret = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verificators2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 19:31:57 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/07 19:51:21 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 22:40:28 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	is_cor_label(char *str)
 	return (1);
 }
 
-int	is_direct(char *str)
+int			is_direct(char *str)
 {
 	if (str[0] != DIRECT_CHAR)
 		return (0);
@@ -51,7 +51,7 @@ int	is_direct(char *str)
 	return (1);
 }
 
-int is_reg(char *str)
+int			is_reg(char *str)
 {
 	int regn;
 
@@ -63,7 +63,7 @@ int is_reg(char *str)
 	return (0);
 }
 
-int	is_indirect(char *str)
+int			is_indirect(char *str)
 {
 	if (!is_cor_label(str) && !is_cor_strnum(str))
 		return (0);

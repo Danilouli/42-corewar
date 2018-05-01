@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   freers.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:33:03 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/30 20:41:17 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 22:53:29 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/asm.h"
 
-void free_g_line(void)
+static void	free_g_labels(void)
 {
 	t_list	*lst;
 	t_list	*tmp;
@@ -22,42 +22,45 @@ void free_g_line(void)
 	lst = g_labels;
 	while (lst != NULL)
 	{
-		//ft_printf("%p\n", ((t_label *)lst->content)->value);
 		tmp = lst->next;
 		ft_memdel((void**)&((t_label *)lst->content)->value);
+		ft_memdel((void**)&((t_label *)lst->content)->spl);
 		ft_memdel(&lst->content);
 		ft_memdel((void**)&lst);
 		lst = tmp;
 	}
 	g_labels = NULL;
-	//ft_printf("%p\n", lst);
+}
+
+static void	free_g_lines(void)
+{
+	t_list	*lst;
+	t_list	*tmp;
+	int		i;
+
 	lst = g_lines;
-	//*
-	while(lst != NULL)
+	while (lst != NULL)
 	{
-		//ft_printf("%p %d %p\n", lst, lst->content_size, lst->content);
 		if (lst->content_size == 2)
 		{
 			i = 0;
-			//ft_printf("a\n");
 			while (i < ((t_line *)lst->content)->nb_params)
 				ft_memdel((void**)&((t_line*)(lst->content))->param[i++]);
-			//ft_printf("b\n");
 			ft_memdel((void**)((t_line*)(lst->content))->param);
-			//ft_printf("c\n");
 			ft_memdel((void**)&((t_line*)(lst->content))->line);
-			//ft_printf("d\n");
 			ft_memdel(&lst->content);
 		}
 		else if (lst->content_size == 1 || lst->content_size == 3)
-		{
-			//ft_printf("%s\n", lst->content);
 			ft_memdel(&lst->content);
-		}
 		tmp = lst;
 		lst = lst->next;
 		ft_memdel((void**)&tmp);
 	}
-	//*/
 	g_lines = NULL;
+}
+
+void		free_all(void)
+{
+	free_g_lines();
+	free_g_labels();
 }
