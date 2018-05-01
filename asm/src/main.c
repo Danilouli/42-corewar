@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:18:47 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 19:25:30 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 21:00:15 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ the code to the standard output");
 		if (!read_code(l))
 			break ;
 	}
+	// if (l[0] == 0)
+  //       return ((int)super_herror("the end char has not \\n", 0));
 	if (g_nberror >= 1)
 		return (1);
 	if (!init_len_code())

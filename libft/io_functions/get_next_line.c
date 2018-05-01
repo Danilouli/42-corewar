@@ -6,7 +6,7 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/18 17:09:53 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/04/05 22:13:19 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 20:52:55 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,16 @@ static int		returnline(char *mem, char **line, t_file *liste)
 	return (1);
 }
 
+int		ft_gnlstrdel(char **as)
+{
+	if (as != NULL)
+	{
+		free(*as);
+		*as = NULL;
+	}
+	return (0);
+}
+
 int				get_next_line(const int fd, char **line)
 {
 	char			*mem;
@@ -88,14 +98,13 @@ int				get_next_line(const int fd, char **line)
 	while (!(mem = ft_strchr(liste->memstr, '\n')))
 	{
 		charlu = read(liste->fd, buffer, BUFF_SIZE);
-		if (charlu == 0 && ft_strcmp(liste->memstr, ""))
+		if (charlu == 0 && ft_strcmp(liste->memstr, "") && ft_gnlstrdel(&liste->start) == 0)
 			break ;
 		if (charlu == 0)
 			return (0);
 		if (!(liste->memstr = ft_strjoin(liste->memstr, buffer)))
 			return (-1);
-		if (liste->start)
-			free(liste->start);
+		ft_strdel(&liste->start);
 		liste->start = liste->memstr;
 		ft_bzero(buffer, BUFF_SIZE);
 	}
