@@ -28,6 +28,7 @@ avantdebut:	sti   r1,%:code,%1  # 		#7
 		sti   r1,%:code,%43 # 		#7
 		sti   r1,%:code,%57 # 		#7
 		sti   r1,%:code,%71 # 		#7
+		
 init:		ld   %393216,r4		 	#7
 		ld   %917504,r12		#7
 		ld   %1,r11			#7

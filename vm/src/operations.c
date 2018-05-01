@@ -1,6 +1,5 @@
 #include "corewar.h"
 
-
 void	bidir_memcpy(void *dst, void *src, int n, short where)
 {
 	unsigned char	*s;
@@ -35,6 +34,13 @@ void	bidir_memset(void *dst, char champ_num, int n, short where)
 	}
 }
 
+int		reg_to_nb(t_process *process, unsigned reg)
+{
+	unsigned	*cast;
+
+	cast = (unsigned *)&process->reg[REG_SIZE * reg];
+	return ((int)ft_endian_swap(cast));
+}
 
 unsigned char	*translate_OCP(unsigned char OCP)
 {
@@ -101,7 +107,7 @@ t_arg	*get_arg(t_map *map, t_process *process, int nbarg)
 			bidir_memcpy(arg[a].arg, map->map, inc = -T_DIR, i + process->ptr);
 			// ft_memcpy(arg[a].arg, &map->map[i + process->ptr], inc = 2);
 		else
-			break ;
+			return (NULL);
 		arg[a++].len = (size_t)-inc;
 		i += (int)-inc;
 		translation++;
@@ -113,9 +119,9 @@ t_arg	*get_arg(t_map *map, t_process *process, int nbarg)
 unsigned	*tabarg(t_arg *arg, int *inc, t_map *map, t_process *process)
 {
 	static unsigned	param[3];
-	short		cast;
-	size_t	a;
-	size_t	i;
+	int				cast;
+	size_t			a;
+	size_t			i;
 
 	a = 0;
 	i = 1;
@@ -127,12 +133,15 @@ unsigned	*tabarg(t_arg *arg, int *inc, t_map *map, t_process *process)
 			param[a] = (*arg[a].arg) - 1;
 		else if (arg[a].type == DIR_CODE || process->op == 3)
 		{
-			param[a] = (op_tab[process->op - 1].need_c) ? (short)ft_short_endian_swap((unsigned short*)arg[a].arg) :
-			(int)ft_endian_swap((unsigned *)arg[a].arg);
-			// printf("Got direct arg: %hi for op = %s\n", (short)(*(short*)(arg[a].arg)), op_tab[process->op - 1].name);
+			param[a] = (op_tab[process->op - 1].need_c) ? (short)ft_short_endian_swap((unsigned short*)&arg[a].arg) :
+			(int)ft_endian_swap((unsigned *)&arg[a].arg);
+			if (process->op < 13)
+				param[a] %= IDX_MOD;
+			printf("DIR: %i\n", param[a]);
 		}
-		else if (arg[a].type == IND_CODE) {
-			cast = (short)ft_short_endian_swap((unsigned short *)arg[a].arg);
+		else if (arg[a].type == IND_CODE)
+		{
+			cast = (int)ft_endian_swap((unsigned *)&arg[a].arg);
 			// printf("Got indirect arg: %hi for op = %s\n", cast, op_tab[process->op - 1].name);
 			if (process->op < 13)
 				cast %= IDX_MOD;
@@ -163,10 +172,10 @@ int	live(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	bidir_memcpy(&tmp, map->map, -REG_SIZE, process->ptr + 1);
 	cast = (unsigned *)tmp;
 	ft_endian_swap(cast);
+	process->life = CYCLE_TO_DIE - CYCLE_DELTA * map->round;
 	if (LIFECODE - *cast >= champslen(champ))
 		return (4);
 	champ[LIFECODE - *cast].lastlife = map->t_cycles;
-	process->life = CYCLE_TO_DIE - CYCLE_DELTA * map->round;
 	map->lives++;
 	return (4); // Return 4: constant size of live parameter.
 }
@@ -182,8 +191,10 @@ int	ld(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // R
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
 		return (op_tab[process->op - 1].nb_p - 1);
 	param = (int*)tabarg(arg, &inc, map, process);
-	if (process->op < 13 && arg[0].type == DIR_CODE)
+	printf("before ld: %i %i\n", param[0], param[1]);
+	if (arg[0].type == DIR_CODE)
 		ft_endian_swap((unsigned *)&param[0]);
+	printf("after ld: %i %i\n", param[0], param[1]);
 	ft_memcpy(&process->reg[REG_SIZE * param[1]], &param[0], REG_SIZE);
 	process->carry = param[0] ? 0 : 1;
 	return (inc);
@@ -230,15 +241,18 @@ int	add(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	int				nb[2];
 	int				tmp;
 
-
 	(void)champ;
 	(void)allprocess;
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
 		return (op_tab[process->op - 1].nb_p - 1);
 	param = (unsigned int*)tabarg(arg, &inc, map, process);
-	nb[0] = (int)(*((int*)&process->reg[REG_SIZE * param[0]]));
-	nb[1] = (int)(*((int*)&process->reg[REG_SIZE * param[1]]));
+	tmp = (int)*((unsigned *)&process->reg[REG_SIZE * param[0]]);
+	nb[0] = (int)ft_endian_swap((unsigned *)&tmp);
+	tmp = (int)*((unsigned *)&process->reg[REG_SIZE * param[1]]);
+	nb[1] = (int)ft_endian_swap((unsigned *)&tmp);
 	tmp = nb[0] + nb[1];
+	printf("add: %i + %i = %i\n", nb[0], nb[1], tmp);
+	tmp = (int)ft_endian_swap((unsigned *)&tmp);
 	ft_memcpy(&process->reg[REG_SIZE * param[2]], &tmp, REG_SIZE);
 	process->carry = tmp ? 0 : 1;
 	return (inc);
@@ -252,15 +266,18 @@ int	sub(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	int				nb[2];
 	int				tmp;
 
-
 	(void)champ;
 	(void)allprocess;
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
 		return (op_tab[process->op - 1].nb_p - 1);
 	param = (unsigned int*)tabarg(arg, &inc, map, process);
-	nb[0] = (int)(*((int*)&process->reg[REG_SIZE * param[0]]));
-	nb[1] = (int)(*((int*)&process->reg[REG_SIZE * param[1]]));
+	tmp = (int)*((unsigned *)&process->reg[REG_SIZE * param[0]]);
+	nb[0] = ft_endian_swap((unsigned *)&tmp);
+	tmp = (int)*((unsigned *)&process->reg[REG_SIZE * param[1]]);
+	nb[1] = ft_endian_swap((unsigned *)&tmp);
 	tmp = nb[0] - nb[1];
+	printf("sub: %i - %i = %i\n", nb[0], nb[1], tmp);
+	tmp = (int)ft_endian_swap((unsigned *)&tmp);
 	ft_memcpy(&process->reg[REG_SIZE * param[2]], &tmp, REG_SIZE);
 	process->carry = tmp ? 0 : 1;
 	return (inc);
@@ -268,20 +285,26 @@ int	sub(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 int	and(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 {
-	t_arg	*arg;
-	int		inc;
-	int		*param;
-	int		tmp;
-	int 	cast;
+	t_arg		*arg;
+	int			inc;
+	unsigned	*param;
+	unsigned	tmp;
 
 	(void)champ;
 	(void)allprocess;
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
 		return (op_tab[process->op - 1].nb_p - 1);
-	param = (int*)tabarg(arg, &inc, map, process);
-	cast = (int)ft_endian_swap((unsigned *)&param[0]);
-	tmp =  ((arg[0].type == IND_CODE) ? cast : param[0]) & param[1];
-	tmp = (arg[0].type == IND_CODE) ? (int)ft_endian_swap((unsigned *)&tmp) : tmp;
+	param = tabarg(arg, &inc, map, process);
+	if (arg[0].type == REG_CODE)
+		param[0] = (unsigned)(*((unsigned*)&process->reg[REG_SIZE * param[0]]));
+	if (arg[1].type == REG_CODE)
+		param[1] = (unsigned)(*((unsigned*)&process->reg[REG_SIZE * param[1]]));
+	if (arg[0].type == DIR_CODE || arg[0].type == IND_CODE)
+		param[0] = (unsigned)ft_endian_swap((unsigned *)&param[0]);
+	if (arg[1].type == DIR_CODE || arg[1].type == IND_CODE)
+		param[1] = ft_endian_swap((unsigned *)&param[1]);
+	tmp = param[1] & param[0];
+	ft_endian_swap((unsigned *)&tmp);
 	ft_memcpy(&process->reg[REG_SIZE * param[2]],  &tmp, REG_SIZE);
 	process->carry = (tmp) ? 0 : 1;
 	return (inc);
@@ -289,20 +312,26 @@ int	and(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 int	or(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 {
-	t_arg	*arg;
-	int		inc;
-	int		*param;
-	int		tmp;
-	int 	cast;
+	t_arg		*arg;
+	int			inc;
+	unsigned	*param;
+	unsigned	tmp;
 
 	(void)champ;
 	(void)allprocess;
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
 		return (op_tab[process->op - 1].nb_p - 1);
-	param = (int*)tabarg(arg, &inc, map, process);
-	cast = (int)ft_endian_swap((unsigned *)&param[0]);
-	tmp =  ((arg[0].type == IND_CODE) ? cast : param[0]) | param[1];
-	tmp = (arg[0].type == IND_CODE) ? (int)ft_endian_swap((unsigned *)&tmp) : tmp;
+	param = tabarg(arg, &inc, map, process);
+	if (arg[0].type == REG_CODE)
+		param[0] = (unsigned)(*((unsigned*)&process->reg[REG_SIZE * param[0]]));
+	if (arg[1].type == REG_CODE)
+		param[1] = (unsigned)(*((unsigned*)&process->reg[REG_SIZE * param[1]]));
+	if (arg[0].type == DIR_CODE || arg[0].type == IND_CODE)
+		ft_endian_swap((unsigned *)&param[0]);
+	if (arg[1].type == DIR_CODE || arg[1].type == IND_CODE)
+		ft_endian_swap((unsigned *)&param[1]);
+	tmp = param[1] | param[0];
+	ft_endian_swap((unsigned *)&tmp);
 	ft_memcpy(&process->reg[REG_SIZE * param[2]],  &tmp, REG_SIZE);
 	process->carry = (tmp) ? 0 : 1;
 	return (inc);
@@ -310,20 +339,26 @@ int	or(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 int	xor(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 {
-	t_arg	*arg;
-	int		inc;
-	int		*param;
-	int		tmp;
-	int 	cast;
+	t_arg		*arg;
+	int			inc;
+	unsigned	*param;
+	unsigned	tmp;
 
 	(void)champ;
 	(void)allprocess;
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
 		return (op_tab[process->op - 1].nb_p - 1);
-	param = (int*)tabarg(arg, &inc, map, process);
-	cast = (int)ft_endian_swap((unsigned *)&param[0]);
-	tmp =  ((arg[0].type == IND_CODE) ? cast : param[0]) ^ param[1];
-	tmp = (arg[0].type == IND_CODE) ? (int)ft_endian_swap((unsigned *)&tmp) : tmp;
+	param = tabarg(arg, &inc, map, process);
+	if (arg[0].type == REG_CODE)
+		param[0] = (unsigned)(*((unsigned*)&process->reg[REG_SIZE * param[0]]));
+	if (arg[1].type == REG_CODE)
+		param[1] = (unsigned)(*((unsigned*)&process->reg[REG_SIZE * param[1]]));
+	if (arg[0].type == DIR_CODE || arg[0].type == IND_CODE)
+		ft_endian_swap((unsigned *)&param[0]);
+	if (arg[1].type == DIR_CODE || arg[1].type == IND_CODE)
+		ft_endian_swap((unsigned *)&param[1]);
+	tmp = param[1] ^ param[0];
+	ft_endian_swap((unsigned *)&tmp);
 	ft_memcpy(&process->reg[REG_SIZE * param[2]],  &tmp, REG_SIZE);
 	process->carry = (tmp) ? 0 : 1;
 	return (inc);
@@ -338,7 +373,7 @@ int	zjmp(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) //
 	ft_memcpy(&param, &map->map[(process->ptr + 1) % MEM_SIZE], sizeof(unsigned short));
 	ft_short_endian_swap(&param);
 	if (process->carry)
-		return ((short)param - 1);
+		return (1);
 	return (2);
 }
 
@@ -348,19 +383,26 @@ int	ldi(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // 
 	int					inc;
 	int					*param;
 	int					tmp;
+
 	(void)champ;
 	(void)allprocess;
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
 		return (op_tab[process->op - 1].nb_p - 1);
 	param = (int*)tabarg(arg, &inc, map, process);
-	if (arg[0].type == T_REG)
-		param[0] = process->reg[REG_SIZE * param[0]] % ((process->op < 13) ? IDX_MOD : MEM_SIZE);
-	if (arg[1].type == T_REG)
-		param[1] = process->reg[REG_SIZE * param[1]] % ((process->op < 13) ? IDX_MOD : MEM_SIZE);
+	if (arg[0].type == REG_CODE)
+	{
+		tmp = (int)*(int *)&process[REG_SIZE * param[0]];
+		param[0] = (int)(ft_endian_swap((unsigned *)&tmp) % ((process->op < 13) ? IDX_MOD : MEM_SIZE));
+	}
+	if (arg[1].type == REG_CODE)
+	{
+		tmp = (int)*(int *)&process[REG_SIZE * param[1]];
+		param[1] = (int)(ft_endian_swap((unsigned *)&tmp) % ((process->op < 13) ? IDX_MOD : MEM_SIZE));
+	}
 	tmp = (param[0] + param[1]) % IDX_MOD + process->ptr;
 	tmp = tmp < 0 ? MEM_SIZE + tmp : tmp;
 	tmp = tmp >= MEM_SIZE ? tmp - MEM_SIZE : tmp;
-	// ft_memcpy(&process->reg[REG_SIZE * param[2]], &map->map[tmp], REG_SIZE);
+	printf("ldi: %i + %i -> %i\n", param[0], param[1], param[2]);
 	bidir_memcpy(&process->reg[REG_SIZE * param[2]], map->map, -REG_SIZE, tmp);
 	return (inc);
 }
@@ -370,7 +412,6 @@ int	sti(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // 
 	t_arg				*arg;
 	int					inc;
 	int					*param;
-	int					*cast;
 	int					tmp;
 
 	(void)champ;
@@ -378,16 +419,20 @@ int	sti(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // 
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
 		return (op_tab[process->op - 1].nb_p - 1);
 	param = (int*)tabarg(arg, &inc, map, process);
-	if (arg[1].type == T_REG && (cast = (int *)&process->reg[REG_SIZE * param[1]]))
-		param[1] = *cast;
-	if (arg[2].type == T_REG && (cast = (int *)&process->reg[REG_SIZE * param[2]]))
-		param[2] = *cast;
+	if (arg[1].type == REG_CODE)
+	{
+		tmp = (int)*(int *)&process[REG_SIZE * param[1]];
+		param[1] = (int)ft_endian_swap((unsigned *)&tmp);
+	}
+	if (arg[2].type == REG_CODE)
+	{
+		tmp = (int)*(int *)&process[REG_SIZE * param[2]];
+		param[2] = (int)ft_endian_swap((unsigned *)&tmp);
+	}
 	tmp = (param[1] + param[2]) % IDX_MOD + process->ptr;
-	// printf("pos : %i - TMP = %hi avec %hi + %hi\n", process->ptr, (short)tmp, (short)param[1], (short)param[2]);
 	tmp = tmp < 0 ? MEM_SIZE + tmp : tmp;
 	tmp = tmp >= MEM_SIZE ? tmp - MEM_SIZE : tmp;
-	// ft_memcpy(&map->map[tmp], &process->reg[param[0] * REG_SIZE], REG_SIZE);
-	// ft_memset(&map->c_map[tmp], process->champ->num + 1, REG_SIZE);
+	printf("sti: %x <- %i + %i\n", *((int*)&process->reg[param[0] * REG_SIZE]), param[1], param[2]);
 	bidir_memcpy(map->map, &process->reg[param[0] * REG_SIZE], REG_SIZE, tmp);
 	bidir_memset(map->c_map, process->champ->num + 1, REG_SIZE, tmp);
 	return (inc);
@@ -473,6 +518,7 @@ static inline void 	launch_action(t_process *process, t_map *map, t_champ *champ
 	if (map->map[process->ptr] < 17 && process->active
 	&& !process->cycles && process->op)
 	{
+		printf("OPE: %s | pos: %i\n", op_tab[process->op - 1].name, process->ptr);
 		toadd = f[(size_t)process->op - 1](map, champs, process, allprocess);
 		// if (process->op == 9)
 			// printf("Jumped from %i to %i with jump of %i\n", process->ptr, process->ptr + toadd, toadd);
@@ -504,7 +550,8 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 		while (r->pause)
 			render(r, map);
 		tmp = *allprocess;
-		while (tmp && (int)(CYCLE_TO_DIE - CYCLE_DELTA * map->round) > 0) {
+		while (tmp && (int)(CYCLE_TO_DIE - CYCLE_DELTA * map->round) > 0)
+		{
 			process = (t_process *)tmp->content;
 			f_ptr = process->ptr;
 			init_action(process, map);
@@ -533,4 +580,5 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 		if (r->win && !(map->t_cycles % r->skip))
 			render(r, map);
 	}
+	ft_lstdel(allprocess, &delprocess);
 }
