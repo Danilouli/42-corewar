@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/04 21:11:34 by acouturi          #+#    #+#             */
-/*   Updated: 2018/04/21 18:00:10 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 20:46:09 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int				write_type(char ty, unsigned char *prog, int fd, t_op t)
 	int lu;
 
 	if (ty == REG_CODE && (lu = 1))
-		ft_dprintf(fd, "r%c", prog[0]);
+		ft_dprintf(fd, "r%u", prog[0]);
 	else if (ty == DIR_CODE && t.need_c == 0 && (lu = 4))
 		ft_dprintf(fd, "%c%i", DIRECT_CHAR, prog[0] * 256 * 256 * 256 +
 			prog[1] * 256 * 256 + prog[2] * 256 + prog[3]);

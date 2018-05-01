@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader_code.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:49:01 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 18:54:28 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 19:57:47 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,30 +61,39 @@ static int change_line_if_needed(char **l)
 	return (1);
 }
 
+static int label_case(char *l, char **spl, int nbp, t_list **new)
+{
+	t_list	*newla = NULL;
+
+	LASTC(spl[0]) = 0;
+	LAST_LABEL = spl[0];
+	if (!(newla = alloc_label(spl[0], spl)))
+		return (0);
+	if (!g_labels)
+		g_labels = newla;
+	else
+		ft_lstpushback(g_labels, newla);
+	if ((nbp > 1 && !is_op_name(spl[1])))
+		return ((int)super_herror("OPCODE invalide", 42) & 0);
+	if (nbp > 1)
+	{
+		if (!(*new = alloc_line(spl, spl[0], nbp, l)))
+			return (0);
+		ft_lstpushback(g_lines, *new);
+	}
+	else
+		ft_strdel(&l);
+	return (1);
+}
+
 int read_code_helper(char **spl, int nbp, t_list **new, char *l)
 {
 	t_list	*newla = NULL;
 
 	if (is_label(spl[0]))
 	{
-		LASTC(spl[0]) = 0;
-		LAST_LABEL = spl[0];
-		if (!(newla = alloc_label(spl[0], spl)))
+		if (!label_case(l, spl, nbp, new))
 			return (0);
-		if (!g_labels)
-			g_labels = newla;
-		else
-			ft_lstpushback(g_labels, newla);
-		if ((nbp > 1 && !is_op_name(spl[1])))
-			return ((int)super_herror("OPCODE invalide", 42) & 0);
-		if (nbp > 1)
-		{
-			if (!(*new = alloc_line(spl, spl[0], nbp, l)))
-				return (0);
-			ft_lstpushback(g_lines, *new);
-		}
-		else
-			ft_strdel(&l);
 	}
 	else if (!is_label(spl[0]) && is_op_name(spl[0]))
 	{

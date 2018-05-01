@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:18:47 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 18:54:03 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 19:25:30 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ the code to the standard output");
 		g_lines = g_lines->next;
 	}
 	g_lines = keep;
-	free_g_line();
+	free_all();
 	ft_printf("champion créé\n");
 	return (0);
 }

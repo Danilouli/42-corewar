@@ -6,7 +6,7 @@
 #    By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 17:18:12 by fsabatie          #+#    #+#              #
-#    Updated: 2018/04/30 20:50:55 by dsaadia          ###   ########.fr        #
+#    Updated: 2018/05/01 19:50:46 by dsaadia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ BUILD_PATH = build
 ASM_SRC_F =	main.c reader_code.c initializators.c fetchers.c \
 						verificators.c verificators2.c verificators3.c have_header.c \
 						errorers.c calculators.c initializators2.c writer.c write_liner.c \
-						verificators4.c freers.c initializators3.c
+						verificators4.c freers.c initializators3.c have_header2.c
 
 
 OBJ_NAME = $(ASM_SRC_F:.c=.o)

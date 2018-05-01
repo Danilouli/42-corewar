@@ -3,16 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   freers.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:33:03 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 18:52:35 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 19:28:32 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/asm.h"
 
-void free_g_line(void)
+static void free_g_labels(void)
+{
+	t_list	*lst;
+	t_list	*tmp;
+	int		i;
+
+	i = 0;
+	lst = g_labels;
+	while (lst != NULL)
+	{
+		tmp = lst->next;
+		ft_memdel((void**)&((t_label *)lst->content)->value);
+		ft_memdel((void**)&((t_label *)lst->content)->spl);
+		ft_memdel(&lst->content);
+		ft_memdel((void**)&lst);
+		lst = tmp;
+	}
+	g_labels = NULL;
+}
+
+static void free_g_lines(void)
 {
 	t_list	*lst;
 	t_list	*tmp;
@@ -31,25 +51,16 @@ void free_g_line(void)
 			ft_memdel(&lst->content);
 		}
 		else if (lst->content_size == 1 || lst->content_size == 3)
-		{
 			ft_memdel(&lst->content);
-		}
 		tmp = lst;
 		lst = lst->next;
 		ft_memdel((void**)&tmp);
 	}
 	g_lines = NULL;
+}
 
-	i = 0;
-	lst = g_labels;
-	while (lst != NULL)
-	{
-		tmp = lst->next;
-		ft_memdel((void**)&((t_label *)lst->content)->value);
-		ft_memdel((void**)&((t_label *)lst->content)->spl);
-		ft_memdel(&lst->content);
-		ft_memdel((void**)&lst);
-		lst = tmp;
-	}
-	g_labels = NULL;
+void free_all(void)
+{
+	free_g_lines();
+	free_g_labels();
 }

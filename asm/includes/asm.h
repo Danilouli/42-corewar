@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:23:12 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 16:05:55 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 19:50:35 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int								is_indirect(char *str);
 int								what_is(char *str);
 int								check_params(t_line *line);
 char							*destroy(char **del);
+char							*have_truc(int fd, char *truc);
 int								have_header(int fd);
 void							calc_len(t_line *line);
 //t_error							*init_g_d_errors(void);
@@ -107,7 +108,7 @@ void 							write_line(int fdc, t_line *line);
 void 							endian_swap(unsigned int *ptr);
 int 							create_ocp(t_line *line);
 void 							short_endian_swap(unsigned short *ptr);
-void 							free_g_line(void);
+void 							free_all(void);
 void							*super_herror(char *msg, int char_ind);
 t_list						*alloc_label(char *label, char **spl);
 void 							redefine_labels(char *final_label);

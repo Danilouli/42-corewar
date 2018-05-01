@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:34:45 by acouturi          #+#    #+#             */
-/*   Updated: 2018/05/01 18:52:56 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 19:50:06 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,11 @@ char		*is_onlyspace(char *str)
 	return (tmp);
 }
 
-char		*have_truc(int fd, char *truc)
+char		*have_truc_helper(char *tmp, char *truc, int fd)
 {
 	char	*ret;
-	char	*tmp;
 	int		i;
 
-	tmp = NULL;
-	while (tmp == NULL && ++NB_LINES)
-	{
-		if (get_next_line(fd, &tmp) != 1)
-			return(super_herror("fichier vide", 0));
-		tmp = testempty(tmp);
-	}
-	NB_LINES--;
-	if ((ft_strncmp(truc, tmp, ft_strlen(truc))))
-	{
-		ft_strdel(&tmp);
-		return (super_herror("fichier non valide", 0));
-	}
 	if ((ret = is_onlyspace(ft_strdup(&tmp[ft_strlen(truc)]))) == 0)
 	{
 		ft_strdel(&tmp);
@@ -90,42 +76,22 @@ char		*have_truc(int fd, char *truc)
 	return (ret);
 }
 
-int				have_header(int fd)
+char		*have_truc(int fd, char *truc)
 {
-	t_list	*lst;
-	t_list	*new;
-	int		*magic;
+	char	*tmp;
 
-	if (!(magic = (int*)malloc(sizeof(int))))
-		return ((int)super_herror("malloc error", 0));
-	*magic = COREWAR_EXEC_MAGIC;
-	if (!(g_lines = (t_list *)malloc(sizeof(t_list))))
-		return ((int)super_herror("malloc error", 0));
-	lst = g_lines;
-	lst->content_size = 3;
-	lst->next = 0;
-	lst->content = magic;
-	NB_LINES = 1;
-	if (!(new = (t_list *)malloc(sizeof(t_list))))
-		return ((int)super_herror("malloc error", 0));
-	lst->next = new;
-	lst = new;
-	lst->content_size = 1;
-	lst->next = 0;
-	if ((lst->content = have_truc(fd, NAME_CMD_STRING)) == 0)
-		return (0);
-	if (ft_strlen(lst->content) > PROG_NAME_LENGTH)
-		return ((int)super_herror("name too long", 0));
-	if (!(new = (t_list *)malloc(sizeof(t_list))))
-		return ((int)super_herror("malloc error", 0));
-	lst->next = new;
-	lst = new;
-	lst->content_size = 1;
-	lst->next = 0;
-	if ((lst->content = have_truc(fd, COMMENT_CMD_STRING)) == 0)
-		return (0);
-	if (ft_strlen(lst->content) > COMMENT_LENGTH)
-		return ((int)super_herror("comment too long", 0));
+	tmp = NULL;
+	while (tmp == NULL && ++NB_LINES)
+	{
+		if (get_next_line(fd, &tmp) != 1)
+			return(super_herror("fichier vide", 0));
+		tmp = testempty(tmp);
+	}
 	NB_LINES--;
-	return (1);
+	if ((ft_strncmp(truc, tmp, ft_strlen(truc))))
+	{
+		ft_strdel(&tmp);
+		return (super_herror("fichier non valide", 0));
+	}
+	return (have_truc_helper(tmp, truc, fd));
 }
