@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 17:56:08 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 16:05:44 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 16:59:38 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_error	*init_g_d_errors(void)
 
 	if (!(init = (t_error*)malloc(sizeof(t_error))))
 		return (0);
+	ft_printf("init_g_d_errors %p\n",init);
 	init->lastmsgerror = 0;
 	init->nberror = 0;
 	init->nb_lines = 0;
@@ -72,10 +73,11 @@ t_list	*alloc_label(char *labelstr, char **spl)
 
 	if (!(la = (t_label*)malloc(sizeof(t_label))) && ft_memdelbool((void**)&la))
 		return (super_herror("malloc error\n", 0));
+	ft_printf("LABEL? %p\n",la);
 	if (!(nw = (t_list*)malloc(sizeof(t_list))) && ft_memdelbool((void**)&nw))
 		return (super_herror("malloc error\n", 0));
+	ft_printf("LABEL? %p\n",nw);
 	la->value = labelstr;
-	//ft_printf("APRES %p--%s\n",la->value,la->value);
 	la->real_label = 0;
 	la->addr = 0;
 	la->spl = spl;

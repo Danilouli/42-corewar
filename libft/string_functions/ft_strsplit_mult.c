@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit_mult.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 16:17:32 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/07 20:55:38 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 18:24:17 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static	char	**ft_split(char *s, char *sep, int *nbp)
 	res = NULL;
 	if (!(res = (char**)malloc(ft_cw((char *)s, sep) * (sizeof(char*) + 1))))
 		return (NULL);
+	ft_printf("ALLOC 1 %p\n",res);
 	while (*s)
 	{
 		if (!ft_is_sep(*s, sep))
@@ -73,6 +74,7 @@ static	char	**ft_split(char *s, char *sep, int *nbp)
 				return (NULL);
 			while (y < ft_lensep((char *)s - y, sep))
 				res[i][y++] = *s++;
+			ft_printf("ALLOC 2 %p--%s\n",res[i], res[i]);
 			res[i++][y] = 0;
 		}
 		else

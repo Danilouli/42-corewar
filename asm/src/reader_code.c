@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:49:01 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 16:08:43 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 18:37:18 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int add_space_at(char **l, int i)
 	j = i;
 	if (!(new = ft_strnew(ft_strlen(*l) + 1)))
 		return ((int)super_herror("malloc error", 0));
+	ft_printf("add_space_at %p\n",new);
 	ft_strncpy(new, *l, i);
 	new[i] = ' ';
 	while (j < ft_strlen(*l))
@@ -67,8 +68,9 @@ int read_code_helper(char **spl, int nbp, t_list **new, char *l)
 
 	if (is_label(spl[0]))
 	{
+		ft_printf("AAVANT %p--%s\n",spl[0],spl[0]);
 		LASTC(spl[0]) = 0;
-		//ft_printf("AVANT %p--%s\n",spl[0],spl[0]);
+		ft_printf("AVANT %p--%s\n",spl[0],spl[0]);
 		LAST_LABEL = spl[0];
 		if (!(newla = alloc_label(spl[0], spl)))
 			return (0);
@@ -84,6 +86,8 @@ int read_code_helper(char **spl, int nbp, t_list **new, char *l)
 				return (0);
 			ft_lstpushback(g_lines, *new);
 		}
+		else
+			ft_strdel(&l);
 	}
 	else if (!is_label(spl[0]) && is_op_name(spl[0]))
 	{
@@ -116,8 +120,15 @@ int	read_code(char *l)
 	change_line_if_needed(&l);
 	// ft_printf("APRES %s\n",l);
 	spl = ft_strsplit_mult(l, g_seps, &nbp);
+	ft_printf("SPL %p\n",spl);
+//	ft_printf("ALLOC %p -- %p\n",spl,spl[0]);
 	//ft_printf("ALLOC %p--%s\n",spl[0],spl[0]);
 	if (!nbp)
+	{
+		ft_printf("AAAAAB |%p|\n", spl);
+		ft_strdel(&l);
+		free(spl);
 		return (1);
+	}
 	return (read_code_helper(spl, nbp, &new, l));
 }

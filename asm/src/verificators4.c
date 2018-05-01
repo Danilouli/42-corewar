@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verificators4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:11:11 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/30 20:20:54 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 18:43:49 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static int is_real_code_helper(t_list *s)
 		pstr = LINECONT(s)->param[i];
 		if (is_direct(pstr) && (label = is_label_dir(pstr)))
 		{
+			if (!label[0])
+				return ((int)super_herror("Label vide",0));
 			if ((addr = is_real_label(label)) == -1)
 				return (0);
 			ft_memdel((void**)&LINECONT(s)->param[i]);
@@ -32,8 +34,11 @@ static int is_real_code_helper(t_list *s)
 		}
 		else if (is_indirect(pstr) && (label = is_label_ind(pstr)))
 		{
+			if (!label[0])
+				return ((int)super_herror("Label vide",0));
 			if ((addr = is_real_label(label)) == -1)
 				return (0);
+			ft_memdel((void**)&LINECONT(s)->param[i]);
 			LINECONT(s)->param[i] = reinit_indirect(&pstr, addr, LINECONT(s)->addr);
 		}
 	}
