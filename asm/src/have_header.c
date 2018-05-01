@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:34:45 by acouturi          #+#    #+#             */
-/*   Updated: 2018/05/01 19:50:06 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 22:52:53 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ char		*have_truc_helper(char *tmp, char *truc, int fd)
 	i = (((int)destroy(&tmp) & NB_LINES++)) & 0;
 	while (ft_strcount(ret, '"') != 1)
 	{
-		if ((ft_strcount(ret, '"') > 1 && super_herror("fichier non valide", 0) == 0)
-		|| (get_next_line(fd, &tmp) != 1 && super_herror("probleme lecture", 0) == 0))
+		if ((ft_strcount(ret, '"') > 1 && super_herror("invalid file", 0) == 0)
+			|| (get_next_line(fd, &tmp) != 1 &&
+			super_herror("read problem", 0) == 0))
 			return (NULL);
 		ret = ft_strjoinfree(ret, "\n");
 		ret = ft_strjoinfree(ret, tmp);
@@ -69,7 +70,6 @@ char		*have_truc_helper(char *tmp, char *truc, int fd)
 	}
 	tmp = ft_strchr(ret, '"');
 	tmp[0] = 0;
-	i = 0;
 	while ((++i) >= 0 && tmp[i] && tmp[i] != '#')
 		if (tmp[i] != ' ' && tmp[i] != '\n')
 			return (super_herror("fichier non valide", 0));
@@ -84,7 +84,7 @@ char		*have_truc(int fd, char *truc)
 	while (tmp == NULL && ++NB_LINES)
 	{
 		if (get_next_line(fd, &tmp) != 1)
-			return(super_herror("fichier vide", 0));
+			return (super_herror("fichier vide", 0));
 		tmp = testempty(tmp);
 	}
 	NB_LINES--;

@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   write_liner.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/14 16:06:30 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/19 15:26:27 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 22:39:18 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/asm.h"
 
-static void write_ocp(int fdc, t_line *line)
+static void	write_ocp(int fdc, t_line *line)
 {
 	int ocp;
+
 	ocp = 0;
 	if (g_op_tab[line->opcode - 1].mod_c)
 	{
@@ -23,10 +24,10 @@ static void write_ocp(int fdc, t_line *line)
 	}
 }
 
-static void write_direct_param(int size, t_line *line, int fdc, int i)
+static void	write_direct_param(int size, t_line *line, int fdc, int i)
 {
 	unsigned int	numpar;
-	unsigned short snumpar;
+	unsigned short	snumpar;
 
 	if (size == 4)
 	{
@@ -42,24 +43,25 @@ static void write_direct_param(int size, t_line *line, int fdc, int i)
 	}
 }
 
-static void write_params(int fdc, t_line *line)
+static void	write_params(int fdc, t_line *line)
 {
-	int	i;
+	int				i;
 	unsigned int	numpar;
-	int size;
-	unsigned short snumpar;
+	int				size;
+	unsigned short	snumpar;
 
 	size = 0;
-	i = 0;
+	i = -1;
 	numpar = 0;
-	while (i < line->nb_params)
+	while (++i < line->nb_params)
 	{
 		if (is_reg((line->param)[i]) && (size = 1))
 		{
 			numpar = (unsigned int)ft_atoi((line->param)[i] + 1);
 			write(fdc, &numpar, size);
 		}
-		else if (is_direct((line->param)[i]) && (size = (OPL(line).need_c) ? 2 : 4))
+		else if (is_direct((line->param)[i]) &&
+			(size = (OPL(line).need_c) ? 2 : 4))
 			write_direct_param(size, line, fdc, i);
 		else if (is_indirect((line->param)[i]) && (size = 2))
 		{
@@ -67,11 +69,11 @@ static void write_params(int fdc, t_line *line)
 			short_endian_swap(&snumpar);
 			write(fdc, &snumpar, size);
 		}
-		i++;
 	}
 }
 
-void write_line(int fdc, t_line *line) {
+void		write_line(int fdc, t_line *line)
+{
 	int i;
 	int opcode;
 

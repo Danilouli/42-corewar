@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   fetchers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 18:29:09 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 14:51:06 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 22:53:49 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/asm.h"
 
-int	fetch_opcode(char *op_name)
+int		fetch_opcode(char *op_name)
 {
 	int i;
 
@@ -30,7 +30,7 @@ int	fetch_opcode(char *op_name)
 	return (0);
 }
 
-char *fetch_final_label(char *label)
+char	*fetch_final_label(char *label)
 {
 	t_list *surf;
 

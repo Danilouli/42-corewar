@@ -6,13 +6,13 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 19:56:36 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 18:55:01 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 22:39:59 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/asm.h"
 
-int	what_is(char *str)
+int		what_is(char *str)
 {
 	if (is_reg(str))
 		return (1);
@@ -23,25 +23,25 @@ int	what_is(char *str)
 	return (0);
 }
 
-char *is_label_dir(char *dir)
+char	*is_label_dir(char *dir)
 {
 	if (dir[1] != LABEL_CHAR)
 		return (0);
 	return (dir + 2);
 }
 
-char *is_label_ind(char *ind)
+char	*is_label_ind(char *ind)
 {
 	if (ind[0] != LABEL_CHAR)
 		return (0);
 	return (ind + 1);
 }
 
-int is_real_label(char *str)
+int		is_real_label(char *str)
 {
-	t_list *surf;
-	int j;
-	char *final_label;
+	t_list	*surf;
+	int		j;
+	char	*final_label;
 
 	j = 0;
 	surf = g_lines;
@@ -53,7 +53,8 @@ int is_real_label(char *str)
 		if (surf->content_size == 2)
 		{
 			j++;
-			if (LINECONT(surf)->label && ft_strequ(LINECONT(surf)->label, final_label))
+			if (LINECONT(surf)->label &&
+				ft_strequ(LINECONT(surf)->label, final_label))
 				return (LINECONT(surf)->addr);
 		}
 		surf = surf->next;

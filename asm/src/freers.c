@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   freers.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:33:03 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 19:28:32 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 22:53:29 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/asm.h"
 
-static void free_g_labels(void)
+static void	free_g_labels(void)
 {
 	t_list	*lst;
 	t_list	*tmp;
@@ -32,14 +32,14 @@ static void free_g_labels(void)
 	g_labels = NULL;
 }
 
-static void free_g_lines(void)
+static void	free_g_lines(void)
 {
 	t_list	*lst;
 	t_list	*tmp;
 	int		i;
 
 	lst = g_lines;
-	while(lst != NULL)
+	while (lst != NULL)
 	{
 		if (lst->content_size == 2)
 		{
@@ -59,7 +59,7 @@ static void free_g_lines(void)
 	g_lines = NULL;
 }
 
-void free_all(void)
+void		free_all(void)
 {
 	free_g_lines();
 	free_g_labels();

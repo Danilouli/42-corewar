@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   verificators4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:11:11 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 20:48:09 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 22:35:08 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/asm.h"
 
-static int dir_case(char *lab, int i, char *pstr, t_list *s)
+static int	dir_case(char *lab, int i, char *pstr, t_list *s)
 {
-	int addr;
+	int		addr;
 
 	if (!lab[0])
-		return ((int)super_herror("Label vide",0));
+		return ((int)super_herror("Label vide", 0));
 	if ((addr = is_real_label(lab)) == -1)
 		return (0);
 	ft_memdel((void**)&LINECONT(s)->param[i]);
@@ -25,12 +25,12 @@ static int dir_case(char *lab, int i, char *pstr, t_list *s)
 	return (1);
 }
 
-static int ind_case(char *lab, int i, char *pstr, t_list *s)
+static int	ind_case(char *lab, int i, char *pstr, t_list *s)
 {
-	int addr;
+	int		addr;
 
 	if (!lab[0])
-		return ((int)super_herror("Label vide",0));
+		return ((int)super_herror("Label vide", 0));
 	if ((addr = is_real_label(lab)) == -1)
 		return (0);
 	ft_memdel((void**)&LINECONT(s)->param[i]);
@@ -38,11 +38,11 @@ static int ind_case(char *lab, int i, char *pstr, t_list *s)
 	return (1);
 }
 
-static int is_real_code_helper(t_list *s)
+static int	is_real_code_helper(t_list *s)
 {
-	int i;
-	char *lab;
-	char *pstr;
+	int		i;
+	char	*lab;
+	char	*pstr;
 
 	i = -1;
 	while (++i < LINECONT(s)->nb_params)
@@ -60,7 +60,7 @@ static int is_real_code_helper(t_list *s)
 	return (1);
 }
 
-int	is_real_code(void)
+int			is_real_code(void)
 {
 	t_list	*surf;
 
@@ -77,9 +77,9 @@ int	is_real_code(void)
 	return (1);
 }
 
-int is_relabel(char *str)
+int			is_relabel(char *str)
 {
-	t_list *surf;
+	t_list	*surf;
 
 	surf = g_labels;
 	if (!is_label(str))

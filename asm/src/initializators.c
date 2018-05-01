@@ -6,13 +6,14 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 17:56:08 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 18:53:07 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/01 22:45:34 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/asm.h"
 
-t_corewar init_g_corewar(void) {
+t_corewar	init_g_corewar(void)
+{
 	t_corewar ret;
 
 	ret.nb_lines = 0;
@@ -21,7 +22,8 @@ t_corewar init_g_corewar(void) {
 	return (ret);
 }
 
-void init_g_seps(void) {
+void		init_g_seps(void)
+{
 	g_seps[0] = ' ';
 	g_seps[1] = '\t';
 	g_seps[2] = SEPARATOR_CHAR;
@@ -52,23 +54,10 @@ t_op		*init_g_op_tab(void)
 	return (op_tab);
 }
 
-t_error	*init_g_d_errors(void)
+t_list		*alloc_label(char *labelstr, char **spl)
 {
-	static t_error *init = NULL;
-
-	if (!(init = (t_error*)malloc(sizeof(t_error))))
-		return (0);
-	init->lastmsgerror = 0;
-	init->nberror = 0;
-	init->nb_lines = 0;
-	init->nb_char = 0;
-	return (init);
-}
-
-t_list	*alloc_label(char *labelstr, char **spl)
-{
-	t_label *la;
-	t_list *nw;
+	t_label	*la;
+	t_list	*nw;
 
 	if (!(la = (t_label*)malloc(sizeof(t_label))) && ft_memdelbool((void**)&la))
 		return (super_herror("malloc error\n", 0));

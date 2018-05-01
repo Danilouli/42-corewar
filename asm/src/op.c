@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   op.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaz <zaz@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:43:01 by zaz               #+#    #+#             */
-/*   Updated: 2018/04/07 18:07:57 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 22:41:13 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/op.h"
 
-t_op    g_op_tab[17] =
+t_op	g_op_tab[17] =
 {
 	{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0},
 	{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 0},
