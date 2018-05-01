@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freers.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:33:03 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 14:48:48 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 16:03:40 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,6 @@ void free_g_line(void)
 	t_list	*tmp;
 	int		i;
 
-	i = 0;
-	lst = g_labels;
-	while (lst != NULL)
-	{
-		ft_printf("FREE %p--%s\n", ((t_label *)lst->content)->value,((t_label *)lst->content)->value);
-		tmp = lst->next;
-		// free(((t_label *)lst->content)->value);
-		ft_memdel((void**)&((t_label *)lst->content)->value);
-		ft_memdel(&lst->content);
-		ft_memdel((void**)&lst);
-		lst = tmp;
-	}
-	g_labels = NULL;
 	//ft_printf("%p\n", lst);
 	lst = g_lines;
 	//*
@@ -59,6 +46,22 @@ void free_g_line(void)
 		lst = lst->next;
 		ft_memdel((void**)&tmp);
 	}
-	//*/
 	g_lines = NULL;
+
+	i = 0;
+	lst = g_labels;
+	while (lst != NULL)
+	{
+		//ft_printf("FREE %p--%s\n", ((t_label *)lst->content)->value,((t_label *)lst->content)->value);
+		tmp = lst->next;
+		// free(((t_label *)lst->content)->value);
+		ft_memdel((void**)&((t_label *)lst->content)->value);
+		ft_printf("DEL %p\n",((t_label *)lst->content)->spl);
+		ft_memdel((void**)&((t_label *)lst->content)->spl);
+		ft_memdel(&lst->content);
+		ft_memdel((void**)&lst);
+		lst = tmp;
+	}
+	g_labels = NULL;
+	//*/
 }

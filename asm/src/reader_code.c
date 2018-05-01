@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader_code.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:49:01 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 14:29:39 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 16:08:43 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,9 @@ int read_code_helper(char **spl, int nbp, t_list **new, char *l)
 	if (is_label(spl[0]))
 	{
 		LASTC(spl[0]) = 0;
-		ft_printf("TEST %p\n",spl);
-		ft_printf("AVANT %p--%s\n",spl[0],spl[0]);
+		//ft_printf("AVANT %p--%s\n",spl[0],spl[0]);
 		LAST_LABEL = spl[0];
-		if (!(newla = alloc_label(spl[0])))
+		if (!(newla = alloc_label(spl[0], spl)))
 			return (0);
 		if (!g_labels)
 			g_labels = newla;
@@ -88,12 +87,20 @@ int read_code_helper(char **spl, int nbp, t_list **new, char *l)
 	}
 	else if (!is_label(spl[0]) && is_op_name(spl[0]))
 	{
+		if (!(newla = alloc_label(NULL, spl)))
+			return (0);
+		if (!g_labels)
+			g_labels = newla;
+		else
+			ft_lstpushback(g_labels, newla);
 		if (!is_op_name(spl[0]) || !(*new = alloc_line(spl, 0, nbp, l)))
 			return ((int)super_herror("OPCODE invalide", 42) & 0);
 		ft_lstpushback(g_lines, *new);
 	}
 	else
 		return ((int)super_herror("OPCODE invalide", 42) & 0);
+	ft_printf("TEST %p\n",spl);
+	//ft_memdel((void**)spl);
 	return (1);
 }
 
@@ -109,7 +116,7 @@ int	read_code(char *l)
 	change_line_if_needed(&l);
 	// ft_printf("APRES %s\n",l);
 	spl = ft_strsplit_mult(l, g_seps, &nbp);
-	ft_printf("ALLOC %p--%s\n",spl[0],spl[0]);
+	//ft_printf("ALLOC %p--%s\n",spl[0],spl[0]);
 	if (!nbp)
 		return (1);
 	return (read_code_helper(spl, nbp, &new, l));

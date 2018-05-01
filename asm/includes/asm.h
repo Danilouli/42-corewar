@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:23:12 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/30 18:46:06 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 16:05:55 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct		s_line
 typedef struct		s_label
 {
 	char			*value;
+	char			**spl;
 	char			*real_label;
 	int				addr;
 }									t_label;
@@ -108,7 +109,7 @@ int 							create_ocp(t_line *line);
 void 							short_endian_swap(unsigned short *ptr);
 void 							free_g_line(void);
 void							*super_herror(char *msg, int char_ind);
-t_list						*alloc_label(char *label);
+t_list						*alloc_label(char *label, char **spl);
 void 							redefine_labels(char *final_label);
 int								is_relabel(char *str);
 char 							*fetch_final_label(char *label);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializators2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 20:42:21 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/30 18:40:50 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 16:04:01 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char *reinit_direct(char **dir, int addrnb, int addrline)
 	(*dir)[0] = '%';
 	while (++i < (int)ft_strlen(addrstr))
 		(*dir)[i + 1] = addrstr[i];
+	ft_memdel((void**)&addrstr);
 	(*dir)[i + 1] = 0;
 	return (*dir);
 }
@@ -51,6 +52,7 @@ char *reinit_indirect(char **ind, int addrnb, int addrline)
 		return (super_herror("malloc error", 0));
 	while (++i < (int)ft_strlen(addrstr))
 		(*ind)[i] = addrstr[i];
+	ft_memdel((void**)&addrstr);
 	(*ind)[i] = 0;
 	return (*ind);
 }
