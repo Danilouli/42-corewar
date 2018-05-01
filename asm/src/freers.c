@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:33:03 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/30 20:41:17 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 14:48:48 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ void free_g_line(void)
 	lst = g_labels;
 	while (lst != NULL)
 	{
-		//ft_printf("%p\n", ((t_label *)lst->content)->value);
+		ft_printf("FREE %p--%s\n", ((t_label *)lst->content)->value,((t_label *)lst->content)->value);
 		tmp = lst->next;
+		// free(((t_label *)lst->content)->value);
 		ft_memdel((void**)&((t_label *)lst->content)->value);
 		ft_memdel(&lst->content);
 		ft_memdel((void**)&lst);

@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 18:29:09 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 13:13:28 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 14:51:06 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,13 @@ int	fetch_opcode(char *op_name)
 	while (g_op_tab[i].name)
 	{
 		if (ft_strequ(op_name, g_op_tab[i].name))
+		{
+			ft_strdel(&op_name);
 			return (g_op_tab[i].code);
+		}
 		i++;
 	}
+	ft_strdel(&op_name);
 	return (0);
 }
 

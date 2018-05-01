@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 17:56:08 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/04/29 16:00:21 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/01 14:14:51 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ t_list	*alloc_label(char *labelstr)
 	if (!(nw = (t_list*)malloc(sizeof(t_list))) && ft_memdelbool((void**)&nw))
 		return (super_herror("malloc error\n", 0));
 	la->value = labelstr;
+	ft_printf("APRES %p--%s\n",la->value,la->value);
 	la->real_label = 0;
 	la->addr = 0;
 	nw->next = NULL;
