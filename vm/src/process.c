@@ -52,11 +52,25 @@ void	delprocess(void *content, size_t content_size)
 		}
 }
 
-int	proc_isalive(t_list *list, void *ref)
+t_list	*proc_filter(t_list *list, unsigned char *pmap)
 {
-	t_process	*process;
+	t_list		*result;
+	t_list		*next;
+	t_process	*proc;
 
-	(void)ref;
-	process = (t_process *)list->content;
-	return (process->life > 0 ? 1 : 0);
+	result = NULL;
+	while (list)
+	{
+		proc = (t_process *)list->content;
+		next = list->next;
+		if ((proc->life > 0 ? 1 : 0) && !(list->next = NULL))
+			ft_lstappend(&result, list);
+		else if (!(pmap[proc->ptr] = 0))
+		{
+			delprocess(list->content, list->content_size);
+			free(list);
+		}
+		list = next;
+	}
+	return (result);
 }

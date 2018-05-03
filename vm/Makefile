@@ -25,17 +25,17 @@ OBJ_PATH = ./build/
 LIB_PATH = ../
 INC_PATH = ./includes/ $(LIB_PATH)libft/includes/ $(LIB_PATH)glfw/include/
 
-GCC_FLGS = -g -Werror -Wextra -Wall #-fsanitize=address
-GCC_LIBS = -lglfw3 -framework AppKit -framework OpenGL -framework IOKit \
+GCC_FLGS = -g -Werror -Wextra -Wall
+GCC_LIBS = -lglfw3 -lncurses -framework AppKit -framework OpenGL -framework IOKit \
 			-framework OpenCL -framework CoreVideo
 
 SRC_NAME = 	champ.c debug.c vm.c operations.c process.c opt.c map.c env.c \
-			render.c shaders.c
+			render.c shaders.c args.c st_i.c ld_i.c forks.c operators.c \
+			aff_jmp_live.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 LIB_NAME = libft glfw/src
 
-SRC = $(addprefix $(SRC_PATH), $(SRC_PATH))
 OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
 INC = $(addprefix -I,$(INC_PATH))
 LIB = $(addprefix -L$(LIB_PATH),$(LIB_NAME))

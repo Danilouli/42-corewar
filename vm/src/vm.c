@@ -50,8 +50,11 @@ int	main(int ac, char **av)
 		return (1);
 	if (ft_strchr(opt, 'n'))
 		init_context(&r, &map); // Make sure this doesn't segfault
+	if (ft_strchr(opt, 'b') && !(ft_strchr(opt, 'n')))
+		r.ncurses = 1; // Make sure this doesn't segfault
 	setmap(&map, champs, allprocess);
-	prt_map_hex(map);
 	map.cycles = CYCLE_TO_DIE;
 	process_operations(&r, &map, champs, &allprocess);
+	if (r.ncurses)
+		endwin();
 }

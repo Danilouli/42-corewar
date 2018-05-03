@@ -110,3 +110,62 @@ int	render(t_render *r, t_map *map)
 	glfwSwapBuffers(r->win);
 	return (0);
 }
+
+void	print_nmap(t_map *map)
+{
+	int		i;
+
+	i = 0;
+	init_pair(1, COLOR_WHITE, COLOR_MAGENTA);
+	init_pair(2, COLOR_RED, COLOR_BLACK);
+	init_pair(3, COLOR_GREEN, COLOR_BLACK);
+	init_pair(4, COLOR_BLUE, COLOR_BLACK);
+	init_pair(5, COLOR_YELLOW, COLOR_BLACK);
+	init_pair(6, COLOR_WHITE, COLOR_BLACK);
+
+	while(i < MEM_SIZE)
+	{
+		if (map->p_map[i] == 1)
+		{
+			attron(COLOR_PAIR(1));
+			printw("%02x", map->map[i]);
+			attroff(COLOR_PAIR(1));
+		}
+		else if (map->c_map[i] == 1)
+		{
+			attron(COLOR_PAIR(2));
+			printw("%02x", map->map[i]);
+			attroff(COLOR_PAIR(2));
+		}
+		else if (map->c_map[i] == 2)
+		{
+			attron(COLOR_PAIR(3));
+			printw("%02x", map->map[i]);
+			attroff(COLOR_PAIR(3));
+		}
+		else if (map->c_map[i] == 3)
+		{
+			attron(COLOR_PAIR(4));
+			printw("%02x", map->map[i]);
+			attroff(COLOR_PAIR(4));
+		}
+		else if (map->c_map[i] == 4)
+		{
+			attron(COLOR_PAIR(5));
+			printw("%02x", map->map[i]);
+			attroff(COLOR_PAIR(5));
+		}
+		else if (map->c_map[i] == 0)
+		{
+			attron(COLOR_PAIR(6));
+			printw("%02x", map->map[i]);
+			attroff(COLOR_PAIR(6));
+		}
+		i++;
+		if (i % 64 == 0)
+			printw("\n");
+		else
+			printw(" ");
+	}
+	move(0, 0);
+}

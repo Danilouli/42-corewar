@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "corewar.h"
+#include <math.h>
 #define VERTEX_SHADER "rsc/s.vert"
 #define FRAG_SHADER "rsc/s.frag"
 
@@ -24,11 +25,11 @@ void	event(GLFWwindow* window, int key, int scancode, int action, \
 	(void)mods;
 	if (key == GLFW_KEY_P && (action == GLFW_PRESS || action == GLFW_REPEAT))
 		prt_map_hex(*(r->map));
-	if (key == GLFW_KEY_A && action == GLFW_PRESS)
+	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
 		r->pause = r->pause ? 0 : 1;
 	if (key == GLFW_KEY_R  && action == GLFW_PRESS)
 		r->skip += r->skip < 1000 ? 10 : 0;
-	if (key == GLFW_KEY_T  && action == GLFW_PRESS)
+	if (key == GLFW_KEY_S  && action == GLFW_PRESS)
 		r->skip -= r->skip <= 1 ? 0 : 10;
 
 }
@@ -62,4 +63,19 @@ int	init_context(t_render *r, t_map *map)
 	r->map = map;
 	r->skip = 1;
 	return (1);
+}
+
+int controls_ncurses(t_render *r)
+{
+	int ch = 0;
+	ch = getch();
+	if (ch == ' ')
+		r->npause = r->npause ? 0 : 1;
+	if (ch == 's')
+		r->skip += r->skip < 10 ? 1 : 0;
+	if (ch == 'r')
+		r->skip -= r->skip > 1 ? 1 : 0;
+	for (double i = 0; i < pow(10, r->skip) ; i++) // Slows the
+		(void)r;
+	return 0;
 }
