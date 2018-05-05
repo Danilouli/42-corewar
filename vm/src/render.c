@@ -167,5 +167,6 @@ void	print_nmap(t_map *map)
 		else
 			printw(" ");
 	}
+	printw("Cycles at: %li\n", map->t_cycles);
 	move(0, 0);
 }

@@ -12,13 +12,16 @@ int	st(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
 		return (op_tab[process->op - 1].nb_p - 1);
 	param = (int*)tabarg(arg, &inc, map, process);
-	if (arg[1].type == T_REG)
+	if (arg[1].type == T_REG) {
+		// printf("%i | %s - About to write : %08x\n", v++, op_tab[process->op - 1].name, (int)(*(int*)&process->reg[param[0] * REG_SIZE]));
 		ft_memcpy(&process->reg[param[1] * REG_SIZE], &process->reg[param[0] * REG_SIZE], REG_SIZE);
+	}
 	else
 	{
 		cast = (short)param[1] % (short)IDX_MOD + process->ptr;
 		cast = cast < 0 ? MEM_SIZE + cast : cast;
 		cast = cast >= MEM_SIZE ? cast - MEM_SIZE : cast;
+		// printf("%i | %s - About to write : %08x\n", v++, op_tab[process->op - 1].name, (int)(*(int*)&process->reg[param[0] * REG_SIZE]));
 		bidir_memcpy(map->map, &process->reg[param[0] * REG_SIZE], REG_SIZE, cast);
 		bidir_memset(map->c_map, process->champ->num + 1, REG_SIZE, cast);
 	}

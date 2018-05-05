@@ -38,10 +38,10 @@ int	live(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	bidir_memcpy(&tmp, map->map, -REG_SIZE, process->ptr + 1);
 	cast = (unsigned *)tmp;
 	ft_endian_swap(cast);
+	process->life = CYCLE_TO_DIE - CYCLE_DELTA * map->round;
 	if (LIFECODE - *cast >= champslen(champ))
 		return (4);
 	champ[LIFECODE - *cast].lastlife = map->t_cycles;
-	process->life = CYCLE_TO_DIE - CYCLE_DELTA * map->round;
 	map->lives++;
 	return (4); // Return 4: constant size of live parameter.
 }

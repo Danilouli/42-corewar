@@ -58,8 +58,6 @@ static inline void 	launch_action(t_process *process, t_map *map, t_champ *champ
 	&& !process->cycles && process->op)
 	{
 		toadd = f[(size_t)process->op - 1](map, champs, process, allprocess);
-		// if (process->op == 9)
-			// printf("Jumped from %i to %i with jump of %i\n", process->ptr, process->ptr + toadd, toadd);
 		process->ptr += toadd;
 		process->ptr = (process->ptr < 0) ? MEM_SIZE + process->ptr : process->ptr;
 		process->op = 0;
