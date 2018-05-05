@@ -41,7 +41,9 @@ t_arg	*get_arg(t_map *map, t_process *process, int nbarg)
 	i = 1;
 	(void)nbarg;
 	ft_bzero(arg, sizeof(t_arg) * 4);
-	OCP = map->map[i + process->ptr < MEM_SIZE ? i + process->ptr : 0];
+	OCP = map->map[(i + process->ptr) % MEM_SIZE];
+	// printf("OCP = %02x for %s\n", OCP, op_tab[process->op - 1].name);
+
 	if (!OCPCheck(OCP, nbarg))
 		return (NULL);
 	translation = (op_tab[process->op - 1].mod_c) ? translate_OCP(OCP) : NULL;
@@ -52,22 +54,16 @@ t_arg	*get_arg(t_map *map, t_process *process, int nbarg)
 		ft_bzero(arg[a].arg, 4);
 		inc = 0;
 		arg[a].type = *translation;
-		if (arg[a].type == REG_CODE && map->map[i + process->ptr] > 0 && map->map[i + process->ptr] < REG_NUMBER + 1)
-		{
-			// printf("map->map REG : %i\n", map->map[i + process->ptr]);
+		if (arg[a].type == REG_CODE && map->map[(i + process->ptr) % MEM_SIZE] > 0 && map->map[(i + process->ptr) % MEM_SIZE] < REG_NUMBER + 1)
 			bidir_memcpy(arg[a].arg, map->map, inc = -T_REG, i + process->ptr);
-		}
-			// ft_memcpy(arg[a].arg, &map->map[i + process->ptr], inc = 1);
 		else if (arg[a].type == DIR_CODE || (process->op == 3 && arg[a].type == IND_CODE))
 			bidir_memcpy(arg[a].arg, map->map, inc = -((op_tab[process->op - 1].need_c) ? 2 : 4), i + process->ptr);
-			// ft_memcpy(arg[a].arg, &map->map[i + process->ptr], inc = (op_tab[process->op - 1].need_c) ? 2 : 4);
 		else if (arg[a].type == IND_CODE)
 			bidir_memcpy(arg[a].arg, map->map, inc = -T_DIR, i + process->ptr);
-			// ft_memcpy(arg[a].arg, &map->map[i + process->ptr], inc = 2);
 		else
 			break ;
 		arg[a++].len = (size_t)-inc;
-		i += (int)-inc;
+		i -= (int)inc;
 		translation++;
 	}
 	arg[a].type = 0;

@@ -46,6 +46,7 @@ int	main(int ac, char **av)
 	ft_bzero(map.map, MEM_SIZE);
 	ft_bzero(map.c_map, MEM_SIZE);
 	ft_bzero(map.p_map, MEM_SIZE);
+	r.skip = 1;
 	if (!(allprocess = option(ac, av, opt, champs)))
 		return (1);
 	if (ft_strchr(opt, 'n'))
@@ -57,4 +58,5 @@ int	main(int ac, char **av)
 	process_operations(&r, &map, champs, &allprocess);
 	if (r.ncurses)
 		endwin();
+	prt_map_hex(map);
 }

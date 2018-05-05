@@ -62,4 +62,5 @@ void	prt_map_hex(t_map map)
 		else
 			ft_putchar(' ');
 	}
+	printf("Cycles at : %li\n", map.t_cycles);
 }

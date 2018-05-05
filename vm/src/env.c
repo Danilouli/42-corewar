@@ -61,7 +61,6 @@ int	init_context(t_render *r, t_map *map)
 	if (!(r->f_shader = build_shader(FRAG_SHADER, GL_FRAGMENT_SHADER, r->v_shader->prog, TRUE)))
 		return (0);
 	r->map = map;
-	r->skip = 1;
 	return (1);
 }
 

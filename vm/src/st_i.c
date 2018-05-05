@@ -10,7 +10,7 @@ int	st(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	(void)champ;
 	(void)allprocess;
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (op_tab[process->op - 1].nb_p - 1);
+		return (3);
 	param = (int*)tabarg(arg, &inc, map, process);
 	if (arg[1].type == T_REG) {
 		// printf("%i | %s - About to write : %08x\n", v++, op_tab[process->op - 1].name, (int)(*(int*)&process->reg[param[0] * REG_SIZE]));
@@ -40,7 +40,7 @@ int	sti(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // 
 	(void)champ;
 	(void)allprocess;
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (op_tab[process->op - 1].nb_p - 1);
+		return (4);
 	param = (int*)tabarg(arg, &inc, map, process);
 	if (arg[1].type == REG_CODE)
 	{

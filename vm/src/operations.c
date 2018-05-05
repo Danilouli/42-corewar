@@ -90,8 +90,8 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 		refresh();
 		r->npause = 1;
 	}
-	while ((champ_isalive(map, *allprocess, champs))
-	|| (r->win && !glfwWindowShouldClose(r->win))) // // Doit rester dans cet ordre
+	while (champ_isalive(map, *allprocess, champs))
+/*|| (r->win && !glfwWindowShouldClose(r->win))*/ // // Doit rester dans cet ordre
 	{
 		while (r->pause)
 			render(r, map);
@@ -120,13 +120,13 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 			CYCLE_TO_DIE - CYCLE_DELTA * map->round;
 			if (map->lives >= NBR_LIVE || map->checks++ == MAX_CHECKS)
 				map->checks = 0;
-			if (map->cycles < 0)
-				map->cycles = 0;
+			// if (map->cycles < 0)
+			// 	map->cycles = 0;
 			map->lives = 0;
 		}
 		if (r->win && !(map->t_cycles % r->skip))
 			render(r, map);
-		else if (r->ncurses) {
+		else if (r->ncurses && !(map->t_cycles % r->skip)) {
 			print_nmap(map);
 			refresh();
 			controls_ncurses(r);

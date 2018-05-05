@@ -10,7 +10,7 @@ int	ld(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // R
 	(void)champ;
 	(void)allprocess;
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (op_tab[process->op - 1].nb_p - 1);
+		return (6);
 	param = (int*)tabarg(arg, &inc, map, process);
 	if (process->op < 13 && arg[0].type == DIR_CODE)
 		ft_endian_swap((unsigned *)&param[0]);
@@ -28,7 +28,7 @@ int	ldi(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // 
 	(void)champ;
 	(void)allprocess;
 	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (op_tab[process->op - 1].nb_p - 1);
+		return (4);
 	param = (int*)tabarg(arg, &inc, map, process);
 	if (arg[0].type == REG_CODE)
 	{

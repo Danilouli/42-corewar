@@ -95,5 +95,5 @@ int	champ_isalive(t_map *map, t_list *list, t_champ *champs)
 		// ft_printf("cycles : %lli | ret : %i | lives : %i | todie : %i\n", map->t_cycles, ret, map->lives, CYCLE_TO_DIE - (CYCLE_DELTA * map->round));
 		return (ret);
 	}
-	return (1);
+	return (map->cycles < 0 ? 0 : 1);
 }
