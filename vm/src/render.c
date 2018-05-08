@@ -37,9 +37,9 @@ void	initTower(int fd, t_ower *towers)
 	{
 		if (*line == 'v')
 		{
-			vertices[v].x = (float)ft_atoi(ft_strchr(line, ' ') + 1) / 10;
-			vertices[v].z = (float)ft_atoi(ft_strchr(line, ',') + 1) / 10;
-			vertices[v++].y = (float)ft_atoi(ft_strrchr(line, ',') + 1) / 10;
+			vertices[v].x = (float)ft_atoi(ft_strchr(line, ' ') + 1) / 100 - 0.5;
+			vertices[v].z = (float)ft_atoi(ft_strchr(line, ',') + 1) / 100 - 0.5;
+			vertices[v++].y = (float)ft_atoi(ft_strrchr(line, ',') + 1) / 100 - 0.5;
 		}
 		if (*line == 'f')
 		{
@@ -51,14 +51,14 @@ void	initTower(int fd, t_ower *towers)
 	model = towers[0];
 	int t = 1;
 	f = 0;
-	float incy = 0.2;
+	float incy = 0.02;
 	while (f < 64)
 	{
 		v = !f ? 1 : 0;
 		for (size_t i = 0; i < 42; i++) {
 			model.pts[i].x = towers[0].pts[i].x;
 		}
-		float incx = 0.2;
+		float incx = 0.02;
 		while (v < 64)
 		{
 			for (size_t i = 0; i < 42; i++) {
@@ -74,15 +74,32 @@ void	initTower(int fd, t_ower *towers)
 	}
 }
 
-int buildTower(t_ower tower)
+int buildTowers(t_ower towers[4096])
 {
 	GLuint vao;
+	short i;
+	short pt;
+	unsigned int p_parser;
+	float	pts[516096];
 
+	i = 0;
+	p_parser = 0;
 	vao = createVAO();
 	GLuint vbo = 0;
+	while (i < 4096)
+	{
+		pt = 0;
+		while (pt < 42)
+		{
+			pts[p_parser++] = towers[i].pts[pt].x;
+			pts[p_parser++] = towers[i].pts[pt].y;
+			pts[p_parser++] = towers[i].pts[pt++].z;
+		}
+		i++;
+	}
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, 42 * 3 * sizeof(float), tower.pts, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4096 * 42 * 3 * sizeof(float), pts, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), (void*)0);
@@ -97,12 +114,11 @@ int	render(t_render *r, t_map *map)
 	GLuint	vao;
 	t_ower	towers[4096];
 	int		fd;
-	static int f = 0;
 
 	fd = open(TOWER_OBJ, O_RDONLY);
 	(void)map;
 	initTower(fd, &towers[0]);
-	vao = buildTower(towers[0]);
+	vao = buildTowers(towers);
 	glUseProgram(r->v_shader->prog);
 	glfwSetKeyCallback(r->win, event);
 	glfwSetCursorPosCallback(r->win, cursor_position_callback);
