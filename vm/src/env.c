@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsabatie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 14:38:59 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/03/26 14:39:00 by fsabatie         ###   ########.fr       */
+/*   Updated: 2018/05/08 15:24:28 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int controls_ncurses(t_render *r)
 	if (ch == 'r')
 		r->skip -= r->skip > 1 ? 1 : 0;
 	for (double i = 0; i < pow(10, r->skip) ; i++) // Slows the
+	{
 		(void)r;
+	}
 	return 0;
 }

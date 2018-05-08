@@ -26,8 +26,9 @@ typedef struct			s_map
 	unsigned char		*map;
 	unsigned char		*c_map;
 	unsigned char		*p_map;
-	uintmax_t			t_cycles;
+	intmax_t			t_cycles;
 	int					cycles;
+	intmax_t			cycle_todie;
 	int					lives;
 	int					checks;
 	unsigned			round;
@@ -106,10 +107,10 @@ int						usage(void);
 Arg functions
 */
 unsigned char			*translate_OCP(unsigned char OCP);
-char					OCPCheck(unsigned char OCP, int nbarg);
-t_arg					*get_arg(t_map *map, t_process *process, int nbarg);
-unsigned				*tabarg(t_arg *arg, int *inc, t_map *map, \
-						t_process *process);
+int						OCPCheck(t_map *map, t_process *process);
+t_arg					*get_arg(t_map *map, t_process *process, int nbarg, int *in);
+unsigned				*tabarg(t_arg *arg, t_map *map, t_process *process);
+
 /*
 Process functions
 */

@@ -1,6 +1,5 @@
 #include "corewar.h"
 
-
 int	add(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 {
 	t_arg			*arg;
@@ -12,9 +11,9 @@ int	add(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 	(void)champ;
 	(void)allprocess;
-	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (4);
-	param = (unsigned int*)tabarg(arg, &inc, map, process);
+	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	if (!(param = tabarg(arg, map, process)))
+		return (inc);
 	nb[0] = (int)(*((int*)&process->reg[REG_SIZE * param[0]]));
 	nb[1] = (int)(*((int*)&process->reg[REG_SIZE * param[1]]));
 	ft_endian_swap((unsigned*)&nb[0]);
@@ -37,9 +36,9 @@ int	sub(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 	(void)champ;
 	(void)allprocess;
-	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (4);
-	param = (unsigned int*)tabarg(arg, &inc, map, process);
+	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	if (!(param = tabarg(arg, map, process)))
+		return (inc);
 	nb[0] = (int)(*((int*)&process->reg[REG_SIZE * param[0]]));
 	nb[1] = (int)(*((int*)&process->reg[REG_SIZE * param[1]]));
 	ft_endian_swap((unsigned*)&nb[0]);
@@ -60,9 +59,9 @@ int	and(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 	(void)champ;
 	(void)allprocess;
-	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (4);
-	param = (int*)tabarg(arg, &inc, map, process);
+	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	if (!(param = (int*)tabarg(arg, map, process)))
+		return (inc);
 	if (arg[0].type == REG_CODE)
 	{
 		tmp = (int)*(int *)&process->reg[REG_SIZE * param[0]];
@@ -93,9 +92,9 @@ int	or(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 	(void)champ;
 	(void)allprocess;
-	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (4);
-	param = (int*)tabarg(arg, &inc, map, process);
+	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	if (!(param = (int*)tabarg(arg, map, process)))
+		return (inc);
 	if (arg[0].type == REG_CODE)
 	{
 		tmp = (int)*(int *)&process->reg[REG_SIZE * param[0]];
@@ -126,9 +125,9 @@ int	xor(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 	(void)champ;
 	(void)allprocess;
-	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (4);
-	param = (int*)tabarg(arg, &inc, map, process);
+	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	if (!(param = (int*)tabarg(arg, map, process)))
+		return (inc);
 	if (arg[0].type == REG_CODE)
 	{
 		tmp = (int)*(int *)&process->reg[REG_SIZE * param[0]];

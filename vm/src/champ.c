@@ -71,29 +71,8 @@ size_t	champslen(t_champ *champs)
 
 int	champ_isalive(t_map *map, t_list *list, t_champ *champs)
 {
-	t_process	*process;
-	int			ret;
-	size_t		len;
-	unsigned	score[len = champslen(champs)];
-
-	ret = 0;
-	ft_bzero(score, sizeof(unsigned) * len);
-	--map->cycles;
+	(void)champs;
+	++map->cycles;
 	++map->t_cycles;
-	if (!map->cycles)
-	{
-		while (list)
-		{
-			process = (t_process *)list->content;
-			if (process->champ->name)
-			{
-				score[(int)process->champ->num]++;
-				ret++;
-			}
-			list = list->next;
-		}
-		// ft_printf("cycles : %lli | ret : %i | lives : %i | todie : %i\n", map->t_cycles, ret, map->lives, CYCLE_TO_DIE - (CYCLE_DELTA * map->round));
-		return (ret);
-	}
-	return (map->cycles < 0 ? 0 : 1);
+	return (map->cycle_todie < 1 || !ft_lstlen(list) ? 0 : 1);
 }
