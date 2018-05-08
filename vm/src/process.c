@@ -63,8 +63,13 @@ t_list	*proc_filter(t_list *list, unsigned char *pmap)
 	{
 		proc = (t_process *)list->content;
 		next = list->next;
-		if ((proc->life > 0 ? 1 : 0) && !(list->next = NULL))
+		// printf("life: %i\n", proc->life);
+		if (proc->life > 0)
+		{
+			list->next = NULL;
+			proc->life = 0;
 			ft_lstappend(&result, list);
+		}
 		else if (!(pmap[proc->ptr] = 0))
 		{
 			delprocess(list->content, list->content_size);

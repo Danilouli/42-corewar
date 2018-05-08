@@ -14,63 +14,76 @@ unsigned char	*translate_OCP(unsigned char OCP)
 	return (res);
 }
 
-char	OCPCheck(unsigned char OCP, int nbarg)
+int		OCPCheck(t_map *map, t_process *process)
 {
-	int						i;
-	unsigned char			mask;
+	unsigned char	*translate;
+	unsigned char	res[4];
+	int				i;
 
-	if (nbarg== -1)
-		return (1);
-	mask = 192;
-	i = -1;
-	while(++i < nbarg)
-		if (!(OCP & (mask >> i * 2)))
+	i = 0;
+	translate = translate_OCP(map->map[(process->ptr + 1) % MEM_SIZE]);
+	ft_bzero(res, 4);
+	while (i < op_tab[process->op - 1].nb_p)
+	{
+		if (!translate[i])
 			return (0);
-	return (!(OCP & (mask >> i * 2)));
+		res[i] = 1 << translate[i];
+		res[i] >>= 1;
+		i++;
+	}
+	i = 0;
+	while (i < op_tab[process->op - 1].nb_p)
+	{
+		if (!(res[i] & op_tab[process->op - 1].param[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-t_arg	*get_arg(t_map *map, t_process *process, int nbarg)
+t_arg	*get_arg(t_map *map, t_process *process, int nbarg, int *in)
 {
 	size_t			a;
-	size_t			i;
 	unsigned char	OCP;
 	unsigned char	*translation;
 	static t_arg	arg[4];
 	int				inc;
 
-	i = 1;
+	*in = 1;
 	(void)nbarg;
 	ft_bzero(arg, sizeof(t_arg) * 4);
-	OCP = map->map[(i + process->ptr) % MEM_SIZE];
-	// printf("OCP = %02x for %s\n", OCP, op_tab[process->op - 1].name);
-
-	if (!OCPCheck(OCP, nbarg))
-		return (NULL);
-	translation = (op_tab[process->op - 1].mod_c) ? translate_OCP(OCP) : NULL;
-	i += (op_tab[process->op - 1].mod_c) ? 1 : 0;
+	OCP = map->map[(*in + process->ptr) % MEM_SIZE];
+	translation = translate_OCP(OCP);
+	*in += (op_tab[process->op - 1].mod_c) ? 1 : 0;
 	a = 0;
-	while (translation && *translation)
+	while (a < (size_t)op_tab[process->op - 1].nb_p)
 	{
 		ft_bzero(arg[a].arg, 4);
 		inc = 0;
-		arg[a].type = *translation;
-		if (arg[a].type == REG_CODE && map->map[(i + process->ptr) % MEM_SIZE] > 0 && map->map[(i + process->ptr) % MEM_SIZE] < REG_NUMBER + 1)
-			bidir_memcpy(arg[a].arg, map->map, inc = -T_REG, i + process->ptr);
+		if (!(arg[a].type = *translation))
+			return (arg);
+		if (arg[a].type == REG_CODE)
+			bidir_memcpy(arg[a].arg, map->map, inc = -T_REG, *in + process->ptr);
 		else if (arg[a].type == DIR_CODE || (process->op == 3 && arg[a].type == IND_CODE))
-			bidir_memcpy(arg[a].arg, map->map, inc = -((op_tab[process->op - 1].need_c) ? 2 : 4), i + process->ptr);
+			bidir_memcpy(arg[a].arg, map->map, inc = -((op_tab[process->op - 1].need_c || (process->op == 3 && arg[a].type == IND_CODE)) ? 2 : 4), *in + process->ptr);
 		else if (arg[a].type == IND_CODE)
-			bidir_memcpy(arg[a].arg, map->map, inc = -T_DIR, i + process->ptr);
+			bidir_memcpy(arg[a].arg, map->map, inc = -T_DIR, *in + process->ptr);
 		else
-			break ;
+		{
+			*in = *in - 1;
+			return (NULL);
+		}
 		arg[a++].len = (size_t)-inc;
-		i -= (int)inc;
+		*in -= (int)inc;
 		translation++;
 	}
 	arg[a].type = 0;
+	*in = *in - 1;
+	// printf("OP: %s | in: %i\n", op_tab[process->op - 1].name, *in);
 	return (arg);
 }
 
-unsigned	*tabarg(t_arg *arg, int *inc, t_map *map, t_process *process)
+unsigned	*tabarg(t_arg *arg, t_map *map, t_process *process)
 {
 	static unsigned	param[3];
 	short		cast;
@@ -79,19 +92,21 @@ unsigned	*tabarg(t_arg *arg, int *inc, t_map *map, t_process *process)
 
 	a = 0;
 	i = 1;
-	*inc = (op_tab[process->op - 1].mod_c) ? 1 : 0;
 	ft_bzero(param, sizeof(unsigned) * 3);
-	while (arg[a].type)
+	if (!arg || !OCPCheck(map, process))
+		return (0);
+	while (a < (size_t)op_tab[process->op - 1].nb_p)
 	{
-		if (arg[a].type == REG_CODE)
+		if (arg[a].type == REG_CODE && *arg[a].arg > 0 && *arg[a].arg < REG_NUMBER - 1)
 			param[a] = (*arg[a].arg) - 1;
-		else if (arg[a].type == DIR_CODE || process->op == 3)
+		else if (arg[a].type == DIR_CODE || (process->op == 3 && arg[a].type == IND_CODE))
 		{
-			param[a] = (op_tab[process->op - 1].need_c) ? (short)ft_short_endian_swap((unsigned short*)arg[a].arg) :
+			param[a] = (op_tab[process->op - 1].need_c || (process->op == 3 && arg[a].type == IND_CODE)) ? (short)ft_short_endian_swap((unsigned short*)arg[a].arg) :
 			(int)ft_endian_swap((unsigned *)arg[a].arg);
 			// printf("Got direct arg: %hi for op = %s\n", (short)(*(short*)(arg[a].arg)), op_tab[process->op - 1].name);
 		}
-		else if (arg[a].type == IND_CODE) {
+		else if (arg[a].type == IND_CODE)
+		{
 			cast = (short)ft_short_endian_swap((unsigned short *)arg[a].arg);
 			// printf("Got indirect arg: %hi for op = %s\n", cast, op_tab[process->op - 1].name);
 			if (process->op < 13)
@@ -101,7 +116,6 @@ unsigned	*tabarg(t_arg *arg, int *inc, t_map *map, t_process *process)
 			bidir_memcpy(&param[a], map->map, -REG_SIZE, process->ptr + cast);
 			// ft_memcpy(&param[a], &map->map[(process->ptr + cast) % MEM_SIZE], REG_SIZE);
 		}
-		*inc += arg[a].len;
 		a++;
 	}
 	return (param);

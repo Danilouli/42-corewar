@@ -6,7 +6,7 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 14:39:41 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/04/06 22:40:33 by vlay             ###   ########.fr       */
+/*   Updated: 2018/05/08 15:21:27 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,5 +168,6 @@ void	print_nmap(t_map *map)
 			printw(" ");
 	}
 	printw("Cycles at: %li\n", map->t_cycles);
+	printw("CYCLE_TO_DIE: %i\n", map->cycle_todie);
 	move(0, 0);
 }

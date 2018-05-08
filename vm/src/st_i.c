@@ -9,10 +9,11 @@ int	st(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 	(void)champ;
 	(void)allprocess;
-	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
+	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	if (!(param = (int*)tabarg(arg, map, process)))
 		return (3);
-	param = (int*)tabarg(arg, &inc, map, process);
-	if (arg[1].type == T_REG) {
+	if (arg[1].type == T_REG)
+	{
 		// printf("%i | %s - About to write : %08x\n", v++, op_tab[process->op - 1].name, (int)(*(int*)&process->reg[param[0] * REG_SIZE]));
 		ft_memcpy(&process->reg[param[1] * REG_SIZE], &process->reg[param[0] * REG_SIZE], REG_SIZE);
 	}
@@ -39,9 +40,9 @@ int	sti(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // 
 
 	(void)champ;
 	(void)allprocess;
-	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (4);
-	param = (int*)tabarg(arg, &inc, map, process);
+	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	if (!(param = (int*)tabarg(arg, map, process)))
+		return (inc);
 	if (arg[1].type == REG_CODE)
 	{
 		tmp = (int)*(int *)&process->reg[REG_SIZE * param[1]];
@@ -61,5 +62,6 @@ int	sti(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // 
 	tmp = tmp >= MEM_SIZE ? tmp - MEM_SIZE : tmp;
 	bidir_memcpy(map->map, &process->reg[param[0] * REG_SIZE], REG_SIZE, tmp);
 	bidir_memset(map->c_map, process->champ->num + 1, REG_SIZE, tmp);
+	// printf("sti: inc = %i\n", inc);
 	return (inc);
 }

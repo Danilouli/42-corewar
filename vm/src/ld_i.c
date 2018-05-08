@@ -9,9 +9,9 @@ int	ld(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // R
 
 	(void)champ;
 	(void)allprocess;
-	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (6);
-	param = (int*)tabarg(arg, &inc, map, process);
+	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	if (!(param = (int*)tabarg(arg, map, process)))
+		return (inc);
 	if (process->op < 13 && arg[0].type == DIR_CODE)
 		ft_endian_swap((unsigned *)&param[0]);
 	ft_memcpy(&process->reg[REG_SIZE * param[1]], &param[0], REG_SIZE);
@@ -25,11 +25,12 @@ int	ldi(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // 
 	int					inc;
 	int					*param;
 	int					tmp;
+
 	(void)champ;
 	(void)allprocess;
-	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (4);
-	param = (int*)tabarg(arg, &inc, map, process);
+	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	if (!(param = (int*)tabarg(arg, map, process)))
+		return (inc);
 	if (arg[0].type == REG_CODE)
 	{
 		tmp = (int)*(int *)&process->reg[REG_SIZE * param[0]];

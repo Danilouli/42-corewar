@@ -21,9 +21,9 @@ int aff(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	(void)champ;
 	(void)allprocess;
 
-	if (!(arg = get_arg(map, process, op_tab[process->op - 1].nb_p)))
-		return (op_tab[process->op - 1].nb_p - 1);
-	param = (int*)tabarg(arg, &inc, map, process);
+	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	if (!(param = (int*)tabarg(arg, map, process)))
+		return (inc - 1);
 	ft_printf("%c\n", (char)(param[0] % 256));
 	return (2);
 }
@@ -38,10 +38,10 @@ int	live(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	bidir_memcpy(&tmp, map->map, -REG_SIZE, process->ptr + 1);
 	cast = (unsigned *)tmp;
 	ft_endian_swap(cast);
-	process->life = CYCLE_TO_DIE - CYCLE_DELTA * map->round;
+	process->life = map->cycle_todie;
+	map->lives++;
 	if (LIFECODE - *cast >= champslen(champ))
 		return (4);
 	champ[LIFECODE - *cast].lastlife = map->t_cycles;
-	map->lives++;
 	return (4); // Return 4: constant size of live parameter.
 }

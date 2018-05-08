@@ -54,10 +54,11 @@ static inline void 	launch_action(t_process *process, t_map *map, t_champ *champ
 		&ld, &ldi, &lcfork, &aff, NULL
 	};
 
-	if (map->map[process->ptr] < 17 && process->active
+	if (map->map[process->ptr] > 0 && map->map[process->ptr] < 17 && process->active
 	&& !process->cycles && process->op)
 	{
 		toadd = f[(size_t)process->op - 1](map, champs, process, allprocess);
+		// printf("%s| toadd: %i\n", op_tab[process->op - 1].name, toadd);
 		process->ptr += toadd;
 		process->ptr = (process->ptr < 0) ? MEM_SIZE + process->ptr : process->ptr;
 		process->op = 0;
@@ -72,10 +73,11 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 	t_process	*process;
 	int			f_ptr;
 
-	map->cycles = CYCLE_TO_DIE;
+	map->cycles = 0;
 	map->t_cycles = 0;
 	map->round = 0;
 	map->checks = 0;
+	map->cycle_todie = CYCLE_TO_DIE;
 	if (r->win) {
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		glfwSetWindowUserPointer(r->win, r);
@@ -98,35 +100,39 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 		while (r->npause)
 			controls_ncurses(r);
 		tmp = *allprocess;
-		while (tmp && (int)(CYCLE_TO_DIE - CYCLE_DELTA * map->round) > 0) {
+		while (tmp && (int)(CYCLE_TO_DIE - CYCLE_DELTA * map->round) > 0)
+		{
 			process = (t_process *)tmp->content;
 			f_ptr = process->ptr;
 			init_action(process, map);
 			launch_action(process, map, champs, allprocess);
 			if (!process->active && !process->cycles)
 				process->ptr++;
-			process->life -= (process->life > 0) ? 1 : 0;
+			process->life--;
 			process->ptr = process->ptr < 0 ? MEM_SIZE + process->ptr : process->ptr;
 			process->ptr = process->ptr >= MEM_SIZE ? process->ptr - MEM_SIZE : process->ptr;
 			map->p_map[f_ptr] = 0;
 			map->p_map[process->ptr] = 1;
 			tmp = tmp->next;
 		}
-		if (!map->cycles)
+		// printf("cycle: %i | toie: %ji\n", map->cycles, map->cycle_todie);
+		if (map->cycles >= map->cycle_todie)
 		{
 			*allprocess = proc_filter(*allprocess, map->p_map);
-			map->cycles = (map->lives >= NBR_LIVE || map->checks == MAX_CHECKS) ?
-			CYCLE_TO_DIE - CYCLE_DELTA * ++map->round :
-			CYCLE_TO_DIE - CYCLE_DELTA * map->round;
-			if (map->lives >= NBR_LIVE || map->checks++ == MAX_CHECKS)
+			// printf("len: %zu\n", ft_lstlen(*allprocess));
+			if (++map->checks >= MAX_CHECKS || map->lives >= NBR_LIVE)
+			{
 				map->checks = 0;
-			// if (map->cycles < 0)
-			// 	map->cycles = 0;
+				map->round++;
+			}
+			map->cycle_todie = CYCLE_TO_DIE - (CYCLE_DELTA * map->round);
+			map->cycles = 0;
 			map->lives = 0;
 		}
 		if (r->win && !(map->t_cycles % r->skip))
 			render(r, map);
-		else if (r->ncurses && !(map->t_cycles % r->skip)) {
+		else if (r->ncurses)
+		{
 			print_nmap(map);
 			refresh();
 			controls_ncurses(r);
