@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include "corewar.h"
-#define SVERT "rsc/shaders/test.vert"
-#define FRAG_G "rsc/shaders/green.frag"
+#define TOWER_OBJ "rsc/tower.obj"
 
 static GLuint createVAO(void)
 {
@@ -24,88 +23,108 @@ static GLuint createVAO(void)
 	return (vao);
 }
 
-GLuint createBuffer(float pts[][6])
+void	initTower(int fd, t_ower *towers)
+{
+	char		*line;
+	int			v;
+	short		f;
+	t_vertex 	vertices[10];
+	t_ower		model;
+
+	f = 0;
+	v = 1;
+	while (get_next_line(fd, &line) > 0)
+	{
+		if (*line == 'v')
+		{
+			vertices[v].x = (float)ft_atoi(ft_strchr(line, ' ') + 1) / 100 - 0.5;
+			vertices[v].z = (float)ft_atoi(ft_strchr(line, ',') + 1) / 100 - 0.5;
+			vertices[v++].y = (float)ft_atoi(ft_strrchr(line, ',') + 1) / 100 - 0.5;
+		}
+		if (*line == 'f')
+		{
+			ft_memcpy(&towers[0].pts[f++], &vertices[ft_atoi(ft_strchr(line, ' ') + 1)], sizeof(t_vertex));
+			ft_memcpy(&towers[0].pts[f++], &vertices[ft_atoi(ft_strchr(line, ',') + 1)], sizeof(t_vertex));
+			ft_memcpy(&towers[0].pts[f++], &vertices[ft_atoi(ft_strrchr(line, ',') + 1)], sizeof(t_vertex));
+		}
+	}
+	model = towers[0];
+	int t = 1;
+	f = 0;
+	float incy = 0.02;
+	while (f < 64)
+	{
+		v = !f ? 1 : 0;
+		for (size_t i = 0; i < 42; i++) {
+			model.pts[i].x = towers[0].pts[i].x;
+		}
+		float incx = 0.02;
+		while (v < 64)
+		{
+			for (size_t i = 0; i < 42; i++) {
+				model.pts[i].x += incx;
+			}
+			ft_memcpy(&towers[t++], &model, sizeof(t_ower));
+			v++;
+		}
+		for (size_t i = 0; i < 42; i++) {
+			model.pts[i].y += incy;
+		}
+		f++;
+	}
+}
+
+int buildTowers(t_ower towers[4096])
 {
 	GLuint vao;
+	short i;
+	short pt;
+	unsigned int p_parser;
+	float	pts[516096];
 
+	i = 0;
+	p_parser = 0;
 	vao = createVAO();
-	int i;
-
-	i = -1;
 	GLuint vbo = 0;
+	while (i < 4096)
+	{
+		pt = 0;
+		while (pt < 42)
+		{
+			pts[p_parser++] = towers[i].pts[pt].x;
+			pts[p_parser++] = towers[i].pts[pt].y;
+			pts[p_parser++] = towers[i].pts[pt++].z;
+		}
+		i++;
+	}
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, 4096 * 6 * sizeof(float), pts, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4096 * 42 * 3 * sizeof(float), pts, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GL_FLOAT), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), (void*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GL_FLOAT), (void*)(3 * sizeof(GL_FLOAT)));
-	glEnableVertexAttribArray(1);
 	glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 	glEnable(GL_DEPTH_TEST);
 	return (vao);
 }
 
-
-void	getPts(float pts[][6], t_map *map) {
-	int i;
-	int j;
-	int c;
-
-	c = 0;
-	i = -1;
-	while (++i < 64) {
-		j = -1;
-		while (++j < 64) {
-			pts[c][0] = (float)i / 34 - 0.93;
-			pts[c][1] = (float)j / 34 - 0.93;
-			pts[c][2] = (float)map->p_map[c] / 100;
-			if (map->c_map[c] == 1) {
-				pts[c][3] = 255;
-				pts[c][4] = 0;
-				pts[c++][5] = 0;
-			}
-			else if (map->c_map[c] == 2)
-			{
-				pts[c][3] = 0;
-				pts[c][4] = 255;
-				pts[c++][5] = 0;
-			}
-			else if (map->c_map[c] == 3)
-			{
-				pts[c][3] = 0;
-				pts[c][4] = 0;
-				pts[c++][5] = 255;
-			}
-			else if (map->c_map[c] == 4)
-			{
-				pts[c][3] = 255;
-				pts[c][4] = 255;
-				pts[c++][5] = 0;
-			}
-			else if (map->c_map[c] == 0) {
-				pts[c][3] = 100;
-				pts[c][4] = 100;
-				pts[c++][5] = 100;
-			}
-		}
-	}
-}
-
 int	render(t_render *r, t_map *map)
 {
 	GLuint	vao;
-	float	pts[4096][6];
+	t_ower	towers[4096];
+	int		fd;
 
-	getPts(pts, map);
-	vao = createBuffer(pts);
+	fd = open(TOWER_OBJ, O_RDONLY);
+	(void)map;
+	initTower(fd, &towers[0]);
+	vao = buildTowers(towers);
 	glUseProgram(r->v_shader->prog);
 	glfwSetKeyCallback(r->win, event);
 	glfwSetCursorPosCallback(r->win, cursor_position_callback);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glBindVertexArray(vao);
-	glDrawArrays(GL_POINTS, 0, 4096);
+	glDrawArrays(GL_TRIANGLES, 0, 4096);
 	glfwPollEvents();
 	glfwSwapBuffers(r->win);
 	return (0);
