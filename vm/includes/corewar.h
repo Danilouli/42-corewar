@@ -69,15 +69,30 @@ typedef struct		s_shader
 
 typedef struct			s_render
 {
-	GLFWwindow	*win;
-	t_shader	*v_shader;
-	t_shader	*f_shader;
-	t_bool		pause;
-	t_bool		ncurses;
-	t_bool		npause;
-	t_map		*map;
-	short		skip;
+	GLFWwindow		*win;
+	t_shader		*v_shader;
+	t_shader		*f_shader;
+	t_bool			pause;
+	t_bool			ncurses;
+	t_bool			npause;
+	t_map			*map;
+	short			skip;
 }						t_render;
+
+typedef struct			s_vertex
+{
+	float			x;
+	float			y;
+	float			z;
+}						t_vertex;
+
+typedef struct			s_tower
+{
+	t_vertex		pts[42];
+	short			height;
+	int				color;
+	int				top_color;
+}						t_ower;
 
 /*
 VM functions
