@@ -77,6 +77,7 @@ typedef struct			s_render
 	t_bool			npause;
 	t_map			*map;
 	short			skip;
+	float			rot;
 }						t_render;
 
 typedef struct			s_vertex
