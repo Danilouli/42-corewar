@@ -34,44 +34,10 @@ void	bidir_memset(void *dst, char champ_num, int n, short where)
 	}
 }
 
-static inline void 	init_action(t_process *process, t_map *map)
-{
-	if (!process->active && map->map[process->ptr] > 0 && map->map[process->ptr] < 17)
-	{
-		process->op = map->map[process->ptr];
-		process->cycles = op_tab[map->map[process->ptr] - 1].cycles;
-		process->active = 1;
-	}
-	process->cycles -= (process->active) ? 1 : 0;
-}
-
-static inline void 	launch_action(t_process *process, t_map *map, t_champ *champs, \
-					t_list **allprocess)
-{
-	int toadd = 0;
-	static	int	(*f[17])(t_map *, t_champ *, t_process *, t_list **allprocess) = {
-		&live, &ld, &st, &add, &sub, &and, &or, &xor, &zjmp, &ldi, &sti, &cfork,
-		&ld, &ldi, &lcfork, &aff, NULL
-	};
-
-	if (map->map[process->ptr] > 0 && map->map[process->ptr] < 17 && process->active
-	&& !process->cycles && process->op)
-	{
-		toadd = f[(size_t)process->op - 1](map, champs, process, allprocess);
-		// printf("%s| toadd: %i\n", op_tab[process->op - 1].name, toadd);
-		process->ptr += toadd;
-		process->ptr = (process->ptr < 0) ? MEM_SIZE + process->ptr : process->ptr;
-		process->op = 0;
-		process->active = 0;
-	}
-}
-
 void	process_operations(t_render *r, t_map *map, t_champ *champs,
 		t_list **allprocess)
 {
 	t_list			*tmp;
-	t_process	*process;
-	int			f_ptr;
 
 	map->cycles = 0;
 	map->t_cycles = 0;
@@ -100,19 +66,9 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 		while (r->npause)
 			controls_ncurses(r);
 		tmp = *allprocess;
-		while (tmp && (int)(CYCLE_TO_DIE - CYCLE_DELTA * map->round) > 0)
+		while (tmp && (int)(CYCLE_TO_DIE - (int)(CYCLE_DELTA * map->round)) > 0)
 		{
-			process = (t_process *)tmp->content;
-			f_ptr = process->ptr;
-			init_action(process, map);
-			launch_action(process, map, champs, allprocess);
-			if (!process->active && !process->cycles)
-				process->ptr++;
-			process->life--;
-			process->ptr = process->ptr < 0 ? MEM_SIZE + process->ptr : process->ptr;
-			process->ptr = process->ptr >= MEM_SIZE ? process->ptr - MEM_SIZE : process->ptr;
-			map->p_map[f_ptr] = 0;
-			map->p_map[process->ptr] = 1;
+			processit(map, allprocess, champs, (t_process *)tmp->content);
 			tmp = tmp->next;
 		}
 		// printf("cycle: %i | toie: %ji\n", map->cycles, map->cycle_todie);
@@ -125,7 +81,7 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 				map->checks = 0;
 				map->round++;
 			}
-			map->cycle_todie = CYCLE_TO_DIE - (CYCLE_DELTA * map->round);
+			map->cycle_todie = (int)CYCLE_TO_DIE - (int)(CYCLE_DELTA * map->round);
 			map->cycles = 0;
 			map->lives = 0;
 		}
@@ -138,4 +94,5 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 			controls_ncurses(r);
 		}
 	}
+	ft_lstdel(allprocess, &delprocess);
 }
