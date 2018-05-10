@@ -61,7 +61,7 @@ int	init_context(t_render *r, t_map *map)
 	glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 1 );
 	glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE );
 	glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
-	if (!(r->win = glfwCreateWindow(800, 800, "Hello World", NULL, NULL)))
+	if (!(r->win = glfwCreateWindow(1200, 1200, "CoreWar", NULL, NULL)))
 	{
 		glfwTerminate();
 		return (0);

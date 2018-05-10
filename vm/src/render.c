@@ -102,14 +102,14 @@ void	getMap(float *v, float iv[][3], short size, t_map *map, t_bool b)
 	float			y;
 	int	c_ctr;
 
-	x = 1;
+	y = 0;
 	c_ctr = 0;
 	(void)size;
 	(void)iv;
-	while (x <= 64)
+	while (y < 64)
 	{
-		y = 0;
-		while (y < 64)
+		x = 1;
+		while (x <= 64)
 		{
 			v[c_ctr++] = x / 64 - 0.5;
 			v[c_ctr++] = y / 64 - 0.5;
@@ -118,26 +118,26 @@ void	getMap(float *v, float iv[][3], short size, t_map *map, t_bool b)
 			v[c_ctr++] = (float)(x - 1) / 64 - 0.5;
 			v[c_ctr++] = (float)y / 64 - 0.5;
 			v[c_ctr++] = interpolation(size, iv, x - 1, y) / 64;
-			getColor(v, &c_ctr, map, x, y, b);
+			getColor(v, &c_ctr, map, x - 1, y, b);
 			v[c_ctr++] = (float)(x - 1) / 64 - 0.5;
 			v[c_ctr++] = (float)(y + 1) / 64 - 0.5;
 			v[c_ctr++] = interpolation(size, iv, x - 1, y + 1) / 64;
-			getColor(v, &c_ctr, map, x, y, b);
-			v[c_ctr++] = (float)(x) / 64 - 0.5;
+			getColor(v, &c_ctr, map, x - 1, y + 1, b);
+			v[c_ctr++] = (float)x / 64 - 0.5;
 			v[c_ctr++] = (float)y / 64 - 0.5;
 			v[c_ctr++] = interpolation(size, iv, x, y) / 64;
 			getColor(v, &c_ctr, map, x, y, b);
-			v[c_ctr++] = (float)(x) / 64 - 0.5;
+			v[c_ctr++] = (float)x / 64 - 0.5;
 			v[c_ctr++] = (float)(y + 1) / 64 - 0.5;
 			v[c_ctr++] = interpolation(size, iv, x, y + 1) / 64;
-			getColor(v, &c_ctr, map, x, y, b);
+			getColor(v, &c_ctr, map, x, y + 1, b);
 			v[c_ctr++] = (float)(x - 1) / 64 - 0.5;
 			v[c_ctr++] = (float)(y + 1) / 64 - 0.5;
 			v[c_ctr++] = interpolation(size, iv, x - 1, y + 1) / 64;
-			getColor(v, &c_ctr, map, x, y, b);
-			y++;
+			getColor(v, &c_ctr, map, x - 1, y + 1, b);
+			x++;
 		}
-		x++;
+		y++;
 	}
 }
 
@@ -163,7 +163,7 @@ int initMap(t_map *map, t_bool black)
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 	glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
-	glEnable(GL_DEPTH_TEST);
+	// glEnable(GL_DEPTH_TEST);
 	return (vao);
 }
 
@@ -183,9 +183,11 @@ int	render(t_render *r, t_map *map)
 	glfwSetKeyCallback(r->win, event);
 	glfwSetCursorPosCallback(r->win, cursor_position_callback);
 	glClearColor(0, 0, 0, 0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
+	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	glBindVertexArray(vao);
-	glDrawArrays(GL_LINES, 0, 4096 * 6);
+	// glDrawArrays(GL_LINES, 0, 4096 * 6);
 	glDrawArrays(GL_POINTS, 0, 4096 * 6);
 	// vao = initMap(map, FALSE);
 	// glDrawArrays(GL_TRIANGLES, 0, 4096 * 6);
