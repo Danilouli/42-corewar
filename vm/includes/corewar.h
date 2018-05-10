@@ -121,6 +121,7 @@ void					delprocess(void *content, size_t content_size);
 void					process_operations(t_render *r, t_map *map, t_champ *champs, t_list **allprocess);
 t_list					*proc_filter(t_list *list, unsigned char *pmap);
 t_process				*proccpy(t_process **process);
+void					processit(t_map *map, t_list **allprocess, t_champ *champs, t_process *process);
 
 /*
 Champions functions
@@ -128,6 +129,8 @@ Champions functions
 size_t					champslen(t_champ *champs);
 int						ischamp(char *path, t_champ *champ, unsigned char n_champ);
 int						champ_isalive(t_map *map, t_list *list, t_champ *champs);
+t_champ					*whowins(t_champ *champ);
+void					freechamp(t_champ *champs);
 
 /*
 Debug functions

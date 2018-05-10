@@ -6,7 +6,7 @@
 #    By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 17:18:12 by fsabatie          #+#    #+#              #
-#    Updated: 2018/05/06 17:47:07 by vlay             ###   ########.fr        #
+#    Updated: 2018/05/10 16:41:30 by vlay             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ GCC_LIBS = -lglfw3 -lncurses -framework AppKit -framework OpenGL -framework IOKi
 
 SRC_NAME = 	champ.c debug.c vm.c operations.c process.c opt.c map.c env.c \
 			render.c shaders.c args.c st_i.c ld_i.c forks.c operators.c \
-			aff_jmp_live.c
+			aff_jmp_live.c action.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 LIB_NAME = libft glfw/src
