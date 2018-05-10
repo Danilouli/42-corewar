@@ -6,12 +6,27 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 14:39:41 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/05/08 15:21:27 by vlay             ###   ########.fr       */
+/*   Updated: 2018/04/06 22:40:33 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-#define TOWER_OBJ "rsc/tower.obj"
+#include <math.h>
+
+float	interpolation(short n, float points[][3], float X, float Y)
+{
+	short	i = 0;
+	float	polynome = 0;
+
+	while (i < n)
+	{
+		float f = (float)powf(X-points[i][0], 2);
+		float s = (float)powf(Y-points[i][1], 2);
+		polynome += (float)points[i][2] * 1.5 * pow(1.5,-(f + s) * 0.2);
+		i++;
+	}
+	return (polynome);
+}
 
 static GLuint createVAO(void)
 {
@@ -23,199 +38,163 @@ static GLuint createVAO(void)
 	return (vao);
 }
 
-void	initTower(int fd, t_ower *towers)
+short getIntVertices(float iv[][3], t_map *map)
 {
-	char		*line;
-	int			v;
-	short		f;
-	t_vertex 	vertices[10];
-	t_ower		model;
-
-	f = 0;
-	v = 1;
-	while (get_next_line(fd, &line) > 0)
-	{
-		if (*line == 'v')
-		{
-			vertices[v].x = (float)ft_atoi(ft_strchr(line, ' ') + 1);
-			vertices[v].z = (float)ft_atoi(ft_strchr(line, ',') + 1);
-			vertices[v++].y = (float)ft_atoi(ft_strrchr(line, ',') + 1);
-		}
-		if (*line == 'f')
-		{
-			ft_memcpy(&towers[0].pts[f++], &vertices[ft_atoi(ft_strchr(line, ' ') + 1)], sizeof(t_vertex));
-			ft_memcpy(&towers[0].pts[f++], &vertices[ft_atoi(ft_strchr(line, ',') + 1)], sizeof(t_vertex));
-			ft_memcpy(&towers[0].pts[f++], &vertices[ft_atoi(ft_strrchr(line, ',') + 1)], sizeof(t_vertex));
-		}
-	}
-	model = towers[0];
-	int t = 0;
-	f = 0;
-	while (f < 64)
-	{
-		v = !t ? 1 : 0;
-		for (size_t i = 0; i < 42; i++) {
-			model.pts[i].x = towers[0].pts[i].x;
-		}
-		while (v < 64)
-		{
-			if (v)
-			{
-				for (size_t i = 0; i < 42; i++) {
-					model.pts[i].x += 2;
-				}
-			}
-			ft_memcpy(&towers[++t], &model, sizeof(t_ower));
-			v++;
-		}
-		for (size_t i = 0; i < 42; i++) {
-			model.pts[i].y += 2;
-		}
-		f++;
-	}
-}
-
-int buildTowersBlack(t_ower towers[4096], t_map *map)
-{
-	GLuint vao;
 	short i;
-	short pt;
-	unsigned int p_parser;
-	float	pts[516096 * 2];
+	short counter;
 
 	i = 0;
-	p_parser = 0;
-	vao = createVAO();
-	GLuint vbo = 0;
+	counter = 0;
 	while (i < 4096)
 	{
-		pt = 0;
-		while (pt < 42)
+		if (map->p_map[i])
 		{
-			pts[p_parser++] = towers[i].pts[pt].x / 100 - 0.5;
-			pts[p_parser++] = towers[i].pts[pt].y / 100 - 0.65;
-			pts[p_parser++] = towers[i].pts[pt++].z / 100;
-			if (map->p_map[i] == 1)
-			{
-				pts[p_parser - 1] += 0.05;
-			}
-			pts[p_parser++] = 0;
-			pts[p_parser++] = 0;
-			pts[p_parser++] = 0;
+			iv[counter][0] = i % 64;
+			iv[counter][1] = i / 64;
+			iv[counter++][2] = 2;
 		}
 		i++;
 	}
+	return (counter);
+}
+
+void getColor(float *v, int *ctr, t_map *map, float x, float y, t_bool b)
+{
+	int c = *ctr;
+	if (map->c_map[(int)(x + (y * 64))] == 1)
+	{
+		v[c++] = b ? 0.0 : (float)0.945;
+		v[c++] = b ? 0.0 : (float)0.082;
+		v[c++] = b ? 0.0 : (float)0.082;
+
+	}
+	else if (map->c_map[(int)(x + (y * 64))] == 2)
+	{
+		v[c++] = b ? 0.0 : (float)0.8;
+		v[c++] = 0.0;
+		v[c++] = b ? 0.0 : (float)0.8;
+	}
+	else if (map->c_map[(int)(x + (y * 64))] == 3)
+	{
+		v[c++] = 0.0;
+		v[c++] = b ? 0.0 : 1.0;
+		v[c++] = 0.0;
+
+	}
+	else if (map->c_map[(int)(x + (y * 64))] == 4)
+	{
+		v[c++] = 0.0;
+		v[c++] = b ? 0.0 : 1.0;
+		v[c++] = b ? 0.0 : 1.0;
+	}
+	else if (map->c_map[(int)(x + (y * 64))] == 0)
+	{
+		v[c++] = b ? 0.0 : 0.6;
+		v[c++] = b ? 0.0 : 0.6;
+		v[c++] = b ? 0.0 : 0.6;
+	}
+	*ctr = c;
+}
+
+void	getMap(float *v, float iv[][3], short size, t_map *map, t_bool b)
+{
+	float			x;
+	float			y;
+	int	c_ctr;
+
+	x = 1;
+	c_ctr = 0;
+	(void)size;
+	(void)iv;
+	while (x <= 64)
+	{
+		y = 0;
+		while (y < 64)
+		{
+			v[c_ctr++] = x / 64 - 0.5;
+			v[c_ctr++] = y / 64 - 0.5;
+			v[c_ctr++] = interpolation(size, iv, x, y) / 64;
+			getColor(v, &c_ctr, map, x, y, b);
+			v[c_ctr++] = (float)(x - 1) / 64 - 0.5;
+			v[c_ctr++] = (float)y / 64 - 0.5;
+			v[c_ctr++] = interpolation(size, iv, x - 1, y) / 64;
+			getColor(v, &c_ctr, map, x, y, b);
+			v[c_ctr++] = (float)(x - 1) / 64 - 0.5;
+			v[c_ctr++] = (float)(y + 1) / 64 - 0.5;
+			v[c_ctr++] = interpolation(size, iv, x - 1, y + 1) / 64;
+			getColor(v, &c_ctr, map, x, y, b);
+			v[c_ctr++] = (float)(x) / 64 - 0.5;
+			v[c_ctr++] = (float)y / 64 - 0.5;
+			v[c_ctr++] = interpolation(size, iv, x, y) / 64;
+			getColor(v, &c_ctr, map, x, y, b);
+			v[c_ctr++] = (float)(x) / 64 - 0.5;
+			v[c_ctr++] = (float)(y + 1) / 64 - 0.5;
+			v[c_ctr++] = interpolation(size, iv, x, y + 1) / 64;
+			getColor(v, &c_ctr, map, x, y, b);
+			v[c_ctr++] = (float)(x - 1) / 64 - 0.5;
+			v[c_ctr++] = (float)(y + 1) / 64 - 0.5;
+			v[c_ctr++] = interpolation(size, iv, x - 1, y + 1) / 64;
+			getColor(v, &c_ctr, map, x, y, b);
+			y++;
+		}
+		x++;
+	}
+}
+
+int initMap(t_map *map, t_bool black)
+{
+	float	vertices[4096 * 36];
+	float	int_vert[4096][3];
+	short	int_cntr;
+	GLuint vbo = 0;
+	GLuint vao;
+
+	int_cntr = getIntVertices(int_vert, map);
+	getMap(&vertices[0], int_vert, int_cntr, map, black);
+	vao = createVAO();
+	vbo = 0;
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, 4096 * 42 * 3 * 2 * sizeof(float), pts, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4096 * 36 * sizeof(float), vertices, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GL_FLOAT), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GL_FLOAT), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 	glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 	glEnable(GL_DEPTH_TEST);
 	return (vao);
 }
 
-int buildTowers(t_ower towers[4096], t_map *map)
-{
-	GLuint vao;
-	short i;
-	short pt;
-	unsigned int p_parser;
-	float	pts[516096 * 2];
-
-	i = 0;
-	p_parser = 0;
-	vao = createVAO();
-	GLuint vbo = 0;
-	while (i < 4096)
-	{
-		pt = 0;
-		while (pt < 42)
-		{
-			pts[p_parser++] = towers[i].pts[pt].x / 100 - 0.5;
-			pts[p_parser++] = towers[i].pts[pt].y / 100 - 0.65;
-			pts[p_parser++] = towers[i].pts[pt++].z / 100;
-			if (map->p_map[i] == 1)
-			{
-				pts[p_parser - 1] += 0.05;
-			}
-			if (map->c_map[i] == 1)
-			{
-				pts[p_parser++] = 1;
-				pts[p_parser++] = 0;
-				pts[p_parser++] = 0;
-			}
-			else if (map->c_map[i] == 2)
-			{
-				pts[p_parser++] = 0;
-				pts[p_parser++] = 1;
-				pts[p_parser++] = 0;
-			}
-			else if (map->c_map[i] == 3)
-			{
-				pts[p_parser++] = 0;
-				pts[p_parser++] = 0;
-				pts[p_parser++] = 1;
-			}
-			else if (map->c_map[i] == 4)
-			{
-				pts[p_parser++] = 1;
-				pts[p_parser++] = 0;
-				pts[p_parser++] = 1;
-			}
-			else if (map->c_map[i] == 0)
-			{
-				pts[p_parser++] = 1;
-				pts[p_parser++] = 1;
-				pts[p_parser++] = 1;
-			}
-		}
-		i++;
-	}
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, 4096 * 42 * 3 * 2 * sizeof(float), pts, GL_DYNAMIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GL_FLOAT), (void*)0);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GL_FLOAT), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-	glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
-	glEnable(GL_DEPTH_TEST);
-	return (vao);
-}
 
 int	render(t_render *r, t_map *map)
 {
 	GLuint	vao;
-	t_ower	towers[4096];
-	int		fd;
 
-	fd = open(TOWER_OBJ, O_RDONLY);
-	(void)map;
-	initTower(fd, &towers[0]);
-	vao = buildTowers(towers, map);
-	int rotLocation = glGetUniformLocation(r->v_shader->prog, "rot");
-	glUniform1f(rotLocation, r->rot);
+	vao = initMap(map, FALSE);
 	glUseProgram(r->v_shader->prog);
+	int rotx = glGetUniformLocation(r->v_shader->prog, "rotx");
+	glUniform1f(rotx, r->rotx);
+	int roty = glGetUniformLocation(r->v_shader->prog, "roty");
+	glUniform1f(roty, r->roty);
+	int s = glGetUniformLocation(r->v_shader->prog, "s");
+	glUniform1f(s, r->scale);
 	glfwSetKeyCallback(r->win, event);
 	glfwSetCursorPosCallback(r->win, cursor_position_callback);
+	glClearColor(0, 0, 0, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 4096 * 42);
-	vao = buildTowersBlack(towers, map);
-	glDrawArrays(GL_LINE_STRIP, 0, 4096 * 42);
+	glDrawArrays(GL_LINES, 0, 4096 * 6);
+	glDrawArrays(GL_POINTS, 0, 4096 * 6);
+	// vao = initMap(map, FALSE);
+	// glDrawArrays(GL_TRIANGLES, 0, 4096 * 6);
 	glfwPollEvents();
 	glfwSwapBuffers(r->win);
 	return (0);
 }
 
-void	print_nmap(t_map *map)
+void	print_nmap(t_list **allprocess, t_map *map)
 {
 	int		i;
 
@@ -271,7 +250,10 @@ void	print_nmap(t_map *map)
 		else
 			printw(" ");
 	}
-	printw("Cycles at: %li\n", map->t_cycles);
-	printw("CYCLE_TO_DIE: %i\n", map->cycle_todie);
+	printw("Cycles : %li\n", map->t_cycles);
+	printw("Processes : %li\n", ft_lstlen(*allprocess));
+	t_list *list = *allprocess;
+	list = list->next;
+	printw("PTR : %i\n", ((t_process*)(list->content))->ptr);
 	move(0, 0);
 }

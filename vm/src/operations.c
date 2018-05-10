@@ -88,7 +88,7 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 		noecho();
 		curs_set(0);
 		start_color();
-		print_nmap(map);
+		print_nmap(allprocess, map);
 		refresh();
 		r->npause = 1;
 	}
@@ -133,7 +133,7 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 			render(r, map);
 		else if (r->ncurses)
 		{
-			print_nmap(map);
+			print_nmap(allprocess, map);
 			refresh();
 			controls_ncurses(r);
 		}

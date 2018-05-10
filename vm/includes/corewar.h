@@ -78,7 +78,9 @@ typedef struct			s_render
 	t_bool			npause;
 	t_map			*map;
 	short			skip;
-	float			rot;
+	float			rotx;
+	float			roty;
+	float			scale;
 }						t_render;
 
 typedef struct			s_vertex
@@ -148,7 +150,7 @@ Ncurses functions.
 */
 
 int						controls_ncurses(t_render *r);
-void					print_nmap(t_map *map);
+void					print_nmap(t_list **allprocess, t_map *map);
 
 /*
 Operations functions

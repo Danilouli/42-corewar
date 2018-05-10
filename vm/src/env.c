@@ -31,16 +31,18 @@ void	event(GLFWwindow* window, int key, int scancode, int action, \
 		r->skip += r->skip < 1000 ? 10 : 0;
 	if (key == GLFW_KEY_S  && action == GLFW_PRESS)
 		r->skip -= r->skip <= 1 ? 0 : 10;
-	if (key == GLFW_KEY_RIGHT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		r->rot -= 0.01;
-		printf("Rot -1\n");
-	}
-	if (key == GLFW_KEY_LEFT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-		r->rot += 0.01;
-		printf("Rot +1\n");
-
-	}
-
+	if (key == GLFW_KEY_UP && (action == GLFW_PRESS || action == GLFW_REPEAT))
+		r->rotx -= 0.01;
+	if (key == GLFW_KEY_DOWN && (action == GLFW_PRESS || action == GLFW_REPEAT))
+		r->rotx += 0.01;
+	if (key == GLFW_KEY_LEFT && (action == GLFW_PRESS || action == GLFW_REPEAT))
+		r->roty += 0.01;
+	if (key == GLFW_KEY_RIGHT && (action == GLFW_PRESS || action == GLFW_REPEAT))
+		r->roty -= 0.01;
+	if (key == GLFW_KEY_O && (action == GLFW_PRESS || action == GLFW_REPEAT))
+		r->scale -= 0.01;
+	if (key == GLFW_KEY_L && (action == GLFW_PRESS || action == GLFW_REPEAT))
+		r->scale += 0.01;
 }
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
@@ -70,7 +72,9 @@ int	init_context(t_render *r, t_map *map)
 	if (!(r->f_shader = build_shader(FRAG_SHADER, GL_FRAGMENT_SHADER, r->v_shader->prog, TRUE)))
 		return (0);
 	r->map = map;
-	r->rot = 1;
+	r->rotx = 1;
+	r->roty = 1;
+	r->scale = 1;
 	return (1);
 }
 

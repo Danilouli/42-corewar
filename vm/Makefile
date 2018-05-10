@@ -25,7 +25,7 @@ OBJ_PATH = ./build/
 LIB_PATH = ../
 INC_PATH = ./includes/ $(LIB_PATH)libft/includes/ $(LIB_PATH)glfw/include/
 
-GCC_FLGS = -g -Werror -Wextra -Wall -fsanitize=address
+GCC_FLGS = -g -Werror -Wextra -Wall
 GCC_LIBS = -lglfw3 -lncurses -framework AppKit -framework OpenGL -framework IOKit \
 			-framework OpenCL -framework CoreVideo
 
