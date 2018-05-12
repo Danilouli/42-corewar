@@ -32,7 +32,8 @@ int	st(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 		bidir_memcpy(map->map, &process->reg[param[0] * REG_SIZE], REG_SIZE, cast);
 		bidir_memset(map->c_map, process->champ->num + 1, REG_SIZE, cast);
 	}
-	process->carry = (short)param[0] ? 1 : 0;
+	int	*tmp;
+	tmp = (int*)&process->reg[param[0] * REG_SIZE];
 	return (inc);
 }
 
@@ -68,6 +69,5 @@ int	sti(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // 
 	tmp = tmp >= MEM_SIZE ? tmp - MEM_SIZE : tmp;
 	bidir_memcpy(map->map, &process->reg[param[0] * REG_SIZE], REG_SIZE, tmp);
 	bidir_memset(map->c_map, process->champ->num + 1, REG_SIZE, tmp);
-	// printf("sti: inc = %i\n", inc);
 	return (inc);
 }

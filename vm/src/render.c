@@ -217,10 +217,7 @@ void	print_nmap(t_list **allprocess, t_map *map)
 			printw("		|	Processes : %li", ft_lstlen(*allprocess));
 		else if (i % 64 == 0)
 			printw("		|");
-
 		(i % 64 == 0) ? printw("\n") : printw(" ");
 	}
-	t_list *list = *allprocess;
-	list = list->next;
 	move(0, 0);
 }

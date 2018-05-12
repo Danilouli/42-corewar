@@ -111,7 +111,7 @@ t_champ	*whowins(t_champ *champ)
 	i = 1;
 	while (champ[i].num >= 0)
 	{
-		if (champ[i].lastlife > champ[best].lastlife)
+		if (champ[i].lastlife >= champ[best].lastlife)
 			best = i;
 		i++;
 	}
