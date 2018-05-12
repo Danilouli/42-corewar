@@ -97,7 +97,7 @@ unsigned	*tabarg(t_arg *arg, t_map *map, t_process *process)
 		return (0);
 	while (a < (size_t)op_tab[process->op - 1].nb_p)
 	{
-		if (arg[a].type == REG_CODE && *arg[a].arg > 0 && *arg[a].arg < REG_NUMBER - 1)
+		if (arg[a].type == REG_CODE && *arg[a].arg > 0 && *arg[a].arg <= REG_NUMBER)
 			param[a] = (*arg[a].arg) - 1;
 		else if (arg[a].type == DIR_CODE || (process->op == 3 && arg[a].type == IND_CODE))
 		{

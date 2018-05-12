@@ -24,7 +24,7 @@ kill kill kill kill kill kill kill kill kill kill kill kill kill kill kill kill
 kill kill kill kill kill kill kill kill kill kill kill kill kill kill kill kill
 kill kill kill kill kill kill kill kill kill kill kill kill kill kill kill kill
 kill kill kill kill kill kill kill kill kill kill kill kill kill kill kill kill
-kill kill kill kill kill kill kill kill kill kill kill"
+kill kill kill kill kill kill kill kill kill kill "
 
 		add		r2,r2,r2
 nop:	zjmp	%:true
@@ -46,8 +46,6 @@ _end:	ld		%0, r2
 		zjmp	%0
 		zjmp	%0
 		zjmp	%0
-		zjmp	%0
-		zjmp	%0
 
 _loop2:	zjmp	%0
 _good2:	add		 r2, r3, r2
@@ -62,8 +60,6 @@ _live2:	live	%1
 _end2:	ld		%0, r2
 		ld		%0, r6
 		zjmp	%-305
-		zjmp	%0
-		zjmp	%0
 		zjmp	%0
 		zjmp	%0
 		zjmp	%0
@@ -140,8 +136,6 @@ end:	ld		%0, r2
 		zjmp	%0
 		zjmp	%0
 		zjmp	%0
-		zjmp	%0
-		zjmp	%0
 
 loop2:	zjmp	%0
 good2:	add	 r2, r3, r2
@@ -156,8 +150,6 @@ live2:	live	%1
 end2:	ld		%0, r2
 		ld		%0, r6
 		zjmp	%190
-		zjmp	%0
-		zjmp	%0
 		zjmp	%0
 		zjmp	%0
 		zjmp	%0
