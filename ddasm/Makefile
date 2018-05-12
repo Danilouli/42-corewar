@@ -6,7 +6,7 @@
 #    By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/05 13:06:28 by acouturi          #+#    #+#              #
-#    Updated: 2018/04/18 14:13:06 by acouturi         ###   ########.fr        #
+#    Updated: 2018/05/12 19:14:38 by acouturi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ _NONE	= "\033[0m"
 _SCIENCEBIATCH = "\033[38;05;39m"
 _SCIENCETXT = "\033[38;05;172m"
 
-all : $(NAME_DASM) science
+all : $(NAME_DASM)
 
 colors :
 	@echo $(_BLACK) _BLACK $(_RED) _RED $(_GREEN) _GREEN $(_YELLOW) _YELLOW $(_BLUE) _BLUE $(_PURPLE) _PURPLE $(_CYAN) _CYAN $(_GREY) _GREY $(_NONE) _NONE
