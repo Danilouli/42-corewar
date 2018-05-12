@@ -10,7 +10,7 @@ int	zjmp(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) //
 	ft_short_endian_swap(&param);
 	if (process->carry)
 		return ((short)param - 1);
-	return (2);
+	return (0);
 }
 
 int aff(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
