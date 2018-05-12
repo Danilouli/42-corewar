@@ -51,15 +51,14 @@ int	main(int ac, char **av)
 	if (!(allprocess = option(ac, av, opt, champs)))
 		return (1);
 	if ((r.skip = 1) && ft_strchr(opt, 'o'))
-		init_context(&r, &map); // Make sure this doesn't segfault
+		init_context(&r, &map);
 	if (ft_strchr(opt, 'n') && !(ft_strchr(opt, 'o')))
-		r.ncurses = 1; // Make sure this doesn't segfault
+		r.ncurses = 1;
 	setmap(&map, champs, allprocess);
 	map.cycles = CYCLE_TO_DIE;
 	process_operations(&r, &map, champs, &allprocess);
 	if (r.ncurses)
 		endwin();
-	prt_map_hex(map);
 	ft_printf("Contestant %i, \"%s\", has won\n", whowins(champs)->num + 1, whowins(champs)->name);
-	freechamp(champs);
+	freechampmap(champs, &map);
 }

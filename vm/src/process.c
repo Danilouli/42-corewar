@@ -63,7 +63,6 @@ t_list	*proc_filter(t_list *list, unsigned char *pmap)
 	{
 		proc = (t_process *)list->content;
 		next = list->next;
-		// printf("life: %i\n", proc->life);
 		if (proc->life > 0)
 		{
 			list->next = NULL;

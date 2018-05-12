@@ -74,22 +74,24 @@ int	champ_isalive(t_map *map, t_list *list, t_champ *champs)
 	(void)champs;
 	++map->cycles;
 	++map->t_cycles;
-	printf("todie: %ji\n", map->cycle_todie);
 	return (map->cycle_todie < 1 || !ft_lstlen(list) ? 0 : 1);
 }
 
-void	freechamp(t_champ *champs)
+void	freechampmap(t_champ *champs, t_map *map)
 {
 	size_t	i;
 
 	i = 0;
-	while (champs[i].num >= 0);
+	while (champs[i].num >= 0)
 	{
 		free(champs[i].name);
 		free(champs[i].comment);
 		free(champs[i].prog);
 		i++;
 	}
+	free(map->map);
+	free(map->p_map);
+	free(map->c_map);
 }
 
 t_champ	*whowins(t_champ *champ)

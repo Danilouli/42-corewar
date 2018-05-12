@@ -58,6 +58,8 @@ short getIntVertices(float iv[][3], t_map *map)
 	return (counter);
 }
 
+
+
 void getColor(float *v, int *ctr, t_map *map, float x, float y, t_bool b)
 {
 	int c = *ctr;
@@ -104,12 +106,10 @@ void	getMap(float *v, float iv[][3], short size, t_map *map, t_bool b)
 
 	y = 0;
 	c_ctr = 0;
-	(void)size;
-	(void)iv;
-	while (y < 64)
+	while (y < 63.0)
 	{
 		x = 1;
-		while (x <= 64)
+		while (x < 64.0)
 		{
 			v[c_ctr++] = x / 64 - 0.5;
 			v[c_ctr++] = y / 64 - 0.5;
@@ -143,7 +143,7 @@ void	getMap(float *v, float iv[][3], short size, t_map *map, t_bool b)
 
 int initMap(t_map *map, t_bool black)
 {
-	float	vertices[4096 * 36];
+	float	vertices[3969 * 36];
 	float	int_vert[4096][3];
 	short	int_cntr;
 	GLuint vbo = 0;
@@ -155,7 +155,7 @@ int initMap(t_map *map, t_bool black)
 	vbo = 0;
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, 4096 * 36 * sizeof(float), vertices, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 3969 * 36 * sizeof(float), vertices, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
@@ -163,7 +163,7 @@ int initMap(t_map *map, t_bool black)
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 	glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
-	// glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
 	return (vao);
 }
 
@@ -174,26 +174,33 @@ int	render(t_render *r, t_map *map)
 
 	vao = initMap(map, FALSE);
 	glUseProgram(r->v_shader->prog);
-	int rotx = glGetUniformLocation(r->v_shader->prog, "rotx");
-	glUniform1f(rotx, r->rotx);
-	int roty = glGetUniformLocation(r->v_shader->prog, "roty");
-	glUniform1f(roty, r->roty);
-	int s = glGetUniformLocation(r->v_shader->prog, "s");
-	glUniform1f(s, r->scale);
+	glUniform1f(glGetUniformLocation(r->v_shader->prog, "rotx"), r->rotx);
+	glUniform1f(glGetUniformLocation(r->v_shader->prog, "roty"), r->roty);
+	glUniform1f(glGetUniformLocation(r->v_shader->prog, "s"), r->scale);
 	glfwSetKeyCallback(r->win, event);
 	glfwSetCursorPosCallback(r->win, cursor_position_callback);
 	glClearColor(0, 0, 0, 0);
-	glClear(GL_COLOR_BUFFER_BIT);
-	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glBindVertexArray(vao);
-	// glDrawArrays(GL_LINES, 0, 4096 * 6);
+	glDrawArrays(GL_LINES, 0, 4096 * 6);
 	glDrawArrays(GL_POINTS, 0, 4096 * 6);
-	// vao = initMap(map, FALSE);
-	// glDrawArrays(GL_TRIANGLES, 0, 4096 * 6);
 	glfwPollEvents();
 	glfwSwapBuffers(r->win);
 	return (0);
+}
+
+void	p_color(t_map *map, int i)
+{
+	init_pair(6, COLOR_WHITE, COLOR_MAGENTA);
+	init_pair(1, COLOR_RED, COLOR_BLACK);
+	init_pair(2, COLOR_GREEN, COLOR_BLACK);
+	init_pair(3, COLOR_BLUE, COLOR_BLACK);
+	init_pair(4, COLOR_YELLOW, COLOR_BLACK);
+	init_pair(0, COLOR_WHITE, COLOR_BLACK);
+	map->p_map[i] ? attron(COLOR_PAIR(6)) : attron(COLOR_PAIR(map->c_map[i]));
+	printw("%02x", map->map[i]);
+	map->p_map[i] ? attroff(COLOR_PAIR(6)) : attroff(COLOR_PAIR(map->c_map[i]));
+
 }
 
 void	print_nmap(t_list **allprocess, t_map *map)
@@ -201,61 +208,19 @@ void	print_nmap(t_list **allprocess, t_map *map)
 	int		i;
 
 	i = 0;
-	init_pair(1, COLOR_WHITE, COLOR_MAGENTA);
-	init_pair(2, COLOR_RED, COLOR_BLACK);
-	init_pair(3, COLOR_GREEN, COLOR_BLACK);
-	init_pair(4, COLOR_BLUE, COLOR_BLACK);
-	init_pair(5, COLOR_YELLOW, COLOR_BLACK);
-	init_pair(6, COLOR_WHITE, COLOR_BLACK);
-
 	while(i < MEM_SIZE)
 	{
-		if (map->p_map[i] == 1)
-		{
-			attron(COLOR_PAIR(1));
-			printw("%02x", map->map[i]);
-			attroff(COLOR_PAIR(1));
-		}
-		else if (map->c_map[i] == 1)
-		{
-			attron(COLOR_PAIR(2));
-			printw("%02x", map->map[i]);
-			attroff(COLOR_PAIR(2));
-		}
-		else if (map->c_map[i] == 2)
-		{
-			attron(COLOR_PAIR(3));
-			printw("%02x", map->map[i]);
-			attroff(COLOR_PAIR(3));
-		}
-		else if (map->c_map[i] == 3)
-		{
-			attron(COLOR_PAIR(4));
-			printw("%02x", map->map[i]);
-			attroff(COLOR_PAIR(4));
-		}
-		else if (map->c_map[i] == 4)
-		{
-			attron(COLOR_PAIR(5));
-			printw("%02x", map->map[i]);
-			attroff(COLOR_PAIR(5));
-		}
-		else if (map->c_map[i] == 0)
-		{
-			attron(COLOR_PAIR(6));
-			printw("%02x", map->map[i]);
-			attroff(COLOR_PAIR(6));
-		}
-		i++;
-		if (i % 64 == 0)
-			printw("\n");
-		else
-			printw(" ");
+		p_color(map, i++);
+		if (i == 64)
+			printw("		|	Cycles : %li", map->t_cycles);
+		else if (i == 128)
+			printw("		|	Processes : %li", ft_lstlen(*allprocess));
+		else if (i % 64 == 0)
+			printw("		|");
+
+		(i % 64 == 0) ? printw("\n") : printw(" ");
 	}
-	printw("Cycles : %li\n", map->t_cycles);
-	printw("Processes : %li\n", ft_lstlen(*allprocess));
 	t_list *list = *allprocess;
 	list = list->next;
-	printw("PTR : %i\n", ((t_process*)(list->content))->ptr);
 	move(0, 0);
 }
