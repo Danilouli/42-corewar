@@ -6,7 +6,7 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 18:18:41 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/05/10 17:32:28 by vlay             ###   ########.fr       */
+/*   Updated: 2018/05/12 19:08:39 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	main(int ac, char **av)
 	process_operations(&r, &map, champs, &allprocess);
 	if (r.ncurses)
 		endwin();
+	prt_map_hex(map);
 	ft_printf("Contestant %i, \"%s\", has won\n", whowins(champs)->num + 1, whowins(champs)->name);
 	freechampmap(champs, &map);
 }

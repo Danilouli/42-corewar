@@ -2,15 +2,16 @@
 
 int	zjmp(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // TODO: Handle map loops
 {
-	unsigned short	param;
+	short	param;
 
 	(void)champ;
 	(void)allprocess;
-	ft_memcpy(&param, &map->map[(process->ptr + 1) % MEM_SIZE], sizeof(unsigned short));
-	ft_short_endian_swap(&param);
+	bidir_memcpy(&param, map->map, -2, process->ptr + 1);
+	ft_short_endian_swap((unsigned short*)&param);
+	param %= IDX_MOD;
 	if (process->carry)
 		return ((short)param - 1);
-	return (2);
+	return (0);
 }
 
 int aff(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)

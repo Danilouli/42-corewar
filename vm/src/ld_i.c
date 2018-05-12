@@ -45,9 +45,14 @@ int	ldi(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) // 
 		param[0] = (int)(ft_endian_swap((unsigned *)&param[0]));
 	if (arg[1].type == IND_CODE)
 		param[1] = (int)(ft_endian_swap((unsigned *)&param[1]));
-	tmp = (param[0] + param[1]) % IDX_MOD + process->ptr;
+	tmp = process->ptr + (param[0] + param[1]) % ((process->op < 13) ? IDX_MOD : MEM_SIZE);
 	tmp = tmp < 0 ? MEM_SIZE + tmp : tmp;
 	tmp = tmp >= MEM_SIZE ? tmp - MEM_SIZE : tmp;
 	bidir_memcpy(&process->reg[REG_SIZE * param[2]], map->map, -REG_SIZE, tmp);
+	if (process->op > 12)
+	{
+		param = (int *)&process->reg[REG_SIZE * param[2]];
+		process->carry = *param ? 0 : 1;
+	}
 	return (inc);
 }

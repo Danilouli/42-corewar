@@ -86,9 +86,9 @@ t_arg	*get_arg(t_map *map, t_process *process, int nbarg, int *in)
 unsigned	*tabarg(t_arg *arg, t_map *map, t_process *process)
 {
 	static unsigned	param[3];
-	short		cast;
-	size_t	a;
-	size_t	i;
+	short			cast;
+	size_t			a;
+	size_t			i;
 
 	a = 0;
 	i = 1;
@@ -97,7 +97,7 @@ unsigned	*tabarg(t_arg *arg, t_map *map, t_process *process)
 		return (0);
 	while (a < (size_t)op_tab[process->op - 1].nb_p)
 	{
-		if (arg[a].type == REG_CODE && *arg[a].arg > 0 && *arg[a].arg < REG_NUMBER - 1)
+		if (arg[a].type == REG_CODE && *arg[a].arg > 0 && *arg[a].arg <= REG_NUMBER)
 			param[a] = (*arg[a].arg) - 1;
 		else if (arg[a].type == DIR_CODE || (process->op == 3 && arg[a].type == IND_CODE))
 		{
@@ -116,6 +116,8 @@ unsigned	*tabarg(t_arg *arg, t_map *map, t_process *process)
 			bidir_memcpy(&param[a], map->map, -REG_SIZE, process->ptr + cast);
 			// ft_memcpy(&param[a], &map->map[(process->ptr + cast) % MEM_SIZE], REG_SIZE);
 		}
+		else
+			return (NULL);
 		a++;
 	}
 	return (param);

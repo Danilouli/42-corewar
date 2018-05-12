@@ -1,0 +1,166 @@
+.name "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+.comment "
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde"
+
+#liste error
+
+#	live	:a
+#	ld		%7, r21
+
+#fin liste
+
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+	live %42
+
+aff r1
+
+#683
