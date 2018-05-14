@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializators2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 20:42:21 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 22:57:00 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/14 10:25:34 by danielsaadia     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ t_list		*alloc_line(char **spl, char *label, int nbp, char *l)
 	nw->next = NULL;
 	nw->content = ln;
 	nw->content_size = 2;
-	if (ln->nb_params && !check_params(ln))
-		return (super_herror("parametre non valide", 42));
+	if (ln->nb_params && check_params(ln) >= 0)
+		return (super_herror("parametre non valide", check_params(ln)));
 	calc_len(ln);
 	return (nw);
 }

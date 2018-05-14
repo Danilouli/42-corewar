@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader_code.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:49:01 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 22:43:48 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/14 10:14:13 by danielsaadia     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	label_case(char *l, char **spl, int nbp, t_list **new)
 	else
 		ft_lstpushback(g_labels, newla);
 	if ((nbp > 1 && !is_op_name(spl[1])))
-		return ((int)super_herror("OPCODE invalide", 42) & 0);
+		return ((int)super_herror("OPCODE invalide", gce(spl[1], l)) & 0);
 	if (nbp > 1)
 	{
 		if (!(*new = alloc_line(spl, spl[0], nbp, l)))
@@ -105,12 +105,14 @@ int			read_code_helper(char **spl, int nbp, t_list **new, char *l)
 			g_labels = newla;
 		else
 			ft_lstpushback(g_labels, newla);
-		if (!is_op_name(spl[0]) || !(*new = alloc_line(spl, 0, nbp, l)))
-			return ((int)super_herror("OPCODE invalide", 42) & 0);
+		if (!is_op_name(spl[0]))
+			return ((int)super_herror("OPCODE invalide", gce(spl[0], l)) & 0);
+		if (!(*new = alloc_line(spl, 0, nbp, l)))
+			return (0);
 		ft_lstpushback(g_lines, *new);
 	}
 	else
-		return ((int)super_herror("OPCODE invalide", 42) & 0);
+		return ((int)super_herror("OPCODE invalide", gce(spl[0], l)) & 0);
 	return (1);
 }
 

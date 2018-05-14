@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errorers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 15:04:33 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 22:53:58 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/14 10:13:21 by danielsaadia     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,12 @@ char	*destroy(char **del)
 	ft_strdel(del);
 	*del = NULL;
 	return (NULL);
+}
+
+int gce(char *err_word, char *l)
+{
+	if (!ft_strstr(l, err_word))
+		return (-1);
+	ft_printf("passe->%s--ori->%s\n",ft_strstr(l, err_word),l);
+	return ((int)(ft_strstr(l, err_word) - l) + 1);
 }

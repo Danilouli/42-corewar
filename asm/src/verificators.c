@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verificators.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 16:03:39 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 22:35:28 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/14 10:24:37 by danielsaadia     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int	check_params(t_line *line)
 	while (i < g_op_tab[line->opcode - 1].nb_p)
 	{
 		if (!check_param(line, i))
-			return (0);
+			return (i);
 		i++;
 	}
-	return (1);
+	return (-1);
 }

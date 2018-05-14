@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:23:12 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 23:07:04 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/14 10:07:36 by danielsaadia     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ t_list					*alloc_label(char *label, char **spl);
 void					redefine_labels(char *final_label);
 int						is_relabel(char *str);
 char					*fetch_final_label(char *label);
+int 					gce(char *err_word, char *l);
 
 #endif
