@@ -24,12 +24,14 @@ static inline void 	launch_action(t_process *process, t_map *map, t_champ *champ
 	&& !process->cycles && process->op)
 	{
 		toadd = f[(size_t)process->op - 1](map, champs, process, allprocess);
-		// printf("%s| toadd: %i\n", op_tab[process->op - 1].name, toadd);
+		// printf("%s| ptr: %i + toadd: %i\n", op_tab[process->op - 1].name, process->ptr, toadd);
 		process->ptr += toadd;
 		process->ptr = (process->ptr < 0) ? MEM_SIZE + process->ptr : process->ptr;
 		process->op = 0;
 		process->active = 0;
 	}
+	// if (process->ptr > 1000)
+	// 	printf("WARNING: ptr: %i\n", process->ptr);
 }
 
 void	processit(t_map *map, t_list **allprocess, t_champ *champs, t_process *process)

@@ -6,7 +6,7 @@
 /*   By: vlay <vlay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 23:25:55 by vlay              #+#    #+#             */
-/*   Updated: 2018/04/22 15:02:04 by vlay             ###   ########.fr       */
+/*   Updated: 2018/05/20 16:25:12 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ t_list	*option(int ac, char **av, char *opt, t_champ *champs)
 			ft_strpush(opt, av[i][1]);
 		else if (ischamp(av[i], &champs[n_champ], n_champ))
 			ft_lstadd(&allprocess, ft_lstlink(createproc(&champs[n_champ++], 0, NULL), sizeof(t_process)));
-		else if (usage())
+		else
 			return (NULL);
 	}
+	if (!n_champ && usage())
+		return (NULL);
 	champs[n_champ].name = NULL;
 	champs[n_champ].num = -1;
 	return (allprocess);

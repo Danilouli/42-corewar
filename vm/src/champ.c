@@ -13,26 +13,22 @@ int			champregister(int fd, t_champ *champ, unsigned char n_champ)
 	buf[ret] = '\0';
 	champ->name = ft_strdup(buf);
 	ft_printf("name : %s\n", champ->name);
-	if ((ret = read(fd, buf, 4)) <= 0 || ft_memcmp(buf, "\0\0\0\0", 4))
+	if ((ret = read(fd, buf, 4)) <= 0 || ft_memcmp(buf, "\0\0\0\0", 4)
+		|| (ret = read(fd, buf, 4) <= 0) || (champ->len_prog = ft_endian_swap((unsigned *)buf)) > CHAMP_MAX_SIZE)
 		return (0);
-	if ((ret = read(fd, buf, 4) <= 0))
-		return (0);
-	buf[ret] = '\0';
-	champ->len_prog = *((size_t *)buf);
 	ft_printf("prog-len: %ju\n", champ->len_prog);
 	if ((ret = read(fd, buf, COMMENT_LENGTH)) <= 0 || ret != COMMENT_LENGTH)
 		return (0);
 	buf[ret] = '\0';
 	champ->comment = ft_strdup(buf);
 	ft_printf("comment : %s\n", champ->comment);
-	if ((ret = read(fd, buf, 4)) <= 0 || ft_memcmp(buf, "\0\0\0\0", 4))
-		return (0);
-	if (!(ret = read(fd, buf, CHAMP_MAX_SIZE + 1)) || ret > CHAMP_MAX_SIZE)
+	if ((ret = read(fd, buf, 4)) <= 0 || ft_memcmp(buf, "\0\0\0\0", 4)
+		|| (ret = read(fd, buf, champ->len_prog)) <= 0)
 		return (0);
 	buf[ret] = '\0';
 	champ->prog = ft_memdup(buf, (size_t)ret);
 	champ->len_prog = ret;
-	write(1, champ->prog, ret);
+	// write(1, champ->prog, ret);
 	return (1);
 }
 

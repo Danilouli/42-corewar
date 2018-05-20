@@ -11,13 +11,7 @@ int	st(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 	(void)allprocess;
 	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
 	if (!(param = (int*)tabarg(arg, map, process)))
-	{
-		for (size_t i = 0; i < 2; i++) {
-			printf("%i ", arg[i].type);
-		}
-		printf("st inc: %i\n", inc);
 		return (inc - 1);
-	}
 	if (arg[1].type == T_REG)
 	{
 		// printf("%i | %s - About to write : %08x\n", v++, op_tab[process->op - 1].name, (int)(*(int*)&process->reg[param[0] * REG_SIZE]));

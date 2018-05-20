@@ -11,7 +11,7 @@ int	zjmp(t_map *map, t_champ *champ, t_process *process, t_list **allprocess) //
 	param %= IDX_MOD;
 	if (process->carry)
 		return ((short)param - 1);
-	return (0);
+	return (2);
 }
 
 int aff(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)

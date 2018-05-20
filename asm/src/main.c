@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:18:47 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 23:13:33 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/12 19:21:26 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,14 @@ int			main(int ac, char **av)
 	if (ac <= 1)
 	{
 		ft_printf("Usage: ./asm <sourcefile.s>\n");
+		while (1);
 		return (1);
 	}
 	if (!(fdc = main_read(av)))
+	{
+		while (1);
 		return (1);
+	}
 	i = 0;
 	keep = g_lines;
 	while (g_lines)
@@ -94,6 +98,7 @@ int			main(int ac, char **av)
 	g_lines = keep;
 	free_all();
 	ft_printf("champion créé\n");
+	while (1);
 	return (0);
 }
 
