@@ -61,7 +61,10 @@ t_arg	*get_arg(t_map *map, t_process *process, int nbarg, int *in)
 		ft_bzero(arg[a].arg, 4);
 		inc = 0;
 		if (!(arg[a].type = *translation))
-			return (arg);
+		{
+			*in = *in - 1;
+			return (NULL);
+		}
 		if (arg[a].type == REG_CODE)
 			bidir_memcpy(arg[a].arg, map->map, inc = -T_REG, *in + process->ptr);
 		else if (arg[a].type == DIR_CODE || (process->op == 3 && arg[a].type == IND_CODE))
