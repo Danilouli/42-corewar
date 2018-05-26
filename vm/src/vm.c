@@ -48,6 +48,7 @@ int	main(int ac, char **av)
 	|| !(map.p_map = (unsigned char *)malloc(sizeof(char) * (MEM_SIZE + 1))))
 		return (1);
 	bz(&r, &opt[0], &map);
+	ft_bzero((t_champ*)&champs[0], sizeof(t_champ) * MAX_PLAYERS + 1);
 	if (!(allprocess = option(ac, av, opt, champs)))
 		return (1);
 	if ((r.skip = 1) && ft_strchr(opt, 'o'))

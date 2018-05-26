@@ -50,13 +50,13 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 	}
 	if (r->ncurses)
 	{
+		r->npause = 1;
 		nodelay(initscr(), 1);
 		noecho();
 		curs_set(0);
 		start_color();
-		print_nmap(allprocess, map);
+		print_nmap(allprocess, map, r, champs);
 		refresh();
-		r->npause = 1;
 	}
 	while (champ_isalive(map, *allprocess, champs))
 /*|| (r->win && !glfwWindowShouldClose(r->win))*/ // // Doit rester dans cet ordre
@@ -64,7 +64,7 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 		while (r->pause)
 			render(r, map);
 		while (r->npause)
-			controls_ncurses(r);
+			controls_ncurses(r, allprocess, map, champs);
 		tmp = *allprocess;
 		while (tmp && (int)(CYCLE_TO_DIE - (int)(CYCLE_DELTA * map->round)) > 0)
 		{
@@ -89,9 +89,9 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 			render(r, map);
 		else if (r->ncurses)
 		{
-			print_nmap(allprocess, map);
+			print_nmap(allprocess, map, r, champs);
 			refresh();
-			controls_ncurses(r);
+			controls_ncurses(r, allprocess, map, champs);
 		}
 	}
 	ft_lstdel(allprocess, &delprocess);

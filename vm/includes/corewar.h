@@ -152,8 +152,8 @@ void					cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 Ncurses functions.
 */
 
-int						controls_ncurses(t_render *r);
-void					print_nmap(t_list **allprocess, t_map *map);
+int 					controls_ncurses(t_render *r, t_list **allprocess, t_map *map, t_champ *champs);
+void					print_nmap(t_list **allprocess, t_map *map, t_render *r, t_champ *champs);
 
 /*
 Operations functions

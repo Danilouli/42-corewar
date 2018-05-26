@@ -203,7 +203,7 @@ void	p_color(t_map *map, int i)
 
 }
 
-void	print_nmap(t_list **allprocess, t_map *map)
+void	print_nmap(t_list **allprocess, t_map *map, t_render *r, t_champ *champs)
 {
 	int		i;
 
@@ -212,9 +212,19 @@ void	print_nmap(t_list **allprocess, t_map *map)
 	{
 		p_color(map, i++);
 		if (i == 64)
+			r->npause ? printw("		|	**PAUSED**") : printw("		|	**RUNNING**");
+		else if (i == 64 * 2)
 			printw("		|	Cycles : %li", map->t_cycles);
-		else if (i == 128)
+		else if (i == 64 * 3)
 			printw("		|	Processes : %li", ft_lstlen(*allprocess));
+		else if (i == 64 * 4)
+			printw("		|	Terrible player one : %s", champs[0].name);
+		else if (i == 64 * 5)
+			printw("		|	Another terrible player : %s", champs[1].name);
+		else if (i == 64 * 6)
+			champs[2].name ? printw("		|	Yet another one : %s", champs[2].name) : printw("		|");
+		else if (i == 64 * 7)
+			champs[3].name ? printw("		|	OMG!!! THIS IS THE BEST PLAYE... Nope. Still not : %s", champs[3].name) : printw("		|");
 		else if (i % 64 == 0)
 			printw("		|");
 		(i % 64 == 0) ? printw("\n") : printw(" ");

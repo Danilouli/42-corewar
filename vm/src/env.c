@@ -78,12 +78,16 @@ int	init_context(t_render *r, t_map *map)
 	return (1);
 }
 
-int controls_ncurses(t_render *r)
+int controls_ncurses(t_render *r, t_list **allprocess, t_map *map, t_champ *champs)
 {
 	int ch = 0;
 	ch = getch();
 	if (ch == ' ')
+	{
 		r->npause = r->npause ? 0 : 1;
+		print_nmap(allprocess, map, r, champs);
+		refresh();
+	}
 	if (ch == 's')
 		r->skip += r->skip < 10 ? 1 : 0;
 	if (ch == 'r')
