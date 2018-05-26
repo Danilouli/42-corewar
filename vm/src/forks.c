@@ -8,8 +8,7 @@ int	cfork(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 	(void)map;
 	(void)champ;
-	if (!(tmp = proccpy(&process)))
-		exit (1);
+	tmp = proccpy(&process);
 	ft_memmove(&k, &map->map[(process->ptr + 1) % MEM_SIZE], 2);
 	cast = &k;
 	ft_short_endian_swap((unsigned short*)cast);
