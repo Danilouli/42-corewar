@@ -26,6 +26,8 @@ typedef struct			s_map
 	unsigned char		*map;
 	unsigned char		*c_map;
 	unsigned char		*p_map;
+	intmax_t			dump;
+	char				*opt;
 	intmax_t			t_cycles;
 	int					cycles;
 	intmax_t			cycle_todie;
@@ -101,7 +103,7 @@ typedef struct			s_tower
 /*
 VM functions
 */
-t_list					*option(int ac, char **av, char *opt, t_champ *champs);
+t_list					*option(int ac, char **av, t_map *map, t_champ *champs);
 void					setmap(t_map *map, t_champ *champs, t_list *allprocess);
 int						usage(void);
 

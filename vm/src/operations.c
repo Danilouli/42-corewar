@@ -57,7 +57,7 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 		start_color();
 		print_nmap(allprocess, map, r, champs);
 	}
-	while (champ_isalive(map, *allprocess, champs))
+	while (champ_isalive(map, *allprocess, champs) && --map->dump)
 /*|| (r->win && !glfwWindowShouldClose(r->win))*/ // // Doit rester dans cet ordre
 	{
 		while (r->pause)

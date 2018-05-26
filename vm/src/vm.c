@@ -49,7 +49,8 @@ int	main(int ac, char **av)
 		return (1);
 	bz(&r, &opt[0], &map);
 	ft_bzero((t_champ*)&champs[0], sizeof(t_champ) * MAX_PLAYERS + 1);
-	if (!(allprocess = option(ac, av, opt, champs)))
+	map.opt = &opt[0];
+	if (!(allprocess = option(ac, av, &map, champs)))
 		return (1);
 	if ((r.skip = 1) && ft_strchr(opt, 'o'))
 		init_context(&r, &map);
