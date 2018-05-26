@@ -45,14 +45,6 @@ void	event(GLFWwindow* window, int key, int scancode, int action, \
 		r->scale += 0.01;
 }
 
-void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	t_map *map = glfwGetWindowUserPointer(window);
-	(void)xpos;
-	(void)ypos;
-	(void)map;
-}
-
 int	init_context(t_render *r, t_map *map)
 {
 	if (!glfwInit())
@@ -75,26 +67,25 @@ int	init_context(t_render *r, t_map *map)
 	r->rotx = 1;
 	r->roty = 1;
 	r->scale = 1;
+	glUseProgram(r->v_shader->prog);
 	return (1);
 }
 
 int controls_ncurses(t_render *r, t_list **allprocess, t_map *map, t_champ *champs)
 {
-	int ch = 0;
+	int ch;
+
 	ch = getch();
 	if (ch == ' ')
 	{
 		r->npause = r->npause ? 0 : 1;
 		print_nmap(allprocess, map, r, champs);
-		refresh();
 	}
 	if (ch == 's')
 		r->skip += r->skip < 10 ? 1 : 0;
 	if (ch == 'r')
 		r->skip -= r->skip > 1 ? 1 : 0;
 	for (double i = 0; i < pow(10, r->skip) ; i++) // Slows the
-	{
 		(void)r;
-	}
-	return 0;
+	return (0);
 }

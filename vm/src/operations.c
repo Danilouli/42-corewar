@@ -56,7 +56,6 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 		curs_set(0);
 		start_color();
 		print_nmap(allprocess, map, r, champs);
-		refresh();
 	}
 	while (champ_isalive(map, *allprocess, champs))
 /*|| (r->win && !glfwWindowShouldClose(r->win))*/ // // Doit rester dans cet ordre
@@ -90,7 +89,6 @@ void	process_operations(t_render *r, t_map *map, t_champ *champs,
 		else if (r->ncurses)
 		{
 			print_nmap(allprocess, map, r, champs);
-			refresh();
 			controls_ncurses(r, allprocess, map, champs);
 		}
 	}

@@ -12,6 +12,8 @@
 
 #include "corewar.h"
 #include <math.h>
+#include <time.h>
+
 
 float	interpolation(short n, float points[][3], float X, float Y)
 {
@@ -171,14 +173,11 @@ int initMap(t_map *map, t_bool black)
 int	render(t_render *r, t_map *map)
 {
 	GLuint	vao;
-
 	vao = initMap(map, FALSE);
-	glUseProgram(r->v_shader->prog);
 	glUniform1f(glGetUniformLocation(r->v_shader->prog, "rotx"), r->rotx);
 	glUniform1f(glGetUniformLocation(r->v_shader->prog, "roty"), r->roty);
 	glUniform1f(glGetUniformLocation(r->v_shader->prog, "s"), r->scale);
 	glfwSetKeyCallback(r->win, event);
-	glfwSetCursorPosCallback(r->win, cursor_position_callback);
 	glClearColor(0, 0, 0, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glBindVertexArray(vao);
@@ -189,7 +188,7 @@ int	render(t_render *r, t_map *map)
 	return (0);
 }
 
-void	p_color(t_map *map, int i)
+void	p_color(t_map *map, int i, WINDOW *win)
 {
 	init_pair(6, COLOR_WHITE, COLOR_MAGENTA);
 	init_pair(1, COLOR_RED, COLOR_BLACK);
@@ -197,37 +196,38 @@ void	p_color(t_map *map, int i)
 	init_pair(3, COLOR_BLUE, COLOR_BLACK);
 	init_pair(4, COLOR_YELLOW, COLOR_BLACK);
 	init_pair(0, COLOR_WHITE, COLOR_BLACK);
-	map->p_map[i] ? attron(COLOR_PAIR(6)) : attron(COLOR_PAIR(map->c_map[i]));
-	printw("%02x", map->map[i]);
-	map->p_map[i] ? attroff(COLOR_PAIR(6)) : attroff(COLOR_PAIR(map->c_map[i]));
-
+	map->p_map[i] ? wattron(win, COLOR_PAIR(6)) : wattron(win, COLOR_PAIR(map->c_map[i]));
+	mvwprintw(win, i / 64 + 2, (i % 64) * 3 + 4, "%02x", map->map[i]);
+	map->p_map[i] ? wattroff(win, COLOR_PAIR(6)) : wattroff(win, COLOR_PAIR(map->c_map[i]));
+	mvwprintw(win, i / 64 + 2, (i % 64) * 3 + 6, " ", map->map[i]);
 }
 
 void	print_nmap(t_list **allprocess, t_map *map, t_render *r, t_champ *champs)
 {
 	int		i;
+	WINDOW *lwin;
+	WINDOW *rwin;
 
+	lwin = subwin(stdscr, LINES / 1.2, COLS / 1.8, 0, 0);        // Créé une fenêtre de 'LINES / 2' lignes et de COLS colonnes en 0, 0
+	rwin = subwin(stdscr, LINES / 1.2, COLS / 5, 0,  COLS / 1.8 - 1);
+	box(lwin, ACS_VLINE, ACS_HLINE);
+	box(rwin, ACS_VLINE, ACS_HLINE);
 	i = 0;
-	while(i < MEM_SIZE)
-	{
-		p_color(map, i++);
-		if (i == 64)
-			r->npause ? printw("		|	**PAUSED**") : printw("		|	**RUNNING**");
-		else if (i == 64 * 2)
-			printw("		|	Cycles : %li", map->t_cycles);
-		else if (i == 64 * 3)
-			printw("		|	Processes : %li", ft_lstlen(*allprocess));
-		else if (i == 64 * 4)
-			printw("		|	Terrible player one : %s", champs[0].name);
-		else if (i == 64 * 5)
-			printw("		|	Another terrible player : %s", champs[1].name);
-		else if (i == 64 * 6)
-			champs[2].name ? printw("		|	Yet another one : %s", champs[2].name) : printw("		|");
-		else if (i == 64 * 7)
-			champs[3].name ? printw("		|	OMG!!! THIS IS THE BEST PLAYE... Nope. Still not : %s", champs[3].name) : printw("		|");
-		else if (i % 64 == 0)
-			printw("		|");
-		(i % 64 == 0) ? printw("\n") : printw(" ");
-	}
-	move(0, 0);
+	while (i < MEM_SIZE)
+		p_color(map, i++, lwin);
+	r->npause ? mvwprintw(rwin, 3, 4, "** Paused **   ") : mvwprintw(rwin, 3, 4, "** Running ** ");
+	mvwprintw(rwin, 7, 4, "Cycles : %i", map->t_cycles);
+	mvwprintw(rwin, 8, 4, "Processes : %li", ft_lstlen(*allprocess));
+	mvwprintw(rwin, 9, 4, "Speed : %i", r->skip);
+	mvwprintw(rwin, 14, 4, "Terrible player one : %s", champs[0].name);
+	mvwprintw(rwin, 15, 6, "Last live : %li", champs[0].lastlife);
+	champs[1].name ? mvwprintw(rwin, 18, 4, "Another terrible player : %s", champs[1].name) : (void)champs[1].name;
+	champs[1].name ? mvwprintw(rwin, 19, 6, "Last live : %li", champs[1].lastlife) : (void)champs[1].name;
+	champs[2].name ? mvwprintw(rwin, 22, 4, "Yet another one : %s", champs[2].name) : (void)champs[2].name;
+	champs[1].name ? mvwprintw(rwin, 23, 6, "Last live : %li", champs[2].lastlife) : (void)champs[2].name;
+	champs[3].name ? mvwprintw(rwin, 26, 4, "OMG!!! THIS IS THE BEST PLA... Ah, nope : %.10s", champs[3].name) : (void)champs[3].name;
+	champs[1].name ? mvwprintw(rwin, 27, 6, "Last live : %li", champs[3].lastlife) : (void)champs[3].name;
+	wrefresh(lwin);
+	wrefresh(rwin);
+
 }
