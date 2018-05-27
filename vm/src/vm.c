@@ -63,6 +63,7 @@ int	main(int ac, char **av)
 		endwin();
 	ft_bzero(map.p_map, MEM_SIZE);
 	prt_map_hex(map);
-	ft_printf("Contestant %i, \"%s\", has won\n", whowins(champs)->num + 1, whowins(champs)->name);
+	!ft_strchr(opt, 'd') ? ft_printf("Contestant %i, \"%s\", has won\n", \
+	whowins(champs)->num + 1, whowins(champs)->name) : (void)opt;
 	freechampmap(champs, &map);
 }

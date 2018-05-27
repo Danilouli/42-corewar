@@ -108,6 +108,8 @@ void	getMap(float *v, float iv[][3], short size, t_map *map, t_bool b)
 
 	y = 0;
 	c_ctr = 0;
+	(void)iv;
+	(void)size;
 	while (y < 63.0)
 	{
 		x = 1;

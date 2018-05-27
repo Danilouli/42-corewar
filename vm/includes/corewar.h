@@ -5,7 +5,7 @@
 # include <GLFW/glfw3.h>
 # include <OpenCL/opencl.h>
 # include <ncurses.h>
-# define OPTION "adsvno"
+# define OPTION "adsmno"
 # define NBOPT 6
 # define STEALTH "--stealth"
 # define LIFECODE 0xFFFFFFFF
