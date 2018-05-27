@@ -23,8 +23,8 @@ static inline void bz(t_render *r, char *opt, t_map *map)
 
 int	usage(void)
 {
-	ft_putendl("Usage: ./corewar [ -d -s | -n --stealth | -o | -a ] \
-	<champion1.cor> <champion2.cor> ...");
+	ft_putendl("Usage: ./corewar [ -d [-n | -o | -a ]] \
+	-m(a number) <champion1.cor> -m(another one) <champion2.cor> ...");
 	ft_putendl("#### Text output mode #######################################################");
 	ft_putendl("	-a	: Prints the output from the \"aff\" instruction");
 	ft_putendl("#### Graphical output mode ##################################################");

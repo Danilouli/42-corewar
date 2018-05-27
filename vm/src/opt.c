@@ -52,8 +52,8 @@ t_list	*option(int ac, char **av, t_map *map, t_champ *champs)
 		else if (av[i][0] == '-' && ft_strlen(av[i]) >= 2 && ft_strchr(OPTION, av[i][1]))
 		{
 			ft_strpush(map->opt, av[i][1]);
-			if (av[i][1] == 'd' && av[i + 1] && av[i + 1][0] && ft_isdigit(av[++i][0]))
-				map->dump = ft_atoi(av[i]);
+			if (av[i][1] == 'd' && av[i + 1] && ft_isdigit(av[i + 1][0]))
+				map->dump = ft_atoi(av[++i]);
 			else if (av[i][1] == 'd' && ft_printf("The -d option must take a number you noob.\n"))
 				return (NULL);
 			else if (av[i][1] == 'm' && av[i][2] && ft_isdigit(av[i][2]))
