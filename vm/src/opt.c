@@ -66,8 +66,9 @@ t_list	*option(int ac, char **av, t_map *map, t_champ *champs)
 				else if (av[++i])
 				{
 					if (!(ischamp(av[i], &champs[ft_atoi(&av[i - 1][2]) - 1], ft_atoi(&av[i - 1][2]) - 1)
-					&& (n_champ += 1)) && ft_printf("NOT EVEN A CHAMPION DUDE WTF\n"))
+					&& ft_printf("NOT EVEN A CHAMPION DUDE WTF\n")))
 						return (NULL);
+					n_champ++;
 				}
 				else if (ft_printf("Not providing a champion, you man are a genius...\n"))
 					return (NULL);
@@ -75,7 +76,7 @@ t_list	*option(int ac, char **av, t_map *map, t_champ *champs)
 			else if (av[i][1] == 'm' && ft_printf("Want some help reading the usage dude ?\n"))
 				return (NULL);
 		}
-		else
+		else if (usage())
 			return (NULL);
 	}
 	if (!n_champ && usage())
