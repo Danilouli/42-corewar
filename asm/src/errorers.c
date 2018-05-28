@@ -3,22 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   errorers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 15:04:33 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 22:53:58 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/28 17:31:16 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/asm.h"
 
-void	*super_herror(char *msg, int char_ind)
+void	*super_herror(char *msg, int ind, char *clue)
 {
-	ft_printf("error : %s\n", msg);
-	ft_printf("line : %d\n", NB_LINES);
-	ft_printf("char : %d\n", char_ind);
+	if (clue)
+		ft_printf("Error :	%s %s\n", msg, clue);
+	else
+		ft_printf("Error :	%s\n", msg);
+	if (NB_LINES)
+		ft_printf("	At line number : %d\n", NB_LINES);
+	if (ft_strstr(msg, "parameter"))
+		ft_printf("	For parameter number : %d\n", ind);
+	else
+		ft_printf("	At char number : %d\n", ind);
 	g_nberror++;
-	return (0);
+	exit(0);
 }
 
 char	*destroy(char **del)
@@ -26,4 +33,13 @@ char	*destroy(char **del)
 	ft_strdel(del);
 	*del = NULL;
 	return (NULL);
+}
+
+int gce(char *err_word, char *l)
+{
+	char *err_op;
+
+	if (!(err_op = ft_strstr(l, err_word)))
+		return (-1);
+	return ((int)(err_op - l) + 1);
 }
