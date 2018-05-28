@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializators.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 17:56:08 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 22:45:34 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/27 22:23:12 by danielsaadia     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ t_list		*alloc_label(char *labelstr, char **spl)
 	t_list	*nw;
 
 	if (!(la = (t_label*)malloc(sizeof(t_label))) && ft_memdelbool((void**)&la))
-		return (super_herror("malloc error\n", 0));
+		return (super_herror("Malloc error\n", 0, 0));
 	if (!(nw = (t_list*)malloc(sizeof(t_list))) && ft_memdelbool((void**)&nw))
-		return (super_herror("malloc error\n", 0));
+		return (super_herror("Malloc error\n", 0, 0));
 	la->value = labelstr;
 	la->real_label = 0;
 	la->addr = 0;

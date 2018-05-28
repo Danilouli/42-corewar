@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:49:01 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/14 10:14:13 by danielsaadia     ###   ########.fr       */
+/*   Updated: 2018/05/27 22:31:27 by danielsaadia     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	add_space_at(char **l, int i)
 
 	j = i;
 	if (!(new = ft_strnew(ft_strlen(*l) + 1)))
-		return ((int)super_herror("malloc error", 0));
+		return ((int)super_herror("Malloc error", 0, 0));
 	ft_strncpy(new, *l, i);
 	new[i] = ' ';
 	while (j < ft_strlen(*l))
@@ -52,7 +52,7 @@ static int	change_line_if_needed(char **l)
 		&& (*l)[i - 1] != SEPARATOR_CHAR && !ISSPTB((*l)[i - 1]) && !labpass)))
 		{
 			if (!add_space_at(l, i + ((*l)[i] == LABEL_CHAR)))
-				return ((int)super_herror("malloc error\n", 0));
+				return ((int)super_herror("Malloc error\n", 0, 0));
 		}
 		if ((*l)[i] == LABEL_CHAR)
 			labpass = 1;
@@ -75,7 +75,7 @@ static int	label_case(char *l, char **spl, int nbp, t_list **new)
 	else
 		ft_lstpushback(g_labels, newla);
 	if ((nbp > 1 && !is_op_name(spl[1])))
-		return ((int)super_herror("OPCODE invalide", gce(spl[1], l)) & 0);
+		return ((int)super_herror("Invalid instruction", gce(spl[1], l), spl[1]) & 0);
 	if (nbp > 1)
 	{
 		if (!(*new = alloc_line(spl, spl[0], nbp, l)))
@@ -106,13 +106,13 @@ int			read_code_helper(char **spl, int nbp, t_list **new, char *l)
 		else
 			ft_lstpushback(g_labels, newla);
 		if (!is_op_name(spl[0]))
-			return ((int)super_herror("OPCODE invalide", gce(spl[0], l)) & 0);
+			return ((int)super_herror("Invalid instruction", gce(spl[0], l), spl[0]) & 0);
 		if (!(*new = alloc_line(spl, 0, nbp, l)))
 			return (0);
 		ft_lstpushback(g_lines, *new);
 	}
 	else
-		return ((int)super_herror("OPCODE invalide", gce(spl[0], l)) & 0);
+		return ((int)super_herror("Invalid instruction", gce(spl[0], l), spl[0]) & 0);
 	return (1);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:18:47 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 23:13:33 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/27 22:23:36 by danielsaadia     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	main_read(char **av)
 	g_lines = NULL;
 	g_op_tab = init_g_op_tab();
 	if ((fd = open(av[1], O_RDONLY)) < 0)
-		return ((int)super_herror("files do not exist", 0));
+		return ((int)super_herror("File do not exist", 0, 0));
 	if (!have_header(fd))
 		return (0);
 	while (get_next_line(fd, &l) == 1 && ((NB_LINES++) >= 0))

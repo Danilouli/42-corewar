@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:23:12 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/14 10:07:36 by danielsaadia     ###   ########.fr       */
+/*   Updated: 2018/05/27 22:21:36 by danielsaadia     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void					endian_swap(unsigned int *ptr);
 int						create_ocp(t_line *line);
 void					short_endian_swap(unsigned short *ptr);
 void					free_all(void);
-void					*super_herror(char *msg, int char_ind);
+void					*super_herror(char *msg, int ind, char *clue);
 t_list					*alloc_label(char *label, char **spl);
 void					redefine_labels(char *final_label);
 int						is_relabel(char *str);

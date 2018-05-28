@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verificators4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:11:11 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 22:35:08 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/27 22:24:43 by danielsaadia     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	dir_case(char *lab, int i, char *pstr, t_list *s)
 	int		addr;
 
 	if (!lab[0])
-		return ((int)super_herror("Label vide", 0));
+		return ((int)super_herror("Empty label", 0, 0));
 	if ((addr = is_real_label(lab)) == -1)
 		return (0);
 	ft_memdel((void**)&LINECONT(s)->param[i]);
@@ -30,7 +30,7 @@ static int	ind_case(char *lab, int i, char *pstr, t_list *s)
 	int		addr;
 
 	if (!lab[0])
-		return ((int)super_herror("Label vide", 0));
+		return ((int)super_herror("Empty label", 0, 0));
 	if ((addr = is_real_label(lab)) == -1)
 		return (0);
 	ft_memdel((void**)&LINECONT(s)->param[i]);
