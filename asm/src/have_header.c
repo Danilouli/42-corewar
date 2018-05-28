@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:34:45 by acouturi          #+#    #+#             */
-/*   Updated: 2018/05/01 22:52:53 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/27 22:22:37 by danielsaadia     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ char		*have_truc_helper(char *tmp, char *truc, int fd)
 	if ((ret = is_onlyspace(ft_strdup(&tmp[ft_strlen(truc)]))) == 0)
 	{
 		ft_strdel(&tmp);
-		return (super_herror("pas de caractere : \"", ft_strlen(truc)));
+		return (super_herror("No char : \" in header", ft_strlen(truc), 0));
 	}
 	i = (((int)destroy(&tmp) & NB_LINES++)) & 0;
 	while (ft_strcount(ret, '"') != 1)
 	{
-		if ((ft_strcount(ret, '"') > 1 && super_herror("invalid file", 0) == 0)
+		if ((ft_strcount(ret, '"') > 1 && super_herror("Invalid file", 0, 0) == 0)
 			|| (get_next_line(fd, &tmp) != 1 &&
-			super_herror("read problem", 0) == 0))
+			super_herror("Error while reading file", 0, 0) == 0))
 			return (NULL);
 		ret = ft_strjoinfree(ret, "\n");
 		ret = ft_strjoinfree(ret, tmp);
@@ -72,7 +72,7 @@ char		*have_truc_helper(char *tmp, char *truc, int fd)
 	tmp[0] = 0;
 	while ((++i) >= 0 && tmp[i] && tmp[i] != '#')
 		if (tmp[i] != ' ' && tmp[i] != '\n')
-			return (super_herror("fichier non valide", 0));
+			return (super_herror("Invalid file", 0, 0));
 	return (ret);
 }
 
@@ -84,14 +84,14 @@ char		*have_truc(int fd, char *truc)
 	while (tmp == NULL && ++NB_LINES)
 	{
 		if (get_next_line(fd, &tmp) != 1)
-			return (super_herror("fichier vide", 0));
+			return (super_herror("Empty file", 0, 0));
 		tmp = testempty(tmp);
 	}
 	NB_LINES--;
 	if ((ft_strncmp(truc, tmp, ft_strlen(truc))))
 	{
 		ft_strdel(&tmp);
-		return (super_herror("fichier non valide", 0));
+		return (super_herror("Invalid file", 0, 0));
 	}
 	return (have_truc_helper(tmp, truc, fd));
 }

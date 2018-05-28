@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:18:47 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/12 19:21:26 by vlay             ###   ########.fr       */
+/*   Updated: 2018/05/28 17:39:09 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	main_read(char **av)
 	g_lines = NULL;
 	g_op_tab = init_g_op_tab();
 	if ((fd = open(av[1], O_RDONLY)) < 0)
-		return ((int)super_herror("files do not exist", 0));
+		return ((int)super_herror("File do not exist", 0, 0));
 	if (!have_header(fd))
 		return (0);
 	while (get_next_line(fd, &l) == 1 && ((NB_LINES++) >= 0))
@@ -83,14 +83,10 @@ int			main(int ac, char **av)
 	if (ac <= 1)
 	{
 		ft_printf("Usage: ./asm <sourcefile.s>\n");
-		while (1);
 		return (1);
 	}
 	if (!(fdc = main_read(av)))
-	{
-		while (1);
 		return (1);
-	}
 	i = 0;
 	keep = g_lines;
 	while (g_lines)
@@ -98,17 +94,5 @@ int			main(int ac, char **av)
 	g_lines = keep;
 	free_all();
 	ft_printf("champion créé\n");
-	while (1);
 	return (0);
 }
-
-/*
-** int			main(int ac, char **av)
-** {
-** 		main2(ac, av);
-**	 	ft_printf("end\n");
-** 	while (42)
-** 		;
-** 	return (0);
-** }
-*/
