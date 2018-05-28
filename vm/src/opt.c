@@ -65,8 +65,8 @@ t_list	*option(int ac, char **av, t_map *map, t_champ *champs)
 					return (NULL);
 				else if (av[++i])
 				{
-					if (!(ischamp(av[i], &champs[ft_atoi(&av[i - 1][2]) - 1], ft_atoi(&av[i - 1][2]) - 1)
-					&& ft_printf("NOT EVEN A CHAMPION DUDE WTF\n")))
+					if (!ischamp(av[i], &champs[ft_atoi(&av[i - 1][2]) - 1], ft_atoi(&av[i - 1][2]) - 1)
+					&& ft_printf("NOT EVEN A CHAMPION DUDE WTF\n"))
 						return (NULL);
 					n_champ++;
 				}

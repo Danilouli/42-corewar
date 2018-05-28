@@ -110,8 +110,8 @@ int						usage(void);
 /*
 Arg functions
 */
-unsigned char			*translate_OCP(unsigned char OCP);
-int						OCPCheck(t_map *map, t_process *process);
+unsigned char			*translate_ocp(unsigned char ocp);
+int						ocpcheck(t_map *map, t_process *process);
 t_arg					*get_arg(t_map *map, t_process *process, int nbarg, int *in);
 unsigned				*tabarg(t_arg *arg, t_map *map, t_process *process);
 
@@ -123,7 +123,7 @@ void					delprocess(void *content, size_t content_size);
 void					process_operations(t_render *r, t_map *map, t_champ *champs, t_list **allprocess);
 t_list					*proc_filter(t_list *list, unsigned char *pmap);
 t_process				*proccpy(t_process **process);
-void					processit(t_map *map, t_list **allprocess, t_champ *champs, t_process *process);
+int						processit(t_map *map, t_list **allprocess, t_champ *champs, t_process *process);
 
 /*
 Champions functions
@@ -135,10 +135,11 @@ t_champ					*whowins(t_champ *champ);
 void					freechampmap(t_champ *champs, t_map *map);
 
 /*
-Debug functions
+Misc functions
 */
 void					prt_map_hex(t_map map);
-
+void					*retin(int *in);
+void					assign_param(int *param, t_arg *arg, t_process *p);
 /*
 Visualizer functions.
 */
@@ -154,8 +155,8 @@ void					cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 Ncurses functions.
 */
 
-int 					controls_ncurses(t_render *r, t_list **allprocess, t_map *map, t_champ *champs);
-void					print_nmap(t_list **allprocess, t_map *map, t_render *r, t_champ *champs);
+int						controls_ncurses(t_render *r, t_list **allprocess, t_map *map, t_champ *champs);
+int						print_nmap(t_list **allprocess, t_map *map, t_render *r, t_champ *champs);
 
 /*
 Operations functions

@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fsabatie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/28 16:24:38 by fsabatie          #+#    #+#             */
+/*   Updated: 2018/05/28 16:24:39 by fsabatie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "corewar.h"
 
 void	setmap(t_map *map, t_champ *champs, t_list *allprocess)
 {
-	size_t	j;
-	size_t	i;
-	size_t	c;
-	size_t	interval;
+	size_t		j;
+	size_t		i;
+	size_t		c;
+	size_t		interval;
 	t_process	*process;
 
 	interval = MEM_SIZE / champslen(champs);
@@ -18,9 +30,8 @@ void	setmap(t_map *map, t_champ *champs, t_list *allprocess)
 		process->ptr = i * interval;
 		j = i * interval;
 		c = j;
-		while (j < c + champs[i].len_prog) {
+		while (j < c + champs[i].len_prog)
 			map->c_map[j++] = champs[i].num + 1;
-		}
 		allprocess = allprocess->next;
 	}
 }

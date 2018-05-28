@@ -12,55 +12,66 @@
 
 #include "corewar.h"
 
+void	*retin(int *in)
+{
+	*in = *in - 1;
+	return (NULL);
+}
+
 void	prt_map_hex(t_map map)
 {
-	size_t	i;
-	unsigned char *hex;
+	size_t			i;
+	unsigned char	*hex;
 
-	system("clear");
 	hex = map.map;
 	i = 0;
-	while(i < MEM_SIZE)
+	while (i < MEM_SIZE)
 	{
 		if (map.p_map[i] == 1)
-		{
 			ft_printf("\x1b[35m");
-			ft_printf("%02x", hex[i]);
-			ft_printf("\x1b[39m");
-		}
 		else if (map.c_map[i] == 1)
-		{
 			ft_printf("\x1b[31m");
-			ft_printf("%02x", hex[i]);
-			ft_printf("\x1b[39m");
-		}
 		else if (map.c_map[i] == 2)
-		{
 			ft_printf("\x1b[32m");
-			ft_printf("%02x", hex[i]);
-			ft_printf("\x1b[39m");
-		}
 		else if (map.c_map[i] == 3)
-		{
 			ft_printf("\x1b[33m");
-			ft_printf("%02x", hex[i]);
-			ft_printf("\x1b[39m");
-		}
 		else if (map.c_map[i] == 4)
-		{
 			ft_printf("\x1b[34m");
-			ft_printf("%02x", hex[i]);
+		else if (map.c_map[i] == 0)
 			ft_printf("\x1b[39m");
-		}
-		else if (map.c_map[i] == 0) {
-			ft_printf("\x1b[39m");
-			ft_printf("%02x", hex[i]);
-		}
-		i++;
-		if (i % 64 == 0)
-			ft_putchar('\n');
-		else
-			ft_putchar(' ');
+		ft_printf("%02x", hex[i++]);
+		ft_printf("\x1b[39m");
+		(i % 64 == 0) ? ft_putchar('\n') : ft_putchar(' ');
 	}
 	printf("Cycles at : %li\n", map.t_cycles);
+}
+
+size_t	champslen(t_champ *champs)
+{
+	size_t	i;
+
+	i = 0;
+	while (champs[i].num >= 0)
+		i++;
+	return (i);
+}
+
+void	assign_param(int *param, t_arg *arg, t_process *p)
+{
+	int tmp;
+
+	if (arg[0].type == RC)
+	{
+		tmp = (int)*(int *)&p->reg[RS * param[0]];
+		param[0] = (int)(ft_endian_swap((unsigned *)&tmp));
+	}
+	if (arg[1].type == RC)
+	{
+		tmp = (int)*(int *)&p->reg[RS * param[1]];
+		param[1] = (int)(ft_endian_swap((unsigned *)&tmp));
+	}
+	if (arg[0].type == IC)
+		param[0] = (int)(ft_endian_swap((unsigned *)&param[0]));
+	if (arg[1].type == IC)
+		param[1] = (int)(ft_endian_swap((unsigned *)&param[1]));
 }

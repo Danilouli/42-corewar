@@ -29,9 +29,9 @@ GCC_FLGS = -g -Werror -Wextra -Wall
 GCC_LIBS = -lglfw3 -lncurses -framework AppKit -framework OpenGL -framework IOKit \
 			-framework OpenCL -framework CoreVideo
 
-SRC_NAME = 	champ.c debug.c vm.c operations.c process.c opt.c map.c env.c \
+SRC_NAME = 	champ.c misc.c vm.c operations.c process.c opt.c map.c env.c \
 			render.c shaders.c args.c st_i.c ld_i.c forks.c operators.c \
-			aff_jmp_live.c action.c
+			aff_jmp_live.c action.c ocp.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 LIB_NAME = libft glfw/src

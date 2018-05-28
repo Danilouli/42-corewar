@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fsabatie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/28 17:11:58 by fsabatie          #+#    #+#             */
+/*   Updated: 2018/05/28 17:11:59 by fsabatie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "corewar.h"
 
 t_process	*proccpy(t_process **process)
@@ -8,7 +20,7 @@ t_process	*proccpy(t_process **process)
 		return (NULL);
 	ft_memcpy(res, *process, sizeof(t_process));
 	res->active = 0;
-	if (!(res->reg = ft_memdup((*process)->reg, REG_NUMBER * REG_SIZE)))
+	if (!(res->reg = ft_memdup((*process)->reg, REG_NUMBER * RS)))
 		return (NULL);
 	return (res);
 }
@@ -21,17 +33,17 @@ t_process	*createproc(t_champ *champ, char carry, char *reg)
 	if (!(proc = (t_process *)malloc(sizeof(t_process))))
 		return (NULL);
 	proc->ptr = 0;
-	proc->life = CYCLE_TO_DIE;
+	proc->life = CTD;
 	proc->champ = champ;
 	proc->op = 0;
 	proc->cycles = 0;
 	proc->carry = carry;
 	proc->active = 0;
 	if (reg)
-		proc->reg = ft_memdup(reg, REG_NUMBER * REG_SIZE);
+		proc->reg = ft_memdup(reg, REG_NUMBER * RS);
 	else
 	{
-		proc->reg = (unsigned char*)ft_strnew(REG_NUMBER * REG_SIZE);
+		proc->reg = (unsigned char*)ft_strnew(REG_NUMBER * RS);
 		cast = (unsigned *)proc->reg;
 		*cast = LIFECODE - champ->num;
 		ft_endian_swap(cast);
@@ -39,20 +51,21 @@ t_process	*createproc(t_champ *champ, char carry, char *reg)
 	return (proc);
 }
 
-void	delprocess(void *content, size_t content_size)
+void		delprocess(void *content, size_t content_size)
 {
 	t_process	*process;
 
 	(void)content_size;
 	process = (t_process *)content;
 	if (process)
-		if (process->reg) {
+		if (process->reg)
+		{
 			free(process->reg);
 			free(process);
 		}
 }
 
-t_list	*proc_filter(t_list *list, unsigned char *pmap)
+t_list		*proc_filter(t_list *list, unsigned char *pmap)
 {
 	t_list		*result;
 	t_list		*next;

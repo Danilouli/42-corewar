@@ -18,13 +18,13 @@
 #include "../../libft/includes/libft.h"
 
 #define IND_SIZE				2
-#define REG_SIZE				4
-#define DIR_SIZE				REG_SIZE
+#define RS				4
+#define DIR_SIZE				RS
 
 
-# define REG_CODE				1
-# define DIR_CODE				2
-# define IND_CODE				3
+# define RC				1
+# define DC				2
+# define IC				3
 
 
 #define MAX_ARGS_NUMBER			4
@@ -45,7 +45,7 @@
 
 #define REG_NUMBER				16
 
-#define CYCLE_TO_DIE			1536
+#define CTD			1536
 #define CYCLE_DELTA				50
 #define NBR_LIVE				21
 #define MAX_CHECKS				10
@@ -86,7 +86,7 @@ typedef struct		s_op
 	char			code; //Opcode
 	unsigned		cycles; // Nombre de cycles pour realiser l'instruction
 	char			*des; // Description
-	char			mod_c; // OCP
+	char			mod_c; // ocp
 	char			need_c; // 2 / 4 octets pour les directs
 }					t_op;
 

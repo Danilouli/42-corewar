@@ -12,25 +12,27 @@
 
 #include "corewar.h"
 #include <math.h>
-#include <time.h>
 
-
-float	interpolation(short n, float points[][3], float X, float Y)
+float			interpolation(short n, float points[][3], float x, float y)
 {
-	short	i = 0;
-	float	polynome = 0;
+	short i;
+	float polynome;
+	float f;
+	float s;
 
+	i = 0;
+	polynome = 0;
 	while (i < n)
 	{
-		float f = (float)powf(X-points[i][0], 2);
-		float s = (float)powf(Y-points[i][1], 2);
-		polynome += (float)points[i][2] * 1.5 * pow(1.5,-(f + s) * 0.2);
+		f = (float)powf(x - points[i][0], 2);
+		s = (float)powf(y - points[i][1], 2);
+		polynome += (float)points[i][2] * 2 * pow(2, -(f + s) * 0.2);
 		i++;
 	}
 	return (polynome);
 }
 
-static GLuint createVAO(void)
+static GLuint	createvao(void)
 {
 	GLuint vao;
 
@@ -40,7 +42,7 @@ static GLuint createVAO(void)
 	return (vao);
 }
 
-short getIntVertices(float iv[][3], t_map *map)
+short			getintvertices(float iv[][3], t_map *map)
 {
 	short i;
 	short counter;
@@ -60,47 +62,46 @@ short getIntVertices(float iv[][3], t_map *map)
 	return (counter);
 }
 
-
-
-void getColor(float *v, int *ctr, t_map *map, float x, float y, t_bool b)
+void			getcolor(float *v, int *ctr, t_map *map, float x, float y)
 {
-	int c = *ctr;
+	int c;
+
+	c = *ctr;
 	if (map->c_map[(int)(x + (y * 64))] == 1)
 	{
-		v[c++] = b ? 0.0 : (float)0.945;
-		v[c++] = b ? 0.0 : (float)0.082;
-		v[c++] = b ? 0.0 : (float)0.082;
+		v[c++] = (float)0.945;
+		v[c++] = (float)0.082;
+		v[c++] = (float)0.082;
 
 	}
 	else if (map->c_map[(int)(x + (y * 64))] == 2)
 	{
-		v[c++] = b ? 0.0 : (float)0.8;
+		v[c++] = (float)0.8;
 		v[c++] = 0.0;
-		v[c++] = b ? 0.0 : (float)0.8;
+		v[c++] = (float)0.8;
 	}
 	else if (map->c_map[(int)(x + (y * 64))] == 3)
 	{
 		v[c++] = 0.0;
-		v[c++] = b ? 0.0 : 1.0;
+		v[c++] = 1.0;
 		v[c++] = 0.0;
-
 	}
 	else if (map->c_map[(int)(x + (y * 64))] == 4)
 	{
 		v[c++] = 0.0;
-		v[c++] = b ? 0.0 : 1.0;
-		v[c++] = b ? 0.0 : 1.0;
+		v[c++] = 1.0;
+		v[c++] = 1.0;
 	}
 	else if (map->c_map[(int)(x + (y * 64))] == 0)
 	{
-		v[c++] = b ? 0.0 : 0.6;
-		v[c++] = b ? 0.0 : 0.6;
-		v[c++] = b ? 0.0 : 0.6;
+		v[c++] = 0.6;
+		v[c++] = 0.6;
+		v[c++] = 0.6;
 	}
 	*ctr = c;
 }
 
-void	getMap(float *v, float iv[][3], short size, t_map *map, t_bool b)
+void			getMap(float *v, float iv[][3], short size, t_map *map)
 {
 	float			x;
 	float			y;
@@ -118,34 +119,34 @@ void	getMap(float *v, float iv[][3], short size, t_map *map, t_bool b)
 			v[c_ctr++] = x / 64 - 0.5;
 			v[c_ctr++] = y / 64 - 0.5;
 			v[c_ctr++] = interpolation(size, iv, x, y) / 64;
-			getColor(v, &c_ctr, map, x, y, b);
+			getcolor(v, &c_ctr, map, x, y);
 			v[c_ctr++] = (float)(x - 1) / 64 - 0.5;
 			v[c_ctr++] = (float)y / 64 - 0.5;
 			v[c_ctr++] = interpolation(size, iv, x - 1, y) / 64;
-			getColor(v, &c_ctr, map, x - 1, y, b);
+			getcolor(v, &c_ctr, map, x - 1, y);
 			v[c_ctr++] = (float)(x - 1) / 64 - 0.5;
 			v[c_ctr++] = (float)(y + 1) / 64 - 0.5;
 			v[c_ctr++] = interpolation(size, iv, x - 1, y + 1) / 64;
-			getColor(v, &c_ctr, map, x - 1, y + 1, b);
+			getcolor(v, &c_ctr, map, x - 1, y + 1);
 			v[c_ctr++] = (float)x / 64 - 0.5;
 			v[c_ctr++] = (float)y / 64 - 0.5;
 			v[c_ctr++] = interpolation(size, iv, x, y) / 64;
-			getColor(v, &c_ctr, map, x, y, b);
+			getcolor(v, &c_ctr, map, x, y);
 			v[c_ctr++] = (float)x / 64 - 0.5;
 			v[c_ctr++] = (float)(y + 1) / 64 - 0.5;
 			v[c_ctr++] = interpolation(size, iv, x, y + 1) / 64;
-			getColor(v, &c_ctr, map, x, y + 1, b);
+			getcolor(v, &c_ctr, map, x, y + 1);
 			v[c_ctr++] = (float)(x - 1) / 64 - 0.5;
 			v[c_ctr++] = (float)(y + 1) / 64 - 0.5;
 			v[c_ctr++] = interpolation(size, iv, x - 1, y + 1) / 64;
-			getColor(v, &c_ctr, map, x - 1, y + 1, b);
+			getcolor(v, &c_ctr, map, x - 1, y + 1);
 			x++;
 		}
 		y++;
 	}
 }
 
-int initMap(t_map *map, t_bool black)
+int				initMap(t_map *map)
 {
 	float	vertices[3969 * 36];
 	float	int_vert[4096][3];
@@ -153,9 +154,9 @@ int initMap(t_map *map, t_bool black)
 	GLuint vbo = 0;
 	GLuint vao;
 
-	int_cntr = getIntVertices(int_vert, map);
-	getMap(&vertices[0], int_vert, int_cntr, map, black);
-	vao = createVAO();
+	int_cntr = getintvertices(int_vert, map);
+	getMap(&vertices[0], int_vert, int_cntr, map);
+	vao = createvao();
 	vbo = 0;
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -172,10 +173,10 @@ int initMap(t_map *map, t_bool black)
 }
 
 
-int	render(t_render *r, t_map *map)
+int				render(t_render *r, t_map *map)
 {
 	GLuint	vao;
-	vao = initMap(map, FALSE);
+	vao = initMap(map);
 	glUniform1f(glGetUniformLocation(r->v_shader->prog, "rotx"), r->rotx);
 	glUniform1f(glGetUniformLocation(r->v_shader->prog, "roty"), r->roty);
 	glUniform1f(glGetUniformLocation(r->v_shader->prog, "s"), r->scale);
@@ -190,7 +191,7 @@ int	render(t_render *r, t_map *map)
 	return (0);
 }
 
-void	p_color(t_map *map, int i, WINDOW *win)
+void			p_color(t_map *map, int i, WINDOW *win)
 {
 	init_pair(6, COLOR_WHITE, COLOR_MAGENTA);
 	init_pair(1, COLOR_RED, COLOR_BLACK);
@@ -204,13 +205,13 @@ void	p_color(t_map *map, int i, WINDOW *win)
 	mvwprintw(win, i / 64 + 2, (i % 64) * 3 + 6, " ", map->map[i]);
 }
 
-void	print_nmap(t_list **allprocess, t_map *map, t_render *r, t_champ *champs)
+int				print_nmap(t_list **allprocess, t_map *map, t_render *r, t_champ *c)
 {
 	int		i;
 	WINDOW *lwin;
 	WINDOW *rwin;
 
-	lwin = subwin(stdscr, LINES / 1.2, COLS / 1.8, 0, 0);        // Créé une fenêtre de 'LINES / 2' lignes et de COLS colonnes en 0, 0
+	lwin = subwin(stdscr, LINES / 1.2, COLS / 1.8, 0, 0);
 	rwin = subwin(stdscr, LINES / 1.2, COLS / 5, 0,  COLS / 1.8 - 1);
 	box(lwin, ACS_VLINE, ACS_HLINE);
 	box(rwin, ACS_VLINE, ACS_HLINE);
@@ -221,15 +222,15 @@ void	print_nmap(t_list **allprocess, t_map *map, t_render *r, t_champ *champs)
 	mvwprintw(rwin, 7, 4, "Cycles : %i", map->t_cycles);
 	mvwprintw(rwin, 8, 4, "Processes : %li", ft_lstlen(*allprocess));
 	mvwprintw(rwin, 9, 4, "Speed : %i", r->skip);
-	mvwprintw(rwin, 14, 4, "Terrible player one : %s", champs[0].name);
-	mvwprintw(rwin, 15, 6, "Last live : %li", champs[0].lastlife);
-	champs[1].name ? mvwprintw(rwin, 18, 4, "Another terrible player : %s", champs[1].name) : (void)champs[1].name;
-	champs[1].name ? mvwprintw(rwin, 19, 6, "Last live : %li", champs[1].lastlife) : (void)champs[1].name;
-	champs[2].name ? mvwprintw(rwin, 22, 4, "Yet another one : %s", champs[2].name) : (void)champs[2].name;
-	champs[1].name ? mvwprintw(rwin, 23, 6, "Last live : %li", champs[2].lastlife) : (void)champs[2].name;
-	champs[3].name ? mvwprintw(rwin, 26, 4, "OMG!!! THIS IS THE BEST PLA... Ah, nope : %.10s", champs[3].name) : (void)champs[3].name;
-	champs[1].name ? mvwprintw(rwin, 27, 6, "Last live : %li", champs[3].lastlife) : (void)champs[3].name;
+	mvwprintw(rwin, 14, 4, "Terrible player one : %s", c[0].name);
+	mvwprintw(rwin, 15, 6, "Last live : %li", c[0].lastlife);
+	c[1].name ? mvwprintw(rwin, 18, 4, "Another terrible player : %s", c[1].name) : (void)c[1].name;
+	c[1].name ? mvwprintw(rwin, 19, 6, "Last live : %li", c[1].lastlife) : (void)c[1].name;
+	c[2].name ? mvwprintw(rwin, 22, 4, "Yet another one : %s", c[2].name) : (void)c[2].name;
+	c[1].name ? mvwprintw(rwin, 23, 6, "Last live : %li", c[2].lastlife) : (void)c[2].name;
+	c[3].name ? mvwprintw(rwin, 26, 4, "OMG!!! THIS IS THE BEST PLA... Ah, nope : %.10s", c[3].name) : (void)c[3].name;
+	c[1].name ? mvwprintw(rwin, 27, 6, "Last live : %li", c[3].lastlife) : (void)c[3].name;
 	wrefresh(lwin);
 	wrefresh(rwin);
-
+	return (1);
 }

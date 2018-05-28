@@ -1,47 +1,61 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   action.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fsabatie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/28 14:54:13 by fsabatie          #+#    #+#             */
+/*   Updated: 2018/05/28 14:54:17 by fsabatie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "corewar.h"
 
-static inline void 	init_action(t_process *process, t_map *map)
+static void	init_action(t_process *p, t_map *map)
 {
-	if (!process->active && map->map[process->ptr] > 0 && map->map[process->ptr] < 17)
+	if (!p->active && map->map[p->ptr] > 0 && map->map[p->ptr] < 17)
 	{
-		process->op = map->map[process->ptr];
-		process->cycles = op_tab[map->map[process->ptr] - 1].cycles;
-		process->active = 1;
+		p->op = map->map[p->ptr];
+		p->cycles = op_tab[map->map[p->ptr] - 1].cycles;
+		p->active = 1;
 	}
-	process->cycles -= (process->active) ? 1 : 0;
+	p->cycles -= (p->active) ? 1 : 0;
 }
 
-static inline void 	launch_action(t_process *process, t_map *map, t_champ *champs, \
-					t_list **allprocess)
+static void	launch_action(t_process *p, t_map *map, t_champ *champs, \
+					t_list **allp)
 {
-	int toadd = 0;
-	static	int	(*f[17])(t_map *, t_champ *, t_process *, t_list **allprocess) = {
+	int			toadd;
+	static int	(*f[17])(t_map *, t_champ *, t_process *, t_list **) = {
 		&live, &ld, &st, &add, &sub, &and, &or, &xor, &zjmp, &ldi, &sti, &cfork,
 		&ld, &ldi, &lcfork, &aff, NULL
 	};
 
-	if (process->active && !process->cycles && process->op)
+	toadd = 0;
+	if (p->active && !p->cycles && p->op)
 	{
-		toadd = f[(size_t)process->op - 1](map, champs, process, allprocess);
-		process->ptr += toadd;
-		process->ptr = (process->ptr < 0) ? MEM_SIZE + process->ptr : process->ptr;
-		process->op = 0;
-		process->active = 0;
+		toadd = f[(size_t)p->op - 1](map, champs, p, allp);
+		p->ptr += toadd;
+		p->ptr = (p->ptr < 0) ? MEM_SIZE + p->ptr : p->ptr;
+		p->op = 0;
+		p->active = 0;
 	}
 }
 
-void	processit(t_map *map, t_list **allprocess, t_champ *champs, t_process *process)
+int			processit(t_map *map, t_list **allp, t_champ *champs, t_process *p)
 {
 	int			f_ptr;
 
-	f_ptr = process->ptr;
-	init_action(process, map);
-	launch_action(process, map, champs, allprocess);
-	if (!process->active && !process->cycles)
-		process->ptr++;
-	process->life--;
-	process->ptr = process->ptr < 0 ? MEM_SIZE + process->ptr : process->ptr;
-	process->ptr = process->ptr >= MEM_SIZE ? process->ptr - MEM_SIZE : process->ptr;
+	f_ptr = p->ptr;
+	init_action(p, map);
+	launch_action(p, map, champs, allp);
+	if (!p->active && !p->cycles)
+		p->ptr++;
+	p->life--;
+	p->ptr = p->ptr < 0 ? MEM_SIZE + p->ptr : p->ptr;
+	p->ptr = p->ptr >= MEM_SIZE ? p->ptr - MEM_SIZE : p->ptr;
 	map->p_map[f_ptr] = 0;
-	map->p_map[process->ptr] = 1;
+	map->p_map[p->ptr] = 1;
+	return (1);
 }

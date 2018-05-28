@@ -57,7 +57,7 @@ int	main(int ac, char **av)
 	if (ft_strchr(opt, 'n') && !(ft_strchr(opt, 'o')))
 		r.ncurses = 1;
 	setmap(&map, champs, allprocess);
-	map.cycles = CYCLE_TO_DIE;
+	map.cycles = CTD;
 	process_operations(&r, &map, champs, &allprocess);
 	if (r.ncurses)
 		endwin();

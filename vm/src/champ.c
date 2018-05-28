@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   champ.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fsabatie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/28 15:31:30 by fsabatie          #+#    #+#             */
+/*   Updated: 2018/05/28 15:31:32 by fsabatie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "corewar.h"
 
 int			champregister(int fd, t_champ *champ, unsigned char n_champ)
@@ -7,28 +19,25 @@ int			champregister(int fd, t_champ *champ, unsigned char n_champ)
 
 	champ->num = n_champ;
 	champ->lastlife = 0;
-	ft_printf("num : %i\n", champ->num);
 	if ((ret = read(fd, buf, PROG_NAME_LENGTH)) <= 0 || ret != PROG_NAME_LENGTH)
 		return (0);
 	buf[ret] = '\0';
 	champ->name = ft_strdup(buf);
-	ft_printf("name : %s\n", champ->name);
 	if ((ret = read(fd, buf, 4)) <= 0 || ft_memcmp(buf, "\0\0\0\0", 4)
-		|| (ret = read(fd, buf, 4) <= 0) || (champ->len_prog = ft_endian_swap((unsigned *)buf)) > CHAMP_MAX_SIZE)
+	|| (ret = read(fd, buf, 4) <= 0)
+	|| (champ->len_prog = ft_endian_swap((unsigned *)buf)) > CHAMP_MAX_SIZE)
 		return (0);
-	ft_printf("prog-len: %ju\n", champ->len_prog);
 	if ((ret = read(fd, buf, COMMENT_LENGTH)) <= 0 || ret != COMMENT_LENGTH)
 		return (0);
 	buf[ret] = '\0';
 	champ->comment = ft_strdup(buf);
-	ft_printf("comment : %s\n", champ->comment);
+	ft_printf("Name: %s\nComment : %s\n", champ->name, champ->comment);
 	if ((ret = read(fd, buf, 4)) <= 0 || ft_memcmp(buf, "\0\0\0\0", 4)
 		|| (ret = read(fd, buf, champ->len_prog)) <= 0)
 		return (0);
 	buf[ret] = '\0';
 	champ->prog = ft_memdup(buf, (size_t)ret);
 	champ->len_prog = ret;
-	// write(1, champ->prog, ret);
 	return (1);
 }
 
@@ -40,11 +49,9 @@ int			ischamp(char *path, t_champ *champ, unsigned char n_champ)
 	unsigned	keep;
 	size_t		i;
 
-	if ((fd = open(path, O_RDONLY)) < 0 || (ret = read(fd, "", 0)) < 0)
-	{
-		ft_printf("Can't read source file %s\n", path);
+	if ((fd = open(path, O_RDONLY)) < 0
+	|| (ret = read(fd, "", 0)) < 0)
 		return (0);
-	}
 	i = 4;
 	magic = 0;
 	while (i--)
@@ -55,25 +62,14 @@ int			ischamp(char *path, t_champ *champ, unsigned char n_champ)
 		keep <<= i * 8;
 		magic |= keep;
 	}
-	ft_printf("magic : %x | %x\n", magic, COREWAR_EXEC_MAGIC);
- 	if (magic != COREWAR_EXEC_MAGIC)
+	if (magic != COREWAR_EXEC_MAGIC)
 		return (0);
 	if (!champregister(fd, champ, n_champ) || close(fd) == -1)
 		return (0);
 	return (1);
 }
 
-size_t	champslen(t_champ *champs)
-{
-	size_t	i;
-
-	i = 0;
-	while(champs[i].num >= 0)
-		i++;
-	return (i);
-}
-
-int	champ_isalive(t_map *map, t_list *list, t_champ *champs)
+int			champ_isalive(t_map *map, t_list *list, t_champ *champs)
 {
 	(void)champs;
 	++map->cycles;
@@ -81,7 +77,7 @@ int	champ_isalive(t_map *map, t_list *list, t_champ *champs)
 	return (map->cycle_todie < 1 || !ft_lstlen(list) ? 0 : 1);
 }
 
-void	freechampmap(t_champ *champs, t_map *map)
+void		freechampmap(t_champ *champs, t_map *map)
 {
 	size_t	i;
 
@@ -98,7 +94,7 @@ void	freechampmap(t_champ *champs, t_map *map)
 	free(map->c_map);
 }
 
-t_champ	*whowins(t_champ *champ)
+t_champ		*whowins(t_champ *champ)
 {
 	size_t	best;
 	size_t	i;
