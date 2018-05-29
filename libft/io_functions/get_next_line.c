@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/18 17:09:53 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/05/01 20:52:55 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/29 17:11:53 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int		returnline(char *mem, char **line, t_file *liste)
 	return (1);
 }
 
-int		ft_gnlstrdel(char **as)
+int				ft_gnlstrdel(char **as)
 {
 	if (as != NULL)
 	{
@@ -98,7 +98,8 @@ int				get_next_line(const int fd, char **line)
 	while (!(mem = ft_strchr(liste->memstr, '\n')))
 	{
 		charlu = read(liste->fd, buffer, BUFF_SIZE);
-		if (charlu == 0 && ft_strcmp(liste->memstr, "") && ft_gnlstrdel(&liste->start) == 0)
+		if (charlu == 0 && ft_strcmp(liste->memstr, "")
+			&& ft_gnlstrdel(&liste->start) == 0)
 			break ;
 		if (charlu == 0)
 			return (0);

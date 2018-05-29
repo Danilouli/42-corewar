@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 16:17:32 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 18:50:52 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/29 17:20:11 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** sep. Si l’allocation
 ** echoue, la fonction retourne NULL.
 **
-** Exemple : ft_strsplit("*salut*les* gros **etudiants*", ’* ’) renvoie le tableau
+** Exemple : ft_strsplit("*slt*les* gros **studs*", ’* ’) renvoie le tableau
 ** ["salut", "les", "gros" "etudiants"].
 */
 
