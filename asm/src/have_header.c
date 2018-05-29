@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:34:45 by acouturi          #+#    #+#             */
-/*   Updated: 2018/05/27 22:22:37 by danielsaadia     ###   ########.fr       */
+/*   Updated: 2018/05/29 15:58:34 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char		*have_truc_helper(char *tmp, char *truc, int fd)
 	i = (((int)destroy(&tmp) & NB_LINES++)) & 0;
 	while (ft_strcount(ret, '"') != 1)
 	{
-		if ((ft_strcount(ret, '"') > 1 && super_herror("Invalid file", 0, 0) == 0)
+		if ((ft_strcount(ret, '"') > 1 && !super_herror("Invalid file", 0, 0))
 			|| (get_next_line(fd, &tmp) != 1 &&
 			super_herror("Error while reading file", 0, 0) == 0))
 			return (NULL);

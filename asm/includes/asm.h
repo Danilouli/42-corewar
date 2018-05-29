@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:23:12 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/27 22:21:36 by danielsaadia     ###   ########.fr       */
+/*   Updated: 2018/05/29 16:26:42 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ t_list					*alloc_label(char *label, char **spl);
 void					redefine_labels(char *final_label);
 int						is_relabel(char *str);
 char					*fetch_final_label(char *label);
-int 					gce(char *err_word, char *l);
+int						gce(char *err_word, char *l);
+void					alloc_line_helper(t_list **nw, t_line *ln);
 
 #endif

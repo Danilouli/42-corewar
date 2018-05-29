@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 20:42:21 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/27 22:29:22 by danielsaadia     ###   ########.fr       */
+/*   Updated: 2018/05/29 16:16:54 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ static void	alloc_line_zeros(t_line **ln)
 
 t_list		*alloc_line(char **spl, char *label, int nbp, char *l)
 {
-	t_line *ln;
-	t_list *nw;
+	t_line		*ln;
+	t_list		*nw;
 	int			cp;
 
 	cp = 0;
@@ -110,14 +110,12 @@ t_list		*alloc_line(char **spl, char *label, int nbp, char *l)
 	{
 		ln->nb_params = (label) ? nbp - 2 : nbp - 1;
 		ln->param = (label) ? &(spl[2]) : &(spl[1]);
-		if (LAST_LABEL)
-			redefine_labels(LAST_LABEL);
+		(LAST_LABEL) ? redefine_labels(LAST_LABEL) : LAST_LABEL;
 	}
-	nw->next = NULL;
-	nw->content = ln;
-	nw->content_size = 2;
+	alloc_line_helper(&nw, ln);
 	if (ln->nb_params && (cp = check_params(ln)) >= 0)
-			return (super_herror("Invalid parameter for instruction", cp, g_op_tab[ln->opcode - 1].name));
-	calc_len(ln);
+		return (super_herror("Invalid parameter for instruction",
+		cp, g_op_tab[ln->opcode - 1].name));
+		calc_len(ln);
 	return (nw);
 }
