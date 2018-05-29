@@ -72,7 +72,6 @@ void			getcolor(float *v, int *ctr, t_map *map, float x, float y)
 		v[c++] = (float)0.945;
 		v[c++] = (float)0.082;
 		v[c++] = (float)0.082;
-
 	}
 	else if (map->c_map[(int)(x + (y * 64))] == 2)
 	{
@@ -101,7 +100,7 @@ void			getcolor(float *v, int *ctr, t_map *map, float x, float y)
 	*ctr = c;
 }
 
-void			getMap(float *v, float iv[][3], short size, t_map *map)
+void			getmap(float *v, float iv[][3], short size, t_map *map)
 {
 	float			x;
 	float			y;
@@ -146,7 +145,7 @@ void			getMap(float *v, float iv[][3], short size, t_map *map)
 	}
 }
 
-int				initMap(t_map *map)
+int				initmap(t_map *map)
 {
 	float	vertices[3969 * 36];
 	float	int_vert[4096][3];
@@ -155,7 +154,7 @@ int				initMap(t_map *map)
 	GLuint vao;
 
 	int_cntr = getintvertices(int_vert, map);
-	getMap(&vertices[0], int_vert, int_cntr, map);
+	getmap(&vertices[0], int_vert, int_cntr, map);
 	vao = createvao();
 	vbo = 0;
 	glGenBuffers(1, &vbo);
@@ -176,7 +175,7 @@ int				initMap(t_map *map)
 int				render(t_render *r, t_map *map)
 {
 	GLuint	vao;
-	vao = initMap(map);
+	vao = initmap(map);
 	glUniform1f(glGetUniformLocation(r->v_shader->prog, "rotx"), r->rotx);
 	glUniform1f(glGetUniformLocation(r->v_shader->prog, "roty"), r->roty);
 	glUniform1f(glGetUniformLocation(r->v_shader->prog, "s"), r->scale);
@@ -205,6 +204,11 @@ void			p_color(t_map *map, int i, WINDOW *win)
 	mvwprintw(win, i / 64 + 2, (i % 64) * 3 + 6, " ", map->map[i]);
 }
 
+void			print_champs()
+{
+
+}
+
 int				print_nmap(t_list **allprocess, t_map *map, t_render *r, t_champ *c)
 {
 	int		i;
@@ -218,7 +222,8 @@ int				print_nmap(t_list **allprocess, t_map *map, t_render *r, t_champ *c)
 	i = 0;
 	while (i < MEM_SIZE)
 		p_color(map, i++, lwin);
-	r->npause ? mvwprintw(rwin, 3, 4, "** Paused **   ") : mvwprintw(rwin, 3, 4, "** Running ** ");
+	r->npause ? mvwprintw(rwin, 3, 4, "** Paused **   ")
+	: mvwprintw(rwin, 3, 4, "** Running ** ");
 	mvwprintw(rwin, 7, 4, "Cycles : %i", map->t_cycles);
 	mvwprintw(rwin, 8, 4, "Processes : %li", ft_lstlen(*allprocess));
 	mvwprintw(rwin, 9, 4, "Speed : %i", r->skip);
