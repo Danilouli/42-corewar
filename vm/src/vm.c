@@ -6,7 +6,7 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 18:18:41 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/05/12 19:08:39 by vlay             ###   ########.fr       */
+/*   Updated: 2018/05/29 17:15:56 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void				init_vm(char *opt, t_map *map, t_champ *champs, t_render *r)
 	bz(r, opt, map);
 	ft_bzero(champs, sizeof(t_champ) * MAX_PLAYERS + 1);
 	map->opt = &opt[0];
+	map->champs = champs;
 }
 
 int					main(int ac, char **av)

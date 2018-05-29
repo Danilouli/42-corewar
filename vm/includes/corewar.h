@@ -36,6 +36,7 @@ typedef struct			s_map
 	unsigned			round;
 	float				int_vert[4096][3];
 	short				ctrl_pts;
+	t_champ				*champs;
 }						t_map;
 
 typedef struct			s_process
