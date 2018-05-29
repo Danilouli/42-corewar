@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   initializators3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 12:18:21 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 22:45:51 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/29 16:11:12 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/asm.h"
+
+void	alloc_line_helper(t_list **nw, t_line *ln)
+{
+	(*nw)->next = NULL;
+	(*nw)->content = ln;
+	(*nw)->content_size = 2;
+}
 
 void	redefine_labels(char *final_label)
 {
