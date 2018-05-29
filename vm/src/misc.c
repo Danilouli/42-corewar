@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "corewar.h"
+#include <math.h>
 
 void	*retin(int *in)
 {
@@ -74,4 +75,23 @@ void	assign_param(int *param, t_arg *arg, t_process *p)
 		param[0] = (int)(ft_endian_swap((unsigned *)&param[0]));
 	if (arg[1].type == IC)
 		param[1] = (int)(ft_endian_swap((unsigned *)&param[1]));
+}
+
+float	interpolation(short n, float points[][3], float x, float y)
+{
+	short i;
+	float polynome;
+	float f;
+	float s;
+
+	i = 0;
+	polynome = 0;
+	while (i < n)
+	{
+		f = (float)powf(x - points[i][0], 2);
+		s = (float)powf(y - points[i][1], 2);
+		polynome += (float)points[i][2] * 2 * pow(2, -(f + s) * 0.2);
+		i++;
+	}
+	return (polynome);
 }
