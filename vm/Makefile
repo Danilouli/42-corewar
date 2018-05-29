@@ -31,7 +31,7 @@ GCC_LIBS = -lglfw3 -lncurses -framework AppKit -framework OpenGL -framework IOKi
 
 SRC_NAME = 	champ.c misc.c vm.c operations.c process.c opt.c map.c env.c \
 			render.c shaders.c args.c st_i.c ld_i.c forks.c operators.c \
-			aff_jmp_live.c action.c ocp.c
+			aff_jmp_live.c action.c ocp.c opengl.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 LIB_NAME = libft glfw/src

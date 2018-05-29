@@ -34,6 +34,8 @@ typedef struct			s_map
 	int					lives;
 	int					checks;
 	unsigned			round;
+	float				int_vert[4096][3];
+	short				ctrl_pts;
 }						t_map;
 
 typedef struct			s_process
@@ -85,21 +87,6 @@ typedef struct			s_render
 	float			scale;
 }						t_render;
 
-typedef struct			s_vertex
-{
-	float			x;
-	float			y;
-	float			z;
-}						t_vertex;
-
-typedef struct			s_tower
-{
-	t_vertex		pts[42];
-	short			height;
-	int				color;
-	int				top_color;
-}						t_ower;
-
 /*
 VM functions
 */
@@ -140,6 +127,8 @@ Misc functions
 void					prt_map_hex(t_map map);
 void					*retin(int *in);
 void					assign_param(int *param, t_arg *arg, t_process *p);
+float					interpolation(short n, float points[][3], float x, float y);
+
 /*
 Visualizer functions.
 */
@@ -154,7 +143,6 @@ void					cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 /*
 Ncurses functions.
 */
-
 int						controls_ncurses(t_render *r, t_list **allprocess, t_map *map, t_champ *champs);
 int						print_nmap(t_list **allprocess, t_map *map, t_render *r, t_champ *champs);
 
@@ -181,5 +169,13 @@ Memory functions
 */
 void					bidir_memcpy(void *dst, void *src, int n, short where);
 void					bidir_memset(void *dst, char champ_num, int n, short where);
+
+/*
+OpenGL functions
+*/
+short					getintvertices(float iv[][3], t_map *map);
+void					assign_color(float **v, float r, float g, float b);
+void					getcolor(float **v, t_map *map, float x, float y);
+void					getmap(float *v, t_map *map);
 
 #endif
