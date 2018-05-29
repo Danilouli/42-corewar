@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 19:38:19 by acouturi          #+#    #+#             */
-/*   Updated: 2018/04/05 21:36:48 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/29 16:10:41 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,12 @@ void			creat_new_file(char *fname, int fd, t_error *str_err)
 	{
 		ft_strcpy(&newname[ft_strlen(newname) - 3], "s");
 		if ((tmp = ft_strrchr(newname, '/')))
-			ft_memcpy(newname, tmp + 1, ft_strlen(tmp));
-		ft_memmove(&newname[1], newname, ft_strlen(newname) + 1);
-		newname[0] = 'd';
+			;
+		else
+			tmp = newname;
+		ft_memmove(&tmp[1], tmp, ft_strlen(tmp) + 1);
+		tmp[1] = 'd';
+		ft_printf("%s\n", newname);
 		if (newname &&
 				0 < (fdn = open(newname, O_WRONLY | O_CREAT | O_TRUNC, 420)))
 		{
@@ -101,8 +104,6 @@ void			test_file(char *fname, t_error *str_err)
 	else
 		add_error(str_err, "file doesn't exist");
 	ft_strdel(&data);
-	if (fd >= 0)
-		close(fd);
 }
 
 int				main(int argc, char **argv)
@@ -115,6 +116,8 @@ int				main(int argc, char **argv)
 	else
 		add_error(&str_err, "error usage :\n./dasm file.cor");
 	if (str_err.nberror)
-		ft_printf("%s\n", str_err.lastmsgerror);
+		ft_putendl(str_err.lastmsgerror);
+	else
+		ft_putendl("File create");
 	return (str_err.nberror);
 }
