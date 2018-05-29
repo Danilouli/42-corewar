@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 15:04:33 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/28 17:31:16 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/29 15:57:50 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*destroy(char **del)
 	return (NULL);
 }
 
-int gce(char *err_word, char *l)
+int		gce(char *err_word, char *l)
 {
 	char *err_op;
 
