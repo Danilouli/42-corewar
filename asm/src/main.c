@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:18:47 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/28 17:39:09 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/29 17:25:34 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	main_read(char **av)
 		if (!read_code(l))
 			break ;
 	}
-	if (g_nberror >= 1 || !init_len_code() || !is_real_code() ||
+	if (!init_len_code() || !is_real_code() ||
 		(fdc = create_open_cor(av[1], fd)) < 0)
 		return (0);
 	return (fdc);
@@ -76,7 +76,6 @@ int			main(int ac, char **av)
 	t_list	*keep;
 
 	title = 1;
-	g_nberror = 0;
 	g_corewar = init_g_corewar();
 	g_labels = NULL;
 	i = 1;

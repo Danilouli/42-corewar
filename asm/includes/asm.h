@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:23:12 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/29 16:26:42 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/29 17:22:52 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ typedef struct			s_corewar
 	char				*last_label;
 }						t_corewar;
 
-char					g_seps[3];
-
 t_corewar				g_corewar;
 
 t_list					*g_lines;
@@ -64,10 +62,7 @@ t_list					*g_labels;
 
 t_op					*g_op_tab;
 
-int						g_nberror;
-
 int						read_code(char *l);
-void					init_g_seps(void);
 int						is_label(char *str);
 int						is_op_name(char *str);
 t_op					*init_g_op_tab(void);
