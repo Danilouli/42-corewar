@@ -35,19 +35,19 @@ VM_PATH = vm
 
 # Defining rules
 
-all: lib dasm asm vm
+all: science lib dasm asm vm
 
 lib:
 	@make -C $(LIB_PATH)
 
 dasm:
-	@make -C $(DASM_PATH)
+	@make -s -C $(DASM_PATH)
 
 asm:
-	@make -C $(ASM_PATH)
+	@make -s -C $(ASM_PATH)
 
 vm:
-	@make -C $(VM_PATH)
+	@make -s -C $(VM_PATH)
 
 clean:
 	@make clean -C $(DASM_PATH)
@@ -103,7 +103,7 @@ science:
             XM@X;.\n \
            ,@%=\n \
            .,\n\n\n\n\n\n\n\n\n\n\n\n\n"$(_NONE)
-	@sleep 0.5
+	@sleep 0.1
 	@clear
 	@echo $(_SCIENCETXT)" \
 			.,-:;//;:=,\n \
@@ -113,7 +113,7 @@ science:
             XM@X;. -+XXXXXHHH@M@M#@/.\n \
            ,@%=\n \
            .,\n\n\n\n\n\n\n\n\n\n\n\n\n"$(_NONE)
-	@sleep 0.5
+	@sleep 0.1
 	@clear
 	@echo $(_SCIENCETXT)" \
 			.,-:;//;:=,\n \
@@ -129,7 +129,7 @@ science:
                                   ;@M@M=\n \
                                    .%#8.\n \
                                      -;\n\n\n\n\n\n\n"$(_NONE)
-	@sleep 0.5
+	@sleep 0.1
 	@clear
 	@echo $(_SCIENCETXT)" \
 			.,-:;//;:=,\n \
@@ -151,7 +151,7 @@ science:
                              /MMMX=\n \
                              %M%=\n \
                              -,\n"$(_NONE)
-	@sleep 0.5
+	@sleep 0.1
 	@clear
 	@echo $(_SCIENCETXT)" \
 			.,-:;//;:=,\n \
@@ -174,7 +174,7 @@ science:
                  .=8@MM@@@M; %M%=\n \
                ,/H#MMMMMMM@- -,\n \
                =++%%%%+/:-."$(_NONE)
-	@sleep 0.5
+	@sleep 0.1
 	@clear
 	@echo $(_SCIENCETXT)" \
 			.,-:;//;:=,\n \
@@ -197,7 +197,7 @@ science:
        =%@M@M#@8-.=8@MM@@@M; %M%=\n \
          ,:+8+-,/H#MMMMMMM@- -,\n \
                =++%%%%+/:-."$(_NONE)
-	@sleep 0.5
+	@sleep 0.1
 	@clear
 	@echo $(_SCIENCETXT)" \
 			.,-:;//;:=,\n \
@@ -220,7 +220,7 @@ science:
        =%@M@M#@8-.=8@MM@@@M; %M%=\n \
          ,:+8+-,/H#MMMMMMM@- -,\n \
                =++%%%%+/:-."$(_NONE)
-	@sleep 0.5
+	@sleep 0.1
 	@clear
 	@echo $(_SCIENCETXT)" \
 			.,-:;//;:=,\n \
