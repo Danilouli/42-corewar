@@ -6,10 +6,9 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/30 11:36:09 by acouturi          #+#    #+#             */
-/*   Updated: 2018/04/05 19:39:20 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/29 16:29:12 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef DASM_H
 # define DASM_H
@@ -20,8 +19,8 @@
 
 typedef struct	s_error
 {
-	int		nberror;
-	char    lastmsgerror[512];
+	int			nberror;
+	char		lastmsgerror[512];
 }				t_error;
 
 void			dasm_code(unsigned char *prog, int fd, uintmax_t lenrest);
