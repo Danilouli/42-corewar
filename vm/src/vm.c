@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-static inline void bz(t_render *r, char *opt, t_map *map)
+static inline void	bz(t_render *r, char *opt, t_map *map)
 {
 	ft_bzero(r, sizeof(t_render));
 	ft_bzero(opt, ft_strlen(OPTION));
@@ -21,35 +21,40 @@ static inline void bz(t_render *r, char *opt, t_map *map)
 	ft_bzero(map->p_map, MEM_SIZE);
 }
 
-int	usage(void)
+int					usage(void)
 {
 	ft_putendl("Usage: ./corewar [ -d [-n | -o | -a ]] \
 	-m(a number) <champion1.cor> -m(another one) <champion2.cor> ...");
-	ft_putendl("#### Text output mode #######################################################");
+	ft_putendl("#### Text output mode ######################################");
 	ft_putendl("	-a	: Prints the output from the \"aff\" instruction");
-	ft_putendl("#### Graphical output mode ##################################################");
+	ft_putendl("#### Graphical output mode #################################");
 	ft_putendl("	-o        : OpenGL output mode");
 	ft_putendl("	-n        : Ncurses output mode");
 	return (1);
 }
 
-int	main(int ac, char **av)
+void				init_vm(char *opt, t_map *map, t_champ *champs, t_render *r)
 {
-	char	opt[NBOPT];
-	t_champ	champs[MAX_PLAYERS + 1];
-	t_map	map;
-	t_list	*allprocess;
-	t_render r;
+	if (!(map->map = (unsigned char *)malloc(sizeof(char) * (MEM_SIZE + 1)))
+	|| !(map->c_map = (unsigned char *)malloc(sizeof(char) * (MEM_SIZE + 1)))
+	|| !(map->p_map = (unsigned char *)malloc(sizeof(char) * (MEM_SIZE + 1))))
+		exit(1);
+	bz(r, opt, map);
+	ft_bzero(champs, sizeof(t_champ) * MAX_PLAYERS + 1);
+	map->opt = &opt[0];
+}
+
+int					main(int ac, char **av)
+{
+	char		opt[NBOPT];
+	t_champ		champs[MAX_PLAYERS + 1];
+	t_map		map;
+	t_list		*allprocess;
+	t_render	r;
 
 	if (ac < 2)
 		return (usage());
-	if (!(map.map = (unsigned char *)malloc(sizeof(char) * (MEM_SIZE + 1)))
-	|| !(map.c_map = (unsigned char *)malloc(sizeof(char) * (MEM_SIZE + 1)))
-	|| !(map.p_map = (unsigned char *)malloc(sizeof(char) * (MEM_SIZE + 1))))
-		return (1);
-	bz(&r, &opt[0], &map);
-	ft_bzero((t_champ*)&champs[0], sizeof(t_champ) * MAX_PLAYERS + 1);
-	map.opt = &opt[0];
+	init_vm(&opt[0], &map, &champs[0], &r);
 	if (!(allprocess = option(ac, av, &map, champs)))
 		return (1);
 	if ((r.skip = 1) && ft_strchr(opt, 'o'))

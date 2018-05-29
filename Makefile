@@ -6,7 +6,7 @@
 #    By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 17:18:12 by fsabatie          #+#    #+#              #
-#    Updated: 2018/05/01 19:04:20 by acouturi         ###   ########.fr        #
+#    Updated: 2018/05/29 15:33:17 by acouturi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ _SCIENCETXT = "\033[38;05;172m"
 # Defining paths
 
 LIB_PATH = libft
-DASM_PATH = ddasm
+DASM_PATH = dasm
 ASM_PATH = asm
 VM_PATH = vm
 
