@@ -6,7 +6,7 @@
 /*   By: vlay <vlay@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 23:25:55 by vlay              #+#    #+#             */
-/*   Updated: 2018/05/29 16:49:06 by vlay             ###   ########.fr       */
+/*   Updated: 2018/05/29 16:50:36 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	sortchamps(t_champ *champs, t_list **allprocess)
 	champs[i].name = NULL;
 	champs[i].num = -1;
 }
-
-static void
 
 t_list	*option(int ac, char **av, t_map *map, t_champ *champs)
 {
