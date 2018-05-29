@@ -13,7 +13,7 @@
 #include "corewar.h"
 #include <limits.h>
 
-int			argue(t_arg *arg, t_map *map, t_process *p, int *in)
+int				argue(t_arg *arg, t_map *map, t_process *p, int *in)
 {
 	int		inc;
 
@@ -56,25 +56,25 @@ t_arg			*get_arg(t_map *map, t_process *p, int nbarg, int *in)
 	return (arg);
 }
 
-int				ton_bar(t_arg *arg, unsigned *param, t_map *map, t_process *process)
+int				ton_bar(t_arg *arg, unsigned *param, t_map *map, t_process *p)
 {
 	short			cast;
 
 	if (arg->type == RC && *arg->arg > 0 && *arg->arg <= REG_NUMBER)
 		(*param) = (*arg->arg) - 1;
-	else if (arg->type == DC || (process->op == 3 && arg->type == IC))
-		(*param) = (op_tab[process->op - 1].need_c
-		|| (process->op == 3 && arg->type == IC))
+	else if (arg->type == DC || (p->op == 3 && arg->type == IC))
+		(*param) = (op_tab[p->op - 1].need_c
+		|| (p->op == 3 && arg->type == IC))
 		? (short)ft_short_endian_swap((unsigned short*)arg->arg)
 		: (int)ft_endian_swap((unsigned *)arg->arg);
 	else if (arg->type == IC)
 	{
 		cast = (short)ft_short_endian_swap((unsigned short *)arg->arg);
-		if (process->op < 13)
+		if (p->op < 13)
 			cast %= IDX_MOD;
 		cast = cast < 0 ? MEM_SIZE + cast : cast;
 		cast = cast >= MEM_SIZE ? cast - MEM_SIZE : cast;
-		bidir_memcpy(&param[0], map->map, -RS, process->ptr + cast);
+		bidir_memcpy(&param[0], map->map, -RS, p->ptr + cast);
 	}
 	else
 		return (-1);
