@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 15:04:33 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/29 15:57:50 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/29 17:23:49 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	*super_herror(char *msg, int ind, char *clue)
 		ft_printf("	For parameter number : %d\n", ind);
 	else
 		ft_printf("	At char number : %d\n", ind);
-	g_nberror++;
 	exit(0);
 }
 

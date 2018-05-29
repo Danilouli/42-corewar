@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:49:01 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/29 16:25:36 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/29 17:23:06 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,11 +121,14 @@ int			read_code(char *l)
 	char		**spl;
 	t_list		*new;
 	int			nbp;
+	char		seps[3];
 
+	seps[0] = ' ';
+	seps[1] = '\t';
+	seps[2] = SEPARATOR_CHAR;
 	new = NULL;
-	init_g_seps();
 	change_line_if_needed(&l);
-	spl = ft_strsplit_mult(l, g_seps, &nbp);
+	spl = ft_strsplit_mult(l, seps, &nbp);
 	if (!nbp)
 	{
 		ft_strdel(&l);

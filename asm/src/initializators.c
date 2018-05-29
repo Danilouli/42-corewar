@@ -6,7 +6,7 @@
 /*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 17:56:08 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/27 22:23:12 by danielsaadia     ###   ########.fr       */
+/*   Updated: 2018/05/29 17:22:58 by dsaadia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,6 @@ t_corewar	init_g_corewar(void)
 	ret.code_len = 0;
 	ret.last_label = 0;
 	return (ret);
-}
-
-void		init_g_seps(void)
-{
-	g_seps[0] = ' ';
-	g_seps[1] = '\t';
-	g_seps[2] = SEPARATOR_CHAR;
 }
 
 t_op		*init_g_op_tab(void)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 16:49:41 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/05/08 11:22:14 by vlay             ###   ########.fr       */
+/*   Updated: 2018/05/29 17:07:35 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ char				*ft_strjoinfree(char const *s1, char const *s2);
 char				*ft_strnstr(char *haystack, char *needle, size_t len);
 char				**ft_strsplit_mult(char const *s, char *sep, int *nbp);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
-void 				ft_strpush(char *str, char c);
+void				ft_strpush(char *str, char c);
 t_list				*ft_lstpop(t_list **alst, size_t n);
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list				*ft_lstfilter(t_list *list, void *ref,

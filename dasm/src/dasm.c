@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 19:38:19 by acouturi          #+#    #+#             */
-/*   Updated: 2018/05/29 16:10:41 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/29 16:58:57 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,30 @@ static void		add_error(t_error *str_err, char *msg)
 
 void			get_info(int fdn, int fd)
 {
-	uintmax_t		lenprog;
-	char			*prog;
-	char			*data;
-	char			*name;
-	char			*comment;
+	uintmax_t		lp;
+	char			*var;
 
-	if (get_x_char(fd, PROG_NAME_LENGTH + 4, &name) == 1)
+	if (get_x_char(fd, PROG_NAME_LENGTH + 4, &var) == 1)
 	{
-		ft_dprintf(fdn, "%s \"%s\"\n", NAME_CMD_STRING, name);
-		if (get_x_char(fd, 4, &data) == 1)
+		ft_dprintf(fdn, "%s \"%s\"\n", NAME_CMD_STRING, var);
+		ft_strdel(&var);
+		if (get_x_char(fd, 4, &var) == 1)
 		{
-			lenprog = (unsigned char)data[0] * 256 * 256 * 256 +
-			(unsigned char)data[1] * 256 * 256 + (unsigned char)data[2] * 256 +
-			(unsigned char)data[3];
-			if (get_x_char(fd, COMMENT_LENGTH + 4, &comment) == 1)
+			lp = (unsigned char)var[0] * 256 * 256 * 256 +
+			(unsigned char)var[1] * 256 * 256 + (unsigned char)var[2] * 256 +
+			(unsigned char)var[3];
+			ft_strdel(&var);
+			if (get_x_char(fd, COMMENT_LENGTH + 4, &var) == 1)
 			{
-				ft_dprintf(fdn, "%s \"%s\"\n\n", COMMENT_CMD_STRING, comment);
-				if (get_x_char(fd, lenprog, &prog) == 1)
+				ft_dprintf(fdn, "%s \"%s\"\n\n", COMMENT_CMD_STRING, var);
+				ft_strdel(&var);
+				if (get_x_char(fd, lp, &var) == 1)
 				{
-					dasm_code((unsigned char *)prog, fdn, lenprog);
-					ft_strdel((char **)&prog);
+					dasm_code((unsigned char *)var, fdn, lp);
+					ft_strdel(&var);
 				}
-				ft_strdel(&comment);
 			}
-			ft_strdel(&data);
 		}
-		ft_strdel(&name);
 	}
 }
 
@@ -60,13 +57,12 @@ void			creat_new_file(char *fname, int fd, t_error *str_err)
 	if (!ft_strncmp(&newname[ft_strlen(newname) - 4], ".cor", 4))
 	{
 		ft_strcpy(&newname[ft_strlen(newname) - 3], "s");
-		if ((tmp = ft_strrchr(newname, '/')))
-			;
-		else
-			tmp = newname;
-		ft_memmove(&tmp[1], tmp, ft_strlen(tmp) + 1);
-		tmp[1] = 'd';
-		ft_printf("%s\n", newname);
+		if ((tmp = ft_strrchr(newname, '/'))
+		&& ((int)ft_memmove(&tmp[1], tmp, ft_strlen(tmp) + 1) | 1))
+			tmp[1] = 'd';
+		else if ((int)(ft_memmove(&newname[1],
+		newname, ft_strlen(newname) + 1)) | 1)
+			newname[0] = 'd';
 		if (newname &&
 				0 < (fdn = open(newname, O_WRONLY | O_CREAT | O_TRUNC, 420)))
 		{

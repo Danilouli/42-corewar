@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strpush.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlay <vlay@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 23:25:55 by vlay              #+#    #+#             */
-/*   Updated: 2018/01/25 14:53:30 by vlay             ###   ########.fr       */
+/*   Updated: 2018/05/29 17:14:37 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void ft_strpush(char *str, char c)
+void	ft_strpush(char *str, char c)
 {
 	if (!str)
 		return ;
