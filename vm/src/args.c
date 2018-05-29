@@ -6,14 +6,14 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 14:58:06 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/05/29 16:40:09 by vlay             ###   ########.fr       */
+/*   Updated: 2018/05/29 16:49:24 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include <limits.h>
 
-int				argue(t_arg *arg, t_map *map, t_process *p, int *in)
+static int		argue(t_arg *arg, t_map *map, t_process *p, int *in)
 {
 	int		inc;
 
@@ -56,7 +56,7 @@ t_arg			*get_arg(t_map *map, t_process *p, int nbarg, int *in)
 	return (arg);
 }
 
-int				ton_bar(t_arg *arg, unsigned *param
+static int		ton_bar(t_arg *arg, unsigned *param
 					, t_map *map, t_process *process)
 {
 	short			cast;
