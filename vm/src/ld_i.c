@@ -20,7 +20,7 @@ int			ld(t_map *map, t_champ *champ, t_process *p, t_list **allp)
 
 	(void)champ;
 	(void)allp;
-	arg = get_arg(map, p, op_tab[p->op - 1].nb_p, &inc);
+	arg = get_arg(map, p, g_vm[p->op - 1].nb_p, &inc);
 	if (!(param = (int*)tabarg(arg, map, p)))
 		return (inc);
 	if (p->op < 13 && arg[0].type == DC)
@@ -39,7 +39,7 @@ int			ldi(t_map *map, t_champ *champ, t_process *p, t_list **allp)
 
 	(void)champ;
 	(void)allp;
-	arg = get_arg(map, p, op_tab[p->op - 1].nb_p, &inc);
+	arg = get_arg(map, p, g_vm[p->op - 1].nb_p, &inc);
 	if (!(param = (int*)tabarg(arg, map, p)))
 		return (inc);
 	assign_param(param, arg, p);

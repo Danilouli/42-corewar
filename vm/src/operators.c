@@ -22,7 +22,7 @@ int	add(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 	(void)champ;
 	(void)allprocess;
-	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	arg = get_arg(map, process, g_vm[process->op - 1].nb_p, &inc);
 	if (!(param = tabarg(arg, map, process)))
 		return (inc);
 	nb[0] = (int)(*((int*)&process->reg[RS * param[0]]));
@@ -46,7 +46,7 @@ int	sub(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 	(void)champ;
 	(void)allprocess;
-	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	arg = get_arg(map, process, g_vm[process->op - 1].nb_p, &inc);
 	if (!(param = tabarg(arg, map, process)))
 		return (inc);
 	nb[0] = (int)(*((int*)&process->reg[RS * param[0]]));
@@ -69,7 +69,7 @@ int	and(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 	(void)champ;
 	(void)allprocess;
-	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	arg = get_arg(map, process, g_vm[process->op - 1].nb_p, &inc);
 	if (!(param = (int*)tabarg(arg, map, process)))
 		return (inc);
 	assign_param(param, arg, process);
@@ -89,7 +89,7 @@ int	or(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 	(void)champ;
 	(void)allprocess;
-	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	arg = get_arg(map, process, g_vm[process->op - 1].nb_p, &inc);
 	if (!(param = (int*)tabarg(arg, map, process)))
 		return (inc);
 	assign_param(param, arg, process);
@@ -109,7 +109,7 @@ int	xor(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 	(void)champ;
 	(void)allprocess;
-	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	arg = get_arg(map, process, g_vm[process->op - 1].nb_p, &inc);
 	if (!(param = (int*)tabarg(arg, map, process)))
 		return (inc);
 	assign_param(param, arg, process);

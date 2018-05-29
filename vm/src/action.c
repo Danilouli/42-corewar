@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   action.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsabatie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 14:54:13 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/05/28 14:54:17 by fsabatie         ###   ########.fr       */
+/*   Updated: 2018/05/29 18:40:32 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	init_action(t_process *p, t_map *map)
 	if (!p->active && map->map[p->ptr] > 0 && map->map[p->ptr] < 17)
 	{
 		p->op = map->map[p->ptr];
-		p->cycles = op_tab[map->map[p->ptr] - 1].cycles;
+		p->cycles = g_vm[map->map[p->ptr] - 1].cycles;
 		p->active = 1;
 	}
 	p->cycles -= (p->active) ? 1 : 0;
@@ -55,7 +55,7 @@ int			processit(t_map *map, t_list **allp, t_champ *champs, t_process *p)
 	p->life--;
 	p->ptr = p->ptr < 0 ? MEM_SIZE + p->ptr : p->ptr;
 	p->ptr = p->ptr >= MEM_SIZE ? p->ptr - MEM_SIZE : p->ptr;
-	map->p_map[f_ptr] = 0;
-	map->p_map[p->ptr] = 1;
+	map->p_map[f_ptr] ? map->p_map[f_ptr]-- : (void)map->p_map[f_ptr];
+	map->p_map[p->ptr]++;
 	return (1);
 }

@@ -35,7 +35,7 @@ int				ocpcheck(t_map *map, t_process *process)
 	i = -1;
 	translate = translate_ocp(map->map[(process->ptr + 1) % MEM_SIZE]);
 	ft_bzero(res, 4);
-	while (++i < op_tab[process->op - 1].nb_p)
+	while (++i < g_vm[process->op - 1].nb_p)
 	{
 		if (!translate[i])
 			return (0);
@@ -43,8 +43,8 @@ int				ocpcheck(t_map *map, t_process *process)
 		res[i] >>= 1;
 	}
 	i = -1;
-	while (++i < op_tab[process->op - 1].nb_p)
-		if (!(res[i] & op_tab[process->op - 1].param[i]))
+	while (++i < g_vm[process->op - 1].nb_p)
+		if (!(res[i] & g_vm[process->op - 1].param[i]))
 			return (0);
 	return (1);
 }
