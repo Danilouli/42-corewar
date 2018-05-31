@@ -21,7 +21,7 @@ int		st(t_map *map, t_champ *champ, t_process *p, t_list **allp)
 
 	(void)champ;
 	(void)allp;
-	arg = get_arg(map, p, op_tab[p->op - 1].nb_p, &inc);
+	arg = get_arg(map, p, g_vm[p->op - 1].nb_p, &inc);
 	if (!(param = (int*)tabarg(arg, map, p)))
 		return (inc - 1);
 	if (arg[1].type == T_REG)
@@ -66,7 +66,7 @@ int		sti(t_map *map, t_champ *champ, t_process *process, t_list **allprocess)
 
 	(void)champ;
 	(void)allprocess;
-	arg = get_arg(map, process, op_tab[process->op - 1].nb_p, &inc);
+	arg = get_arg(map, process, g_vm[process->op - 1].nb_p, &inc);
 	if (!(param = (int*)tabarg(arg, map, process)))
 		return (inc);
 	assign_stiparam(param, arg, process);

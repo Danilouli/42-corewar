@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   openGL.c                                           :+:      :+:    :+:   */
+/*   opengl.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsabatie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 16:17:43 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/05/29 16:17:45 by fsabatie         ###   ########.fr       */
+/*   Updated: 2018/05/29 18:53:43 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+#include <math.h>
 
 short			getintvertices(float iv[][3], t_map *map)
 {
@@ -68,7 +69,9 @@ void			getcoord(float **v, t_map *map, float x, float y)
 	inner = *v;
 	*inner++ = x / 64 - 0.5;
 	*inner++ = y / 64 - 0.5;
-	*inner++ = interpolation(map->ctrl_pts, map->int_vert, x, y) / 64;
+	*inner++ = map->style ?
+	interpolation(map->ctrl_pts, map->int_vert, x, y) / 64
+	: (float)(logf((float)(map->p_map[(int)x + ((int)y * 64)]) + 1) / 50);
 	getcolor(&inner, map, x, y);
 	*v = inner;
 }

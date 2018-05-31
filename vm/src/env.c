@@ -6,7 +6,7 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 14:38:59 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/05/08 15:24:28 by vlay             ###   ########.fr       */
+/*   Updated: 2018/05/29 18:48:23 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	event(GLFWwindow *window, int key, int scancode, int action, \
 	r = glfwGetWindowUserPointer(window);
 	(void)scancode;
 	(void)mods;
-	if (key == GLFW_KEY_P && (action == GLFW_PRESS || action == GLFW_REPEAT))
-		prt_map_hex(*(r->map));
 	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
 		r->pause = r->pause ? 0 : 1;
 	if (key == GLFW_KEY_R && action == GLFW_PRESS)
@@ -43,6 +41,8 @@ void	event(GLFWwindow *window, int key, int scancode, int action, \
 		r->scale -= 0.01;
 	if (key == GLFW_KEY_L && action == GLFW_REPEAT)
 		r->scale += 0.01;
+	if (key == GLFW_KEY_P && action == GLFW_PRESS)
+		r->style = r->style ? 0 : 1;
 }
 
 int		init_context(t_render *r, t_map *map)

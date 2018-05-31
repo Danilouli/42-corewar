@@ -6,7 +6,7 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 14:39:41 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/04/06 22:40:33 by vlay             ###   ########.fr       */
+/*   Updated: 2018/05/29 18:46:42 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int				render(t_render *r, t_map *map)
 	GLuint vao;
 
 	vao = initmap(map);
+	map->style = r->style;
 	glUniform1f(glGetUniformLocation(r->v_shader->prog, "rotx"), r->rotx);
 	glUniform1f(glGetUniformLocation(r->v_shader->prog, "roty"), r->roty);
 	glUniform1f(glGetUniformLocation(r->v_shader->prog, "s"), r->scale);

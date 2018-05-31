@@ -6,7 +6,7 @@
 /*   By: zaz <zaz@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2018/05/12 17:39:13 by vlay             ###   ########.fr       */
+/*   Updated: 2018/05/29 18:09:48 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,82 +15,64 @@
 ** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
 */
 
-#include "../../libft/includes/libft.h"
+#ifndef OP_H
+# define OP_H
+# include "../../libft/includes/libft.h"
 
-#define IND_SIZE				2
-#define RS				4
-#define DIR_SIZE				RS
-
-
+# define IND_SIZE				2
+# define RS				4
+# define DIR_SIZE				RS
 # define RC				1
 # define DC				2
 # define IC				3
-
-
-#define MAX_ARGS_NUMBER			4
-#define MAX_PLAYERS				4
-#define MEM_SIZE				(4*1024)
-#define IDX_MOD					(MEM_SIZE / 8)
-#define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
-
-#define COMMENT_CHAR			'#'
-#define LABEL_CHAR				':'
-#define DIRECT_CHAR				'%'
-#define SEPARATOR_CHAR			','
-
-#define LABEL_CHARS				"abcdefghijklmnopqrstuvwxyz_0123456789"
-
-#define NAME_CMD_STRING			".name"
-#define COMMENT_CMD_STRING		".comment"
-
-#define REG_NUMBER				16
-
-#define CTD			1536
-#define CYCLE_DELTA				50
-#define NBR_LIVE				21
-#define MAX_CHECKS				10
-
-/*
-**
-*/
+# define MAX_ARGS_NUMBER			4
+# define MAX_PLAYERS				4
+# define MEM_SIZE				(4*1024)
+# define IDX_MOD					(MEM_SIZE / 8)
+# define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
+# define COMMENT_CHAR			'#'
+# define LABEL_CHAR				':'
+# define DIRECT_CHAR				'%'
+# define SEPARATOR_CHAR			','
+# define LABEL_CHARS				"abcdefghijklmnopqrstuvwxyz_0123456789"
+# define NAME_CMD_STRING			".name"
+# define COMMENT_CMD_STRING		".comment"
+# define REG_NUMBER				16
+# define CTD			1536
+# define CYCLE_DELTA				50
+# define NBR_LIVE				21
+# define MAX_CHECKS				10
 
 typedef char	t_arg_type;
-
-#define T_REG					1
-#define T_DIR					2
-#define T_IND					4
-#define T_LAB					8
-
-/*
-**
-*/
-
+# define T_REG					1
+# define T_DIR					2
+# define T_IND					4
+# define T_LAB					8
 # define PROG_NAME_LENGTH		(128)
 # define COMMENT_LENGTH			(2048)
 # define COREWAR_EXEC_MAGIC		0xea83f3
 
-typedef struct		header_s
+typedef struct			s_header
 {
 	unsigned int		magic;
 	char				prog_name[PROG_NAME_LENGTH + 1];
 	unsigned int		prog_size;
 	char				comment[COMMENT_LENGTH + 1];
-}					header_t;
+}						t_header;
 
-
-typedef struct		s_op
+typedef struct			s_op
 {
-	char			*name; //Nom de l'instruction
-	char			nb_p; //Nombre de parametres
-	char			param[3]; //Parametres
-	char			code; //Opcode
-	unsigned		cycles; // Nombre de cycles pour realiser l'instruction
-	char			*des; // Description
-	char			mod_c; // ocp
-	char			need_c; // 2 / 4 octets pour les directs
-}					t_op;
+	char				*name;
+	char				nb_p;
+	char				param[3];
+	char				code;
+	unsigned			cycles;
+	char				*des;
+	char				mod_c;
+	char				need_c;
+}						t_op;
 
-static t_op    op_tab[17] =
+static	t_op			g_vm[17] =
 {
 	{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0},
 	{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 0},
@@ -116,3 +98,4 @@ static t_op    op_tab[17] =
 	{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0},
 	{0, 0, {0}, 0, 0, 0, 0, 0}
 };
+#endif

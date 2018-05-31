@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   champ.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsabatie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 15:31:30 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/05/28 15:31:32 by fsabatie         ###   ########.fr       */
+/*   Updated: 2018/05/29 18:32:52 by vlay             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,21 +77,25 @@ int			champ_isalive(t_map *map, t_list *list, t_champ *champs)
 	return (map->cycle_todie < 1 || !ft_lstlen(list) ? 0 : 1);
 }
 
-void		freechampmap(t_champ *champs, t_map *map)
+int			freechampmap(t_champ *champs, t_map *map)
 {
 	size_t	i;
 
 	i = 0;
-	while (champs[i].num >= 0)
+	while (i < MAX_PLAYERS)
 	{
-		free(champs[i].name);
-		free(champs[i].comment);
-		free(champs[i].prog);
+		if (champs[i].name)
+			free(champs[i].name);
+		if (champs[i].comment)
+			free(champs[i].comment);
+		if (champs[i].prog)
+			free(champs[i].prog);
 		i++;
 	}
 	free(map->map);
 	free(map->p_map);
 	free(map->c_map);
+	return (1);
 }
 
 t_champ		*whowins(t_champ *champ)

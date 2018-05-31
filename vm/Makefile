@@ -13,6 +13,7 @@
 .PHONY : all clean fclean re peace
 
 GREEN = \033[0;32m
+RED	  = \033[0;31m
 RESET = \033[0m
 
 NAME = corewar
@@ -44,7 +45,7 @@ all: $(NAME)
 
 $(NAME): lib $(OBJ)
 	@$(CC) $(GCC_FLGS) $(LIB) -lft $(INC) $(OBJ) $(GCC_LIBS) -o $(NAME)
-	@echo "$(GREEN)Compiled the binary.$(RESET)"
+	@echo "$(GREEN)Compiled the vm binary.$(RESET)"
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
@@ -56,11 +57,15 @@ lib:
 
 clean:
 	@make clean -C ../libft
+	@echo "$(RED)Removing vm .obj files.$(RESET)"
 	@rm -rf $(OBJ_PATH)
+	@echo "$(GREEN)DONE$(RESET)"
 
 fclean: clean
 	@make fclean -C ../libft
+	@echo "$(RED)Removing corewar.$(RESET)"
 	@rm -rf $(NAME)
+	@echo "$(GREEN)DONE$(RESET)"
 
 re: fclean all
 
