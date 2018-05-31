@@ -1,8 +1,8 @@
 #by zaz, still not as good as rainbowdash though
 #2013
 
-.name	  	"helltrain"
-.comment	   	"choo-choo, motherf*****s !"
+.name		"helltrain"
+.comment	"choo-choo, motherf*****s !"
 
 entry:
 	sti		r1, %:beegees_gen, %1
@@ -109,7 +109,7 @@ cc4ld:
 	ld		%251883523, r3
 	ld		%0, r16
 cc4l:
-	live	%4930423
+	live	%4930423	
 	ld		%0, r16
 	zjmp	%:choochoo
 

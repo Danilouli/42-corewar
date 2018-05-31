@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializators2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 20:42:21 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/29 16:16:54 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/29 18:33:49 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_list		*alloc_line(char **spl, char *label, int nbp, char *l)
 	if (!(ln->opcode = 0) && nbp > 1)
 		ln->opcode = fetch_opcode((label) ? spl[1] : spl[0]);
 	alloc_line_zeros(&ln);
-	if (nbp > 1)
+	if ((ln->nb_line = NB_LINES) >= 0 && nbp > 1)
 	{
 		ln->nb_params = (label) ? nbp - 2 : nbp - 1;
 		ln->param = (label) ? &(spl[2]) : &(spl[1]);

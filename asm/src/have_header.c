@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 15:34:45 by acouturi          #+#    #+#             */
-/*   Updated: 2018/05/29 15:58:34 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/31 16:31:18 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char		*is_onlyspace(char *str)
 		return (0);
 	while (str[i] != *tmp)
 	{
-		if (str[i] != ' ' && *str != '\t')
+		if (str[i] != ' ' && str[i] != '\t')
 		{
 			ft_strdel(&str);
 			return (0);

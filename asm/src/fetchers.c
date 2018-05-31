@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 18:29:09 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 22:53:49 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/31 16:30:41 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ int		fetch_opcode(char *op_name)
 	return (0);
 }
 
-char	*fetch_final_label(char *label)
+char	*fetch_final_label(char *label, int *isend)
 {
 	t_list *surf;
 
+	*isend = 1;
 	surf = g_labels;
 	while (surf)
 	{
@@ -41,5 +42,6 @@ char	*fetch_final_label(char *label)
 			return (LABCONT(surf)->real_label);
 		surf = surf->next;
 	}
+	*isend = 0;
 	return (NULL);
 }

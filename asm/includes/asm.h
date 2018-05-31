@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/01 19:23:12 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/29 17:22:52 by dsaadia          ###   ########.fr       */
+/*   Updated: 2018/05/31 15:25:52 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct			s_line
 	int					nb_params;
 	char				**param;
 	char				*line;
+	int					nb_line;
 }						t_line;
 
 typedef struct			s_label
@@ -99,7 +100,7 @@ void					*super_herror(char *msg, int ind, char *clue);
 t_list					*alloc_label(char *label, char **spl);
 void					redefine_labels(char *final_label);
 int						is_relabel(char *str);
-char					*fetch_final_label(char *label);
+char					*fetch_final_label(char *label, int *isend);
 int						gce(char *err_word, char *l);
 void					alloc_line_helper(t_list **nw, t_line *ln);
 

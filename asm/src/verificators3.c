@@ -6,7 +6,7 @@
 /*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 19:56:36 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/01 22:39:59 by acouturi         ###   ########.fr       */
+/*   Updated: 2018/05/31 16:31:46 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,20 @@ char	*is_label_ind(char *ind)
 int		is_real_label(char *str)
 {
 	t_list	*surf;
-	int		j;
+	int		isend;
 	char	*final_label;
 
-	j = 0;
+	isend = 0;
 	surf = g_lines;
-	final_label = fetch_final_label(str);
-	if (!final_label)
+	final_label = fetch_final_label(str, &isend);
+	if (!final_label && isend)
 		return (-2);
+	else if (!final_label && !isend)
+		return (-1);
 	while (surf)
 	{
 		if (surf->content_size == 2)
 		{
-			j++;
 			if (LINECONT(surf)->label &&
 				ft_strequ(LINECONT(surf)->label, final_label))
 				return (LINECONT(surf)->addr);

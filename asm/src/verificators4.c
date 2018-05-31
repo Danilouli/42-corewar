@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verificators4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsaadia <dsaadia@student.42.fr>            +#+  +:+       +#+        */
+/*   By: acouturi <acouturi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:11:11 by dsaadia           #+#    #+#             */
-/*   Updated: 2018/05/27 22:24:43 by danielsaadia     ###   ########.fr       */
+/*   Updated: 2018/05/29 18:44:18 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,15 @@ static int	dir_case(char *lab, int i, char *pstr, t_list *s)
 {
 	int		addr;
 
-	if (!lab[0])
-		return ((int)super_herror("Empty label", 0, 0));
-	if ((addr = is_real_label(lab)) == -1)
-		return (0);
+	if (!lab[0] && (NB_LINES = ((t_line*)s->content)->nb_line))
+		return ((int)super_herror("Empty label", gce(lab,
+		((t_line*)s->content)->line), 0));
+		if ((addr = is_real_label(lab)) == -1)
+	{
+		NB_LINES = ((t_line*)s->content)->nb_line;
+		return ((int)super_herror("Invalid label", gce(lab,
+		((t_line*)s->content)->line), 0));
+	}
 	ft_memdel((void**)&LINECONT(s)->param[i]);
 	LINECONT(s)->param[i] = reinit_direct(&pstr, addr, LINECONT(s)->addr);
 	return (1);
@@ -29,10 +34,15 @@ static int	ind_case(char *lab, int i, char *pstr, t_list *s)
 {
 	int		addr;
 
-	if (!lab[0])
-		return ((int)super_herror("Empty label", 0, 0));
-	if ((addr = is_real_label(lab)) == -1)
-		return (0);
+	if (!lab[0] && (NB_LINES = ((t_line*)s->content)->nb_line))
+		return ((int)super_herror("Empty label", gce(lab,
+		((t_line*)s->content)->line), 0));
+		if ((addr = is_real_label(lab)) == -1)
+	{
+		NB_LINES = ((t_line*)s->content)->nb_line;
+		return ((int)super_herror("Invalid label", gce(lab,
+		((t_line*)s->content)->line), 0));
+	}
 	ft_memdel((void**)&LINECONT(s)->param[i]);
 	LINECONT(s)->param[i] = reinit_indirect(&pstr, addr, LINECONT(s)->addr);
 	return (1);
