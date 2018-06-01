@@ -77,7 +77,7 @@ int			champ_isalive(t_map *map, t_list *list, t_champ *champs)
 	return (map->cycle_todie < 1 || !ft_lstlen(list) ? 0 : 1);
 }
 
-int			freechampmap(t_champ *champs, t_map *map)
+int			freechampmap(t_champ *champs, t_map *map, t_render *r)
 {
 	size_t	i;
 
@@ -91,6 +91,11 @@ int			freechampmap(t_champ *champs, t_map *map)
 		if (champs[i].prog)
 			free(champs[i].prog);
 		i++;
+	}
+	if (r->win)
+	{
+		free (r->v_shader);
+		free (r->f_shader);
 	}
 	free(map->map);
 	free(map->p_map);

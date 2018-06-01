@@ -57,7 +57,7 @@ int					main(int ac, char **av)
 		return (usage());
 	init_vm(&opt[0], &map, &champs[0], &r);
 	if (!(allprocess = option(ac, av, &map, champs)))
-		return (freechampmap(champs, &map));
+		return (freechampmap(champs, &map, &r));
 	if ((r.skip = 1) && ft_strchr(opt, 'o'))
 		init_context(&r, &map);
 	if (ft_strchr(opt, 'n') && !(ft_strchr(opt, 'o')))
@@ -71,5 +71,5 @@ int					main(int ac, char **av)
 	prt_map_hex(map);
 	!ft_strchr(opt, 'd') ? ft_printf("Contestant %i, \"%s\", has won\n", \
 	whowins(champs)->num + 1, whowins(champs)->name) : (void)opt;
-	freechampmap(champs, &map);
+	freechampmap(champs, &map, &r);
 }

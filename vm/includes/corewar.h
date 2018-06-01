@@ -139,7 +139,7 @@ int						ischamp(char *path, t_champ *champ, \
 int						champ_isalive(t_map *map, t_list *list, \
 						t_champ *champs);
 t_champ					*whowins(t_champ *champ);
-int						freechampmap(t_champ *champs, t_map *map);
+int						freechampmap(t_champ *champs, t_map *map, t_render *r);
 
 /*
 ** Misc functions

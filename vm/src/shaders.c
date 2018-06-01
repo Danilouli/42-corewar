@@ -35,8 +35,7 @@ t_shader		*build_shader(char *filename, GLenum type, GLuint prog_id, \
 {
 	t_shader *s;
 
-	if (!(s = (t_shader*)malloc(sizeof(t_shader)))
-		|| !(s->info.log = (GLchar*)malloc(sizeof(LOG_BUFFSIZE))))
+	if (!(s = (t_shader*)malloc(sizeof(t_shader))))
 		return (0);
 	if (!(s->id = glCreateShader(type))
 		|| !(s->src = getfilesource(filename)))
@@ -47,5 +46,6 @@ t_shader		*build_shader(char *filename, GLenum type, GLuint prog_id, \
 	s->prog = (prog == TRUE) ? prog_id : glCreateProgram();
 	glAttachShader(s->prog, s->id);
 	glLinkProgram(s->prog);
+	free(s->src);
 	return (s);
 }
