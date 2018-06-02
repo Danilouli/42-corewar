@@ -94,8 +94,8 @@ int			freechampmap(t_champ *champs, t_map *map, t_render *r)
 	}
 	if (r->win)
 	{
-		free (r->v_shader);
-		free (r->f_shader);
+		free(r->v_shader);
+		free(r->f_shader);
 	}
 	free(map->map);
 	free(map->p_map);

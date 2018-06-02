@@ -37,7 +37,8 @@ int	aff(t_map *map, t_champ *champ, t_process *p, t_list **allp)
 	arg = get_arg(map, p, g_vm[p->op - 1].nb_p, &inc);
 	if (!(param = (int*)tabarg(arg, map, p)))
 		return (inc - 1);
-	ft_printf("%c\n", (char)(param[0] % 256));
+	ft_strchr(map->opt, 'a')
+	? ft_printf("%c\n", (char)(param[0] % 256)) : (void)p;
 	return (2);
 }
 
