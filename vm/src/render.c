@@ -6,7 +6,7 @@
 /*   By: fsabatie <fsabatie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 14:39:41 by fsabatie          #+#    #+#             */
-/*   Updated: 2018/05/29 18:46:42 by vlay             ###   ########.fr       */
+/*   Updated: 2018/06/02 15:44:51 by acouturi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int				print_nmap(t_list **allp, t_map *map, t_render *r, t_champ *c)
 	: mvwprintw(rwin, 3, 4, "** Running ** ");
 	mvwprintw(rwin, 7, 4, "Cycles : %i", map->t_cycles);
 	mvwprintw(rwin, 8, 4, "Processes : %li", ft_lstlen(*allp));
-	mvwprintw(rwin, 9, 4, "Speed : %i", r->skip);
+	mvwprintw(rwin, 9, 4, "Slowing factor : %i", r->skip);
 	print_champs(c, rwin);
 	wrefresh(lwin);
 	wrefresh(rwin);
